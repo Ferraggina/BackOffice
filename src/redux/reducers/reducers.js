@@ -4,6 +4,7 @@ const initialState = {
   users: [],
   isLoggedIn: true,
   user: [],
+  currentUser: ""
 };
 
 function rootReducer(state = initialState, action) {
@@ -18,6 +19,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         user: action.payload,
         isLoggedIn: true,
+        currentUser: action.payload
       };
     case LOGIN_FAILURE:
       return {

@@ -37,6 +37,8 @@ export function Login() {
 
     if (!user) {
       setError("El login no es correcto.");
+      console.log("aca no  fue")
+      alert("no se encontro el usuario")
       return;
     }
     // Redirige al usuario a otra página
