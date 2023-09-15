@@ -2,7 +2,8 @@ import { GET_USERS, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actions/actions";
 
 const initialState = {
   users: [],
-  isLoggedIn: false,
+  isLoggedIn: true,
+  user: [],
 };
 
 function rootReducer(state = initialState, action) {

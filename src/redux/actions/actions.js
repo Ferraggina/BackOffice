@@ -25,21 +25,20 @@ export function getUsers() {
 }
 
 export function login(username, password) {
-  const apiUrl = `http://localhost:4002/usuarios/${username}/${password}`;
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.hMrE9tSyPvyDWsnMaF7mm9vNo8jJP-66Tm510a0YTAU";
+  // const apiUrl = `http://localhost:4002/usuarios/${username}/${password}`;
+
   return async function (dispatch) {
     let response = await axios.get(
-      apiUrl,
-
+      `http://localhost:4002/usuarios/${username}/${password}`,
       {
-        Headers: {
-          "Content-Type": "application/json",
-          "x-access-token": token,
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.1GMEc77_34rISyRng8J0E_8ztxIO7HLll7kAT7ZSU-o",
+          "Content-Type": "text/plain",
         },
       }
     );
-    // console.log(response.data);
+    console.log(response.data);
     if (response.status === 200) {
       dispatch({
         type: LOGIN_SUCCESS,

@@ -40,7 +40,9 @@ export function Login() {
       return;
     }
     // Redirige al usuario a otra página
-    navigate("/home");
+    if (user.password === password && user.usuario === username) {
+      return navigate("/home");
+    }
   };
 
   useEffect(() => {
