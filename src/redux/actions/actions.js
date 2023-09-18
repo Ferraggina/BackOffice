@@ -33,22 +33,26 @@ export function login(username, password) {
       {
         headers: {
           "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iCKQvHoWffcUhAFvf3pJVQvgwrvhfclsO94I7YBuPO0",
-          "Content-Type": "text/plain",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.p5Uixc5mcFGxx8eRohkZI8ec8vR092iQb5GDsJVqffM",
+          "Content-Type": "application/json",
         },
       }
     );
     console.log(response.data);
-    if (response.status === 200) {
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: response.data,
-      });
-    } else {
-      dispatch({
-        type: LOGIN_FAILURE,
-        payload: response.statusText,
-      });
-    }
+    // if (response.status === 200) {
+    //   dispatch({
+    //     type: LOGIN_SUCCESS,
+    //     payload: response.data,
+    //   });
+    // } else {
+    //   dispatch({
+    //     type: LOGIN_FAILURE,
+    //     payload: response.statusText,
+    //   });
+    // }
+    return dispatch({
+      type: LOGIN_SUCCESS,
+      payload: response
+  })
   };
 }

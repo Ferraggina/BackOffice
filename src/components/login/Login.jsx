@@ -31,8 +31,18 @@ export function Login() {
 
     // Envia la solicitud de login al backend
     // ...
-    dispatch(login(username, password));
-
+    dispatch(login(username, password))
+    .then((res)=> {
+          // Redirige al usuario a otra página
+      console.log('SOY LO Q HAY', res.payload.status)
+      if(res.payload.status === 200) {
+        return navigate("/home");
+      }
+     
+    }).catch((error) => {
+      // Manejo los errores que puedan ocurrir en la acción loginAuth
+      console.error("Error, datos Incorrectos", error);
+    });
     // Verifica si el login es correcto
 
     if (!user) {
@@ -41,10 +51,7 @@ export function Login() {
       alert("no se encontro el usuario")
       return;
     }
-    // Redirige al usuario a otra página
-    if (user.password === password && user.usuario === username) {
-      return navigate("/home");
-    }
+
   };
 
   useEffect(() => {
