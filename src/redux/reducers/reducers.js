@@ -6,6 +6,8 @@ import {
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILURE,
   URL_USER_PASS,
+  NEW_PASSWORD_SUBMITTED,
+  NEW_PASSWORD_SUCCESS,
 } from "../actions/actions";
 
 const initialState = {
@@ -17,6 +19,8 @@ const initialState = {
   success: false,
   error: null,
   urlToken: "",
+  newPasswordSubmitted: false,
+  newPasswordSuccess: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -67,6 +71,16 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         urlToken: action.payload,
+      };
+    case NEW_PASSWORD_SUBMITTED:
+      return {
+        ...state,
+        newPasswordSubmitted: true,
+      };
+    case NEW_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        newPasswordSuccess: true,
       };
     default:
       return state;

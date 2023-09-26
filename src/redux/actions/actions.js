@@ -6,6 +6,8 @@ export const FORGOT_PASSWORD_REQUEST = "FORGOT_PASSWORD_REQUEST";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
 export const FORGOT_PASSWORD_FAILURE = "FORGOT_PASSWORD_FAILURE";
 export const URL_USER_PASS = "URL_USER_PASS";
+export const NEW_PASSWORD_SUBMITTED = "NEW_PASSWORD_SUBMITTED";
+export const NEW_PASSWORD_SUCCESS = "NEW_PASSWORD_SUCCESS";
 
 export function getUsers() {
   return async function (dispatch) {
@@ -90,8 +92,8 @@ export const forgotPassword = (username) => {
           },
         }
       );
-      const dataUserUrl = `${response.data.token}/${response.data.idUsuario}`;
-
+      const dataUserUrl = `/${response.data.idUsuario}`;
+      // ${response.data.token}
       if (response.status === 200) {
         dispatch(forgotPasswordSuccess());
         dispatch(olvidoPassDatosUrl(dataUserUrl));
@@ -115,3 +117,43 @@ export const olvidoPassDatosUrl = (response) => ({
   type: URL_USER_PASS,
   payload: response,
 });
+
+export const newPasswordSubmitted = () => ({
+  type: NEW_PASSWORD_SUBMITTED,
+});
+
+export const newPasswordSuccess = () => ({
+  type: NEW_PASSWORD_SUCCESS,
+});
+
+export const updatePassword = (token, idUsuario, newPassword) => {
+  return async (dispatch) => {
+    // Obtener el token del estado
+    console.log("SOY LA ACTION", idUsuario);
+    try {
+      const response = await axios.put(
+        `http://localhost:4002/usuarios`, // Ajusta la URL según tu backend
+        {
+          idUsuario: idUsuario, //dato obligatorio
+          password: newPassword,
+        }, // Envia la nueva contraseña al servidor
+        // console.log("SOY LA ACTION", response),
+        {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        dispatch(newPasswordSuccess());
+      } else {
+        // Puedes manejar errores aquí si es necesario
+      }
+    } catch (error) {
+      // Manejar errores, si corresponde
+    }
+  };
+};
