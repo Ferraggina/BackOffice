@@ -8,6 +8,16 @@ import {
   URL_USER_PASS,
   NEW_PASSWORD_SUBMITTED,
   NEW_PASSWORD_SUCCESS,
+  VIAJE_CREAR_ERROR,
+  VIAJE_CREAR_EXITO,
+  OBTENER_CONTRATOS_ERROR,
+  OBTENER_CONTRATOS_EXITO,
+  OBTENER_HOTELES_EXITO,
+  OBTENER_HOTELES_ERROR,
+  OBTENER_ITINERARIOS_EXITO,
+  OBTENER_ITINERARIOS_ERROR,
+  POSTEAR_ITINERARIOS_EXITO,
+  POSTEAR_ITINERARIOS_ERROR,
 } from "../actions/actions";
 
 const initialState = {
@@ -21,6 +31,11 @@ const initialState = {
   urlToken: "",
   newPasswordSubmitted: false,
   newPasswordSuccess: false,
+  nuevoViaje: null,
+  contratos: [],
+  hoteles: [],
+  itinerarios: [],
+  nuevoItenerario: null,
 };
 
 function rootReducer(state = initialState, action) {
@@ -81,6 +96,66 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         newPasswordSuccess: true,
+      };
+    case VIAJE_CREAR_EXITO:
+      return {
+        ...state,
+        nuevoViaje: action.payload,
+        error: null,
+      };
+    case VIAJE_CREAR_ERROR:
+      return {
+        ...state,
+        nuevoViaje: null,
+        error: action.payload,
+      };
+    case OBTENER_CONTRATOS_EXITO:
+      return {
+        ...state,
+        contratos: action.payload,
+        error: null,
+      };
+    case OBTENER_CONTRATOS_ERROR:
+      return {
+        ...state,
+        contratos: [],
+        error: action.payload,
+      };
+    case OBTENER_HOTELES_EXITO:
+      return {
+        ...state,
+        hoteles: action.payload,
+        error: null,
+      };
+    case OBTENER_HOTELES_ERROR:
+      return {
+        ...state,
+        hoteles: [],
+        error: action.payload,
+      };
+    case OBTENER_ITINERARIOS_EXITO:
+      return {
+        ...state,
+        itinerarios: action.payload,
+        error: null,
+      };
+    case OBTENER_ITINERARIOS_ERROR:
+      return {
+        ...state,
+        itinerarios: [],
+        error: action.payload,
+      };
+    case POSTEAR_ITINERARIOS_EXITO:
+      return {
+        ...state,
+        nuevoItenerario: action.payload,
+        error: null,
+      };
+    case POSTEAR_ITINERARIOS_ERROR:
+      return {
+        ...state,
+        nuevoItenerario: null,
+        error: action.payload,
       };
     default:
       return state;
