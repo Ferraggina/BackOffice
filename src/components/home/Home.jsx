@@ -6,8 +6,8 @@ import { AdminPantallaInicio } from "../admin_pantalla_inicio/adminPantallaInici
 import { AdminUsers } from "../admin_users/adminUsers";
 import { AdminViaje } from "../admin_viaje/adminViaje";
 export function Home() {
-  const currentUser = useSelector((state) => state.currentUser.usuario.nombre);
-
+  const currentUser = useSelector((state) => state.currentUser.usuario);
+  console.log(currentUser);
   return (
     <div className="home">
       <h1>Bienvenido/a ,{currentUser}</h1>
@@ -19,14 +19,3 @@ export function Home() {
     </div>
   );
 }
-
-// export function Home() {
-//   return (
-//     <div className='home'>
-//       <h1>Bienvenido </h1>
-//       <Link to="/">
-//         <p>Volver al login</p>
-//       </Link>
-//     </div>
-//   )
-// }

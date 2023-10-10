@@ -124,10 +124,6 @@ export function Login() {
             Olvidé mi contraseña
           </button>
         </div>
-        <br />
-        <div className="container-btn">
-          <button className="btn-style btn btn-secondary">Registrarse</button>
-        </div>
       </form>
     </div>
   );

@@ -8,13 +8,32 @@ import { OlvidoPass } from "./components/login/OlvidoPass";
 import { RecuperarPass } from "./components/login/RecuperarPass";
 import FormularioViaje from "./components/admin_viaje/FormularioViaje";
 import Itinerario from "./components/admin_viaje/Itinerario";
-import abm_Viaje from "./components/admin_viaje/abm_Viaje";
+
+import FormularioHoteles from "./components/admin_viaje/FormularioHoteles";
+import Abm_Viaje from "./components/admin_viaje/Abm_Viaje";
+
+import { useDispatch } from "react-redux";
+import AbmHotel from "./components/admin_viaje/AbmHotel";
 
 function App() {
   useEffect(() => {
     // dispatch(getUsers());
   }, []);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    // Recupera la información del usuario del Local Storage
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    // Verifica si hay un usuario autenticado almacenado
+    if (user) {
+      // Establece el estado de autenticación en tu Redux Store
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: user,
+      });
+    }
+  }, [dispatch]);
   return (
     <div>
       <Routes>
@@ -24,7 +43,9 @@ function App() {
         <Route path="/RecuperarPass/" Component={RecuperarPass} />
         <Route path="/FormularioViaje/" Component={FormularioViaje} />
         <Route path="/CrearItinerario/" Component={Itinerario} />
-        <Route path="/ViajesEdicion" Component={abm_Viaje} />
+        <Route path="/ViajesEdicion" Component={Abm_Viaje} />
+        <Route path="/AgregarHoteles" Component={FormularioHoteles} />
+        <Route path="/ListadoHoteles" Component={AbmHotel} />
       </Routes>
     </div>
   );

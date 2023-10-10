@@ -18,6 +18,18 @@ export const OBTENER_ITINERARIOS_EXITO = "OBTENER_ITINERARIOS_EXITO";
 export const OBTENER_ITINERARIOS_ERROR = "OBTENER_ITINERARIOS_ERROR";
 export const POSTEAR_ITINERARIOS_EXITO = "POSTEAR_ITINERARIOS_EXITO";
 export const POSTEAR_ITINERARIOS_ERROR = "POSTEAR_ITINERARIOS_ERROR";
+export const OBTENER_VIAJES_EXITO = "OBTENER_VIAJES_EXITO";
+export const OBTENER_VIAJES_ERROR = "OBTENER_VIAJES_EXITO";
+export const POSTEAR_HOTELES_ERROR = "POSTEAR_HOTELES_ERROR";
+export const POSTEAR_HOTELES_EXITO = "POSTEAR_HOTELES_EXITO";
+export const ELIMINAR_VIAJE_EXITO = "ELIMINAR_VIAJE_EXITO";
+export const ELIMINAR_VIAJE_ERROR = "ELIMINAR_VIAJE_ERROR";
+export const EDITAR_VIAJE_EXITO = "EDITAR_VIAJE_EXITO";
+export const EDITAR_VIAJE_ERROR = "EDITAR_VIAJE_ERROR";
+export const DELETE_HOTEL_SUCCESS = "DELETE_HOTEL_SUCCESS";
+export const DELETE_HOTEL_FAILURE = "DELETE_HOTEL_FAILURE";
+export const EDIT_HOTEL_SUCCESS = "EDIT_HOTEL_SUCCESS";
+export const EDIT_HOTEL_FAILURE = "EDIT_HOTEL_FAILURE";
 
 export function getUsers() {
   return async function (dispatch) {
@@ -40,36 +52,64 @@ export function getUsers() {
   };
 }
 
+// export function login(username, password) {
+//   // const apiUrl = `http://localhost:4002/usuarios/${username}/${password}`;
+
+//   return async function (dispatch) {
+//     let response = await axios.get(
+//       `http://localhost:4002/usuarios/${username}/${password}`,
+//       {
+//         headers: {
+//           "x-access-token":
+//             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
+
+//     return dispatch({
+//       type: LOGIN_SUCCESS,
+//       payload: response,
+//     });
+//   };
+// }
 export function login(username, password) {
-  // const apiUrl = `http://localhost:4002/usuarios/${username}/${password}`;
+  // ...
 
   return async function (dispatch) {
-    let response = await axios.get(
-      `http://localhost:4002/usuarios/${username}/${password}`,
-      {
-        headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
-          "Content-Type": "application/json",
-        },
+    try {
+      // Realiza la solicitud de inicio de sesión al backend
+      const response = await axios.get(
+        `http://localhost:4002/usuarios/${username}/${password}`,
+        {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Aca la respuesta", response);
+      // Si el inicio de sesión es exitoso
+      if (response.status === 200) {
+        // Almacena la información del usuario en el Local Storage
+        localStorage.setItem("user", JSON.stringify(response.data));
+
+        // Despacha la acción de éxito
+        return dispatch({
+          type: LOGIN_SUCCESS,
+          payload: response,
+        });
+      } else {
+        // Despacha la acción de error si el inicio de sesión falla
+        return dispatch({
+          type: LOGIN_FAILURE,
+          payload: response.statusText,
+        });
       }
-    );
-    // console.log(response.data);
-    // if (response.status === 200) {
-    //   dispatch({
-    //     type: LOGIN_SUCCESS,
-    //     payload: response.data,
-    //   });
-    // } else {
-    //   dispatch({
-    //     type: LOGIN_FAILURE,
-    //     payload: response.statusText,
-    //   });
-    // }
-    return dispatch({
-      type: LOGIN_SUCCESS,
-      payload: response,
-    });
+    } catch (error) {
+      // Maneja errores aquí, si es necesario
+    }
   };
 }
 
@@ -187,6 +227,8 @@ export const crearViaje = (nuevoViajeData) => {
           hotelId: nuevoViajeData.nuevoHotelIdData,
           contratos: nuevoViajeData.contratosFinal, // Cambia esto según tus necesidades
           scheduleId: nuevoViajeData.nuevoScheduleIdData,
+          salida: nuevoViajeData.fechaSalida,
+          regreso: nuevoViajeData.fechaRegreso,
         },
 
         {
@@ -267,18 +309,6 @@ export const obtenerItinerario = () => async (dispatch) => {
   }
 };
 
-// export const crearItinerario = (nuevoItinerario) => async (dispatch) => {
-//   try {
-//     const response = await axios.post("http://localhost:4001/itinerario",
-
-//     ); // Reemplaza con la ruta correcta
-//     const itinerario = response.data; // Supongamos que la respuesta es un array de contratos
-//     dispatch({ type: POSTEAR_ITINERARIOS_EXITO, payload: itinerario });
-//   } catch (error) {
-//     dispatch({ type: POSTEAR_ITINERARIOS_ERROR, payload: error.message });
-//   }
-// };
-
 export const crearItinerario = (nuevoItinerario) => {
   return async (dispatch) => {
     try {
@@ -314,3 +344,182 @@ export const crearItinerario = (nuevoItinerario) => {
     }
   };
 };
+
+export const obtenerViajes = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:4001/viaje", {
+      headers: {
+        "x-access-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con la ruta correcta
+    const viajes = response.data;
+
+    // Supongamos que la respuesta es un array de contratos
+
+    dispatch({ type: OBTENER_VIAJES_EXITO, payload: viajes });
+  } catch (error) {
+    dispatch({ type: OBTENER_VIAJES_ERROR, payload: error.message });
+  }
+};
+
+export const crearHotel = (nuevoHotel) => {
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud POST al backend para crear el viaje
+      const response = await axios.post(
+        "http://localhost:4001/hoteles",
+
+        {
+          nombre: nuevoHotel.nombre,
+          direccion: nuevoHotel.direccion,
+          fotos: nuevoHotel.fotosBase64,
+          videos: nuevoHotel.videos,
+        },
+
+        {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Despacha una acción de éxito si se crea el viaje
+      dispatch({
+        type: POSTEAR_HOTELES_EXITO,
+        payload: response.data,
+      });
+    } catch (error) {
+      // Despacha una acción de error si falla la creación del viaje
+      dispatch({
+        type: POSTEAR_HOTELES_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export const eliminarViaje = (viajeId) => {
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud DELETE al backend para eliminar el viaje
+      await axios.delete(`http://localhost:4001/viaje/${viajeId}`, {
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Despacha una acción de éxito si se elimina el viaje
+      dispatch({
+        type: ELIMINAR_VIAJE_EXITO,
+        payload: viajeId,
+      });
+    } catch (error) {
+      // Despacha una acción de error si falla la eliminación del viaje
+      dispatch({
+        type: ELIMINAR_VIAJE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+
+export function editarViaje(idViaje, data) {
+  return async function (dispatch) {
+    try {
+      console.log("ACA DATA EN ACTIONS", data);
+
+      const response = await axios.put(
+        `http://localhost:4001/viaje/${idViaje}`, // Reemplaza con la URL correcta de tu API
+        data, // Los datos editados del viaje
+
+        {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // Si la edición fue exitosa, despachamos la acción de éxito
+        dispatch({
+          type: EDITAR_VIAJE_EXITO,
+          payload: response.data,
+        });
+      } else {
+        // Si hubo un error en la edición, despachamos la acción de error
+        dispatch({
+          type: EDITAR_VIAJE_ERROR,
+          payload: "Error al editar el viaje.",
+        });
+      }
+    } catch (error) {
+      // Si hubo una excepción, despachamos la acción de error
+      dispatch({
+        type: EDITAR_VIAJE_ERROR,
+        payload: error.message || "Error al editar el viaje.",
+      });
+    }
+  };
+}
+
+export function deleteHotel(hotelId) {
+  return async function (dispatch) {
+    try {
+      await axios.delete(`http://localhost:4001/hoteles/${hotelId}`, {
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+          "Content-Type": "application/json",
+        },
+      });
+
+      dispatch({
+        type: DELETE_HOTEL_SUCCESS,
+        payload: hotelId,
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_HOTEL_FAILURE,
+        payload: error.message,
+      });
+    }
+  };
+}
+
+export function editHotel(hotelId, updatedHotel) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(
+        `http://localhost:4001/hoteles/${hotelId}`,
+        updatedHotel,
+        {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      dispatch({
+        type: EDIT_HOTEL_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: EDIT_HOTEL_FAILURE,
+        payload: error.message,
+      });
+    }
+  };
+}

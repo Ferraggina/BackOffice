@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import FormularioViaje from "./FormularioViaje";
 import "./formularioViaje.scss";
 import Itinerario from "./Itinerario";
-import abm_Viaje from "./abm_Viaje";
+import Abm_Viaje from "./Abm_Viaje";
+import FormularioHoteles from "./FormularioHoteles";
+import AbmHotel from "./AbmHotel";
 
 export function AdminViaje() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -38,11 +40,25 @@ export function AdminViaje() {
                     <a href="/CrearItinerario/">CREAR ITINERARIO</a>
                   </h2>
                 </th>
+                <th>
+                  <h2 className="text-center">
+                    <a href="/AgregarHoteles">AGREGAR HOTEL</a>
+                  </h2>
+                </th>
+                <th>
+                  <h2 className="text-center">
+                    <a href="/ListadoHoteles">LISTADO HOTELES</a>
+                  </h2>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{abm_Viaje}</td>
+                <td>
+                  <div>
+                    <Abm_Viaje />
+                  </div>
+                </td>
                 <td>
                   <div>
                     <FormularioViaje />
@@ -51,6 +67,16 @@ export function AdminViaje() {
                 <td>
                   <div>
                     <Itinerario />
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <FormularioHoteles />
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <AbmHotel />
                   </div>
                 </td>
               </tr>

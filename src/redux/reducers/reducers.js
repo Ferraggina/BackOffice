@@ -18,6 +18,18 @@ import {
   OBTENER_ITINERARIOS_ERROR,
   POSTEAR_ITINERARIOS_EXITO,
   POSTEAR_ITINERARIOS_ERROR,
+  OBTENER_VIAJES_EXITO,
+  OBTENER_VIAJES_ERROR,
+  POSTEAR_HOTELES_ERROR,
+  POSTEAR_HOTELES_EXITO,
+  ELIMINAR_VIAJE_EXITO,
+  ELIMINAR_VIAJE_ERROR,
+  EDITAR_VIAJE_EXITO,
+  EDITAR_VIAJE_ERROR,
+  DELETE_HOTEL_SUCCESS,
+  DELETE_HOTEL_FAILURE,
+  EDIT_HOTEL_SUCCESS,
+  EDIT_HOTEL_FAILURE,
 } from "../actions/actions";
 
 const initialState = {
@@ -36,9 +48,14 @@ const initialState = {
   hoteles: [],
   itinerarios: [],
   nuevoItenerario: null,
+  viajes: [],
+  nuevoHotel: null,
+  deleteHotelError: null,
+  editHotelError: null,
 };
 
 function rootReducer(state = initialState, action) {
+  let viajesActualizados;
   switch (action.type) {
     case GET_USERS:
       return {
@@ -46,12 +63,12 @@ function rootReducer(state = initialState, action) {
         users: action.payload,
       };
     case LOGIN_SUCCESS:
-      console.log(state.currentUser);
+      console.log("ACA LOGINS SUCC", action.payload.usuario);
       return {
         ...state,
         user: action.payload,
         isLoggedIn: true,
-        currentUser: action.payload.data || {},
+        currentUser: action.payload.usuario || {},
       };
 
     case LOGIN_FAILURE:
@@ -156,6 +173,103 @@ function rootReducer(state = initialState, action) {
         ...state,
         nuevoItenerario: null,
         error: action.payload,
+      };
+    case OBTENER_VIAJES_EXITO:
+      return {
+        ...state,
+        viajes: action.payload,
+        error: null,
+      };
+    case OBTENER_VIAJES_ERROR:
+      return {
+        ...state,
+        viajes: [],
+        error: action.payload,
+      };
+    case POSTEAR_HOTELES_EXITO:
+      return {
+        ...state,
+        nuevoHotel: action.payload,
+        error: null,
+      };
+    case POSTEAR_HOTELES_ERROR:
+      return {
+        ...state,
+        nuevoHotel: null,
+        error: action.payload,
+      };
+    case ELIMINAR_VIAJE_EXITO:
+      // Realiza la operación dentro del bloque case
+      viajesActualizados = state.viajes.filter(
+        (viaje) => viaje.id !== action.payload
+      );
+      return {
+        ...state,
+        viajes: viajesActualizados,
+        error: null,
+      };
+    case ELIMINAR_VIAJE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case EDITAR_VIAJE_EXITO:
+      // Actualiza la lista de viajes con el viaje editado
+      viajesActualizados = state.viajes.map((viaje) => {
+        if (viaje.id === action.payload.id) {
+          // Si encontramos el viaje editado, actualizamos sus datos
+          return {
+            ...viaje,
+            // Actualiza los campos editados según la respuesta del servidor (action.payload)
+            destino: action.payload.destino,
+            // Agrega aquí otros campos editados
+          };
+        }
+        return viaje;
+      });
+      return {
+        ...state,
+        viajes: viajesActualizados,
+        error: null,
+      };
+
+    case EDITAR_VIAJE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case DELETE_HOTEL_SUCCESS:
+      return {
+        ...state,
+        deleteHotelError: null,
+        hotels: state.hotels.filter((hotel) => hotel.id !== action.payload),
+      };
+    case DELETE_HOTEL_FAILURE:
+      return {
+        ...state,
+        deleteHotelError: action.payload,
+      };
+    case EDIT_HOTEL_SUCCESS:
+      return {
+        ...state,
+        editHotelError: null,
+        hoteles: state.hoteles.map((hotel) => {
+          if (hotel.id === action.payload.id) {
+            return {
+              ...hotel,
+              nombre: action.payload.nombre,
+              direccion: action.payload.direccion,
+              fotos: action.payload.fotos,
+              videos: action.payload.videos,
+            };
+          }
+          return hotel;
+        }),
+      };
+    case EDIT_HOTEL_FAILURE:
+      return {
+        ...state,
+        editHotelError: action.payload,
       };
     default:
       return state;
