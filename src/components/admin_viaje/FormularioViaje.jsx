@@ -7,26 +7,28 @@ import {
 } from "../../redux/actions/actions";
 import "./formularioViaje.scss";
 import { crearViaje } from "../../redux/actions/actions";
+import { useNavigate } from "react-router-dom";
 
 export default function FormularioViaje() {
-  // const [nuevoViajeData, setNuevoViajeData] = useState({
-  //   destino: "",
-  //   hotelId: "",
-  //   contratos: "", // Cambia esto según tus necesidades
-  //   scheduleId: "",
-  // });
   const [nuevoContratoData, setNuevoContratoData] = useState([]);
   const [nuevoHotelIdData, setNuevoHotelIdData] = useState("");
   const [nuevoDestinoData, setNuevoDestinoData] = useState("");
   const [nuevoScheduleIdData, setNuevoScheduleIdData] = useState("");
+  const [fechaSalida, setFechaSalida] = useState("");
+  const [fechaRegreso, setFechaRegreso] = useState("");
   const dispatch = useDispatch();
   const nuevoViaje = useSelector((state) => state.nuevoViaje);
-  console.log("ACA", nuevoViaje);
+  const navigate = useNavigate();
   const contratos = useSelector((state) => state.contratos);
   const hoteles = useSelector((state) => state.hoteles);
   const itinerarios = useSelector((state) => state.itinerarios);
   const [contratosSeleccionados, setContratosSeleccionados] = useState([]);
+  // Estado para almacenar los detalles del hotel seleccionado
+  const [hotelSeleccionado, setHotelSeleccionado] = useState(null);
+  const [contratosFiltrados, setContratosFiltrados] = useState([]);
 
+  // Estado para almacenar los detalles del itinerario seleccionado
+  const [itinerarioSeleccionado, setItinerarioSeleccionado] = useState(null);
   const error = useSelector((state) => state.error);
   useEffect(() => {
     // Llama a la acción para obtener contratos cuando el componente se monta
@@ -35,7 +37,45 @@ export default function FormularioViaje() {
     dispatch(obtenerItinerario());
   }, [dispatch]);
 
+  useEffect(() => {
+    // Busca el hotel correspondiente según el id seleccionado
+    console.log("ACA ESTA TODO ", nuevoHotelIdData, hoteles);
+    if (nuevoHotelIdData && hoteles.length > 0) {
+      const hotelEncontrado = hoteles.find(
+        (hotel) => hotel.id == nuevoHotelIdData
+      );
+      console.log("Hotel encontrado:", hotelEncontrado);
+      setHotelSeleccionado(hotelEncontrado || null); // Si no se encuentra un hotel, establece el estado en null
+    } else {
+      setHotelSeleccionado(null);
+    }
+  }, [nuevoHotelIdData, hoteles]);
+
+  useEffect(() => {
+    // Busca el itinerario correspondiente según el id seleccionado
+    if (nuevoScheduleIdData && itinerarios.length > 0) {
+      const itinerarioEncontrado = itinerarios.find(
+        (itinerario) => itinerario.id == nuevoScheduleIdData
+      );
+      setItinerarioSeleccionado(itinerarioEncontrado);
+    } else {
+      setItinerarioSeleccionado(null);
+    }
+  }, [nuevoScheduleIdData, itinerarios]);
+
   const toggleContractSelection = (contractNum) => {
+    // if (contratosSeleccionados.includes(contractNum)) {
+    //   // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
+    //   setContratosSeleccionados((prevSelected) =>
+    //     prevSelected.filter((num) => num !== contractNum)
+    //   );
+    // } else {
+    //   // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
+    //   setContratosSeleccionados((prevSelected) => [
+    //     ...prevSelected,
+    //     contractNum,
+    //   ]);
+    // }
     if (contratosSeleccionados.includes(contractNum)) {
       // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) =>
@@ -49,6 +89,7 @@ export default function FormularioViaje() {
       ]);
     }
   };
+
   const getContractNameById = (contractNum) => {
     const selectedContract = contratos.find(
       (contract) => contract.num === contractNum
@@ -63,32 +104,20 @@ export default function FormularioViaje() {
     // Formatea el array de contratos como una cadena JSON
     // Asegúrate de que nuevoContratoData sea un array
     console.log("Contratos seleccionados", contratosSeleccionados);
-    // const nuevoContratoArray = Array.isArray(contratosSeleccionados)
-    //   ? contratosSeleccionados
-    //   : [contratosSeleccionados];
 
-    // Formatea los valores del array como un nuevo array con formato "[num]"
-    // const contratosFormateados = contratosSeleccionados
-    //   .map((valor) => `[${valor}]`)
-    //   .join(",");
-    // const contratosFormateados = JSON.stringify(contratosSeleccionados);
     const contratosFormateados = contratosSeleccionados.join(",");
 
     // Agrega corchetes alrededor de la cadena
     const contratosFinal = `[${contratosFormateados}]`;
-    console.log(
-      "ACA EL VIAJE ANTES DEL DISPATCH",
-      contratosFinal,
-      nuevoHotelIdData,
-      nuevoDestinoData,
-      nuevoScheduleIdData
-    );
+
     dispatch(
       crearViaje({
         contratosFinal,
         nuevoHotelIdData,
         nuevoDestinoData,
         nuevoScheduleIdData,
+        fechaSalida,
+        fechaRegreso,
       })
     ).then(() => {
       // Restablece el valor de nuevoContratoData después de enviar la solicitud
@@ -115,6 +144,31 @@ export default function FormularioViaje() {
               placeholder="Destino"
               value={nuevoDestinoData}
               onChange={(e) => setNuevoDestinoData(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Fecha de salida</label>
+            <input
+              type="date"
+              className="form-control"
+              id="fechaSalida"
+              placeholder="Fecha de salida"
+              value={fechaSalida} // Asigna el valor del estado a este campo
+              onChange={(e) => setFechaSalida(e.target.value)} // Actualiza el estado cuando cambia el valor
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Fecha de Regreso</label>
+            <input
+              type="date"
+              className="form-control"
+              id="fechaRegreso"
+              placeholder="Fecha de regreso"
+              value={fechaRegreso} // Asigna el valor del estado a este campo
+              onChange={(e) => setFechaRegreso(e.target.value)} // Actualiza el estado cuando cambia el valor
+              required
             />
           </div>
 
@@ -128,7 +182,12 @@ export default function FormularioViaje() {
                 id="hotel"
                 name="hotel"
                 value={nuevoHotelIdData}
-                onChange={(e) => setNuevoHotelIdData(e.target.value)}
+                // onChange={(e) => setNuevoHotelIdData(e.target.value)}
+                onChange={(e) => {
+                  console.log("Nuevo valor seleccionado:", e.target.value);
+                  setNuevoHotelIdData(e.target.value);
+                }}
+                required
               >
                 <option value="">-- Selecciona una opción --</option>
 
@@ -148,6 +207,7 @@ export default function FormularioViaje() {
                 name="itinerario"
                 value={nuevoScheduleIdData}
                 onChange={(e) => setNuevoScheduleIdData(e.target.value)}
+                required
               >
                 <option value="">-- Selecciona una opción --</option>
 
@@ -159,7 +219,21 @@ export default function FormularioViaje() {
               </select>
             </div>
             <br />
-
+            <div className="form-group">
+              <label>Buscar Contratos</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Buscar Contratos"
+                onChange={(e) => {
+                  const searchTerm = e.target.value.toLowerCase();
+                  const filteredContracts = contratos.filter((contract) =>
+                    contract.num.toLowerCase().includes(searchTerm)
+                  );
+                  setContratosFiltrados(filteredContracts);
+                }}
+              />
+            </div>
             <div>
               <label>Contratos</label>
               <select
@@ -175,10 +249,11 @@ export default function FormularioViaje() {
                     )
                   )
                 }
+                required
                 multiple // Permite múltiples selecciones
               >
                 <option value="">Elije los contratos:</option>
-                {contratos.map((contrato) => (
+                {contratosFiltrados.map((contrato) => (
                   <option
                     key={contrato.id}
                     value={contrato.num}
@@ -193,21 +268,69 @@ export default function FormularioViaje() {
                   </option>
                 ))}
               </select>
+            </div>
+            <br />
+            <div className="renderizadoSeleccion">
+              <h3>Corroboracion de datos del viaje:</h3>
               <div>
-                <label>Contratos Seleccionados</label>
-                <ul>
-                  {contratosSeleccionados.map(
-                    (contractNum) => (
-                      console.log("ACA LOS CONTRATOS", contratosSeleccionados),
-                      (
-                        <li key={contractNum}>
-                          {/* Usa la función getContractNameById para obtener el nombre del contrato */}
-                          {getContractNameById(contractNum)}
-                        </li>
+                <div className="form-group">
+                  <label>Contratos Seleccionados</label>
+                  <ul>
+                    {contratosSeleccionados.map(
+                      (contractNum) => (
+                        console.log(
+                          "ACA LOS CONTRATOS",
+                          contratosSeleccionados
+                        ),
+                        (
+                          <li key={contractNum}>
+                            {/* Usa la función getContractNameById para obtener el nombre del contrato */}
+                            {getContractNameById(contractNum)}
+                          </li>
+                        )
                       )
-                    )
-                  )}
-                </ul>
+                    )}
+                  </ul>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Destino:</label>
+                <p className="form-control-static">{nuevoDestinoData}</p>
+              </div>
+              <div className="form-group">
+                <label>Fecha de salida elegida:</label>
+                <p className="form-control-static">{fechaSalida}</p>
+              </div>
+              <div className="form-group">
+                <label>Fecha de regreso elegida :</label>
+                <p className="form-control-static">{fechaRegreso}</p>
+              </div>
+
+              <div className="form-group">
+                <label>Hotel Seleccionado:</label>
+                {hotelSeleccionado ? (
+                  <div>
+                    <p>Nombre: {hotelSeleccionado.nombre}</p>
+                    <p>Dirección: {hotelSeleccionado.direccion}</p>
+                  </div>
+                ) : (
+                  <p>No se ha seleccionado un hotel.</p>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Itinerario Seleccionado:</label>
+                {itinerarioSeleccionado ? (
+                  <div>
+                    <p>Nombre: {itinerarioSeleccionado.nombre}</p>
+                    <p>
+                      Comentarios de itinerario:{" "}
+                      {itinerarioSeleccionado.texto_gral}
+                    </p>
+                  </div>
+                ) : (
+                  <p>No se ha seleccionado un itinerario.</p>
+                )}
               </div>
             </div>
           </div>
@@ -216,6 +339,13 @@ export default function FormularioViaje() {
           <br />
           <button type="submit" className="btn btn-primary">
             Agregar Viaje
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary ml-2"
+            onClick={() => navigate("/home")}
+          >
+            Volver a administracion
           </button>
         </div>
         {nuevoViaje && (
