@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import FormularioViaje from "./FormularioViaje";
-import "./formularioViaje.scss";
+// import "./formularioViaje.scss";
 import Itinerario from "./Itinerario";
 import Abm_Viaje from "./Abm_Viaje";
 import FormularioHoteles from "./FormularioHoteles";
 import AbmHotel from "./AbmHotel";
-
+import "../../sass/_adminViaje.scss";
 export function AdminViaje() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const toggleFormulario = () => {
@@ -14,11 +14,28 @@ export function AdminViaje() {
 
   return (
     <div>
-      <button onClick={toggleFormulario} className="btn btn-primary">
+      {/* <button onClick={toggleFormulario} className="btn btn-primary">
         {mostrarFormulario
           ? "Cerrar Formulario"
           : "Desplegar administración de viajes"}
-      </button>
+      </button> */}
+      <div className="text-center contenedorIconoViaje">
+        {/* <div className="tituloViajeAdmContainer ">
+        </div> */}
+        <div className="icon-container">
+          <lord-icon
+            src="https://cdn.lordicon.com/clvhcjvo.json"
+            trigger="hover"
+            style={{
+              width: "250px",
+              height: "250px",
+              cursor: "pointer", // Cambia el cursor al pasar el mouse
+            }}
+            onClick={toggleFormulario} // Agrega el evento onClick para mostrar/ocultar el formulario
+          ></lord-icon>
+          <h3 className="tituloViajeAdm">Viajes</h3>
+        </div>
+      </div>
       {mostrarFormulario && (
         <div className="container mt-4 table-responsive esiloTablaAdViaje">
           <table className="table table-bordered  tablaContainer ">
@@ -26,64 +43,90 @@ export function AdminViaje() {
               <tr>
                 <th>
                   <h2 className="text-center">
-                    <a href="/ViajesEdicion">VIAJES</a>
+                    <a className="enlacesAdmin" href="/ViajesEdicion">
+                      VIAJES
+                      <lord-icon
+                        src="https://cdn.lordicon.com/pwgndsvz.json"
+                        trigger="hover"
+                        style={{
+                          width: "250px",
+                          height: "250px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </a>
                   </h2>
                 </th>
                 <th>
                   <h2 className="text-center tipoLetraViaje">
-                    <a href="/FormularioViaje/">CREAR VIAJE</a>
+                    <a className="enlacesAdmin" href="/FormularioViaje/">
+                      CREAR VIAJE
+                      <lord-icon
+                        src="https://cdn.lordicon.com/vczdmdkt.json"
+                        trigger="hover"
+                        style={{
+                          width: "250px",
+                          height: "250px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </a>
                   </h2>
                 </th>
                 <th>
                   <h2 className="text-center">
-                    {" "}
-                    <a href="/CrearItinerario/">CREAR ITINERARIO</a>
+                    <a className="enlacesAdmin" href="/CrearItinerario/">
+                      CREAR ITINERARIO
+                      <lord-icon
+                        src="https://cdn.lordicon.com/inlmkmqf.json"
+                        trigger="hover"
+                        style={{
+                          width: "250px",
+                          height: "250px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </a>
                   </h2>
                 </th>
                 <th>
                   <h2 className="text-center">
-                    <a href="/AgregarHoteles">AGREGAR HOTEL</a>
+                    <a className="enlacesAdmin" href="/AgregarHoteles">
+                      AGREGAR HOTEL
+                      <lord-icon
+                        src="https://cdn.lordicon.com/tsnmmdby.json"
+                        trigger="hover"
+                        style={{
+                          width: "250px",
+                          height: "250px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </a>
                   </h2>
                 </th>
                 <th>
                   <h2 className="text-center">
-                    <a href="/ListadoHoteles">LISTADO HOTELES</a>
+                    <a className="enlacesAdmin" href="/ListadoHoteles">
+                      LISTADO HOTELES
+                      <lord-icon
+                        src="https://cdn.lordicon.com/xqukarvl.json"
+                        trigger="hover"
+                        style={{
+                          width: "250px",
+                          height: "250px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </a>
                   </h2>
                 </th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div>
-                    <Abm_Viaje />
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <FormularioViaje />
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <Itinerario />
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <FormularioHoteles />
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <AbmHotel />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
           </table>
         </div>
       )}
+      <br />
     </div>
   );
 }

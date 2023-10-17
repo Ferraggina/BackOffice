@@ -9,7 +9,9 @@ import {
   obtenerContratos,
 } from "../../redux/actions/actions";
 import { useDispatch, useSelector } from "react-redux";
-
+import "../../sass/_abm_Viaje.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 export default function Abm_Viaje() {
   const dispatch = useDispatch();
   const viajes = useSelector((state) => state.viajes);
@@ -144,79 +146,124 @@ export default function Abm_Viaje() {
       : "Nombre de Contrato Desconocido";
   };
   return (
-    <div className="container mt-4">
-      <h2>Lista de Viajes</h2>
-
-      <div className="form-group">
+    <div className="container mt-4 ">
+      <br />
+      <br />
+      <br />
+      {/* <div className="form-group">
         <label>Buscar Viajes</label>
         <input
-          type="text"
-          className="form-control"
-          placeholder="Buscar Viajes"
-          value={searchTerm}
-          onChange={handleSearchInputChange}
+        type="text"
+        className="form-control"
+        placeholder="Buscar Viajes"
+        value={searchTerm}
+        onChange={handleSearchInputChange}
         />
+      </div> */}
+      <div className="search-field d-none d-md-block">
+        <form
+          className="d-flex align-items-center h-100 formularioSearch"
+          action="#"
+        >
+          <div className="input-group">
+            <div className="input-group-prepend bg-transparent">
+              <span className="input-group-text border-0">
+                <FontAwesomeIcon icon={faSearch} />
+              </span>
+            </div>
+            <input
+              type="search"
+              className="input-md bg-transparent searchabar"
+              placeholder="Buscar Viajes"
+              value={searchTerm}
+              onChange={handleSearchInputChange}
+            />
+          </div>
+        </form>
       </div>
       <br />
+      <h2 className="text-center encabezadoLista">Lista de Viajes</h2>
+
       {filteredViajes.length ? (
         filteredViajes.map((viaje) => (
-          <div key={viaje.id} className="card mb-4">
+          <div key={viaje.id} className="card mb-4 cardViajes">
             <div className="card-body">
-              <h5 className="card-title">Destino</h5>
-              <p className="card-text">{viaje.destino}</p>
-              <h5 className="card-title">Contratos</h5>
-              <p className="card-text">{viaje.contratos}</p>
-              <h5 className="card-title">Salida</h5>
-              <p className="card-text">{viaje.salida}</p>
-              <h5 className="card-title">Regreso</h5>
-              <p className="card-text">{viaje.regreso}</p>
-
-              <h5>Hotel:</h5>
-              {hoteles.map((hotel) => {
-                if (hotel.id === viaje.hotelId) {
-                  return (
-                    <div key={hotel.id}>
-                      <p>Nombre: {hotel.nombre}</p>
-                      <p>Dirección: {hotel.direccion}</p>
-                      {/* <img
-                        src={hotel.fotos} // Asegúrate de establecer el tipo MIME correcto
-                        alt={`Imagen de ${hotel.nombre}`}
-                        width="300"
-                        height="200"
-                      /> */}
-                      {hotel.video}
-                      {console.log("Valor de hotel.fotos:", hotel.fotos)}
-                      {/* Agrega más detalles del hotel si es necesario */}
-                    </div>
-                  );
-                }
-                return null; // Si no coincide, no mostrar nada
-              })}
-              <h5>Itinerario:</h5>
-              {itinerarios.map((itinerario) => {
-                if (itinerario.id === viaje.scheduleId) {
-                  return (
-                    <div key={itinerario.id}>
-                      <p>Nombre: {itinerario.nombre}</p>
-                      <p>Dirección: {itinerario.texto_gral}</p>
-                      {/* Agrega más detalles del hotel si es necesario */}
-                    </div>
-                  );
-                }
-                return null; // Si no coincide, no mostrar nada
-              })}
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Destino</th>
+                    <th>Contratos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{viaje.destino}</td>
+                    <td>{viaje.contratos}</td>
+                  </tr>
+                  <tr>
+                    <th>Salida</th>
+                    <th>Regreso</th>
+                  </tr>
+                  <tr>
+                    <td>{viaje.salida}</td>
+                    <td>{viaje.regreso}</td>
+                  </tr>
+                  <tr>
+                    <th>Hotel</th>
+                    <th>Itinerario</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      {hoteles.map((hotel) => {
+                        if (hotel.id === viaje.hotelId) {
+                          return (
+                            <div key={hotel.id}>
+                              <p>Nombre: {hotel.nombre}</p>
+                              <p>Dirección: {hotel.direccion}</p>
+                              {/* Agrega más detalles del hotel si es necesario */}
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </td>
+                    <td>
+                      {itinerarios.map((itinerario) => {
+                        if (itinerario.id === viaje.scheduleId) {
+                          return (
+                            <div key={itinerario.id}>
+                              <p>Nombre: {itinerario.nombre}</p>
+                              <p>Dirección: {itinerario.texto_gral}</p>
+                              {/* Agrega más detalles del itinerario si es necesario */}
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
               <button
-                className="btn btn-primary"
+                className="btn btn-primary botonEditar"
                 onClick={() => handleEditClick(viaje)}
               >
-                Editar
+                <lord-icon
+                  src="https://cdn.lordicon.com/zfzufhzk.json"
+                  trigger="hover"
+                  style={{ width: "40px", height: "40px" }}
+                ></lord-icon>
               </button>
               <button
-                className="btn btn-danger"
+                className="btn btn-danger botonEliminar"
                 onClick={() => handleDeleteClick(viaje)}
               >
-                Eliminar
+                <lord-icon
+                  src="https://cdn.lordicon.com/xekbkxul.json"
+                  trigger="hover"
+                  style={{ width: "40px", height: "40px" }}
+                ></lord-icon>
               </button>
             </div>
           </div>

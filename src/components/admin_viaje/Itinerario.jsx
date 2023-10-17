@@ -69,7 +69,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { crearItinerario } from "../../redux/actions/actions";
-
+import "../../sass/_itinerario.scss";
 export default function Itinerario() {
   const [nombre, setNombre] = useState("");
   const [textoGral, setTextoGral] = useState("");
@@ -113,59 +113,61 @@ export default function Itinerario() {
   };
 
   return (
-    <form className="container " onSubmit={handleSubmit}>
+    <div className="card-tittle">
       <br />
       <br />
       <br />
-      <div className="row justify-content-center formularioViajeContenedor">
-        <h1 className="text-center tipoLetraViaje">Crear Itinerario</h1>
-        <div className="col-md-6">
-          {/* Alerta condicional */}
-          {alert && (
-            <div className={`alert alert-${alert.type}`} role="alert">
-              {alert.message}
+      <h1 className="text-center tituloForm">Crear Itinerario</h1>
+      <form className="form-sample " onSubmit={handleSubmit}>
+        <div className="row justify-content-center formularioItinerarioContenedor">
+          <div className="col-md-6">
+            {/* Alerta condicional */}
+            {alert && (
+              <div className={`alert alert-${alert.type}`} role="alert">
+                {alert.message}
+              </div>
+            )}
+
+            <div className="form-group">
+              <label className="estilosLabels">Nombre</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+              />
             </div>
-          )}
+            <div className="form-group">
+              <label className="estilosLabels">Texto General</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Texto General"
+                value={textoGral}
+                onChange={(e) => setTextoGral(e.target.value)}
+              />
+            </div>
 
-          <div className="form-group">
-            <label>Nombre</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Texto General</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Texto General"
-              value={textoGral}
-              onChange={(e) => setTextoGral(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group"></div>
-          <br />
-          <button type="submit" className="btn btn-primary">
-            Agregar Itinerario
-          </button>
-
-          {/* Botón de redirección */}
-          {alert && alert.type === "success" && (
-            <button
-              type="button"
-              className="btn btn-primary ml-2"
-              onClick={() => navigate("/home")}
-            >
-              Volver a administracion
+            <div className="form-group"></div>
+            <br />
+            <button type="submit" className="btn btn-primary estiloBotones">
+              Agregar Itinerario
             </button>
-          )}
+
+            {/* Botón de redirección */}
+            {alert && alert.type === "success" && (
+              <button
+                type="button"
+                className="btn btn-primary ml-2 estiloBotones"
+                onClick={() => navigate("/home")}
+              >
+                Volver a administracion
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }

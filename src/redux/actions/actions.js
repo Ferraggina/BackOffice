@@ -30,6 +30,11 @@ export const DELETE_HOTEL_SUCCESS = "DELETE_HOTEL_SUCCESS";
 export const DELETE_HOTEL_FAILURE = "DELETE_HOTEL_FAILURE";
 export const EDIT_HOTEL_SUCCESS = "EDIT_HOTEL_SUCCESS";
 export const EDIT_HOTEL_FAILURE = "EDIT_HOTEL_FAILURE";
+export const GET_LANDING = "GET_LANDING";
+export const ADD_LANDING = "ADD_LANDING";
+export const UPDATE_LANDING = "UPDATE_LANDING";
+export const DELETE_LANDING = "DELETE_LANDING";
+export const LOGOUT_USER = "LOGOUT_USER";
 
 export function getUsers() {
   return async function (dispatch) {
@@ -523,3 +528,98 @@ export function editHotel(hotelId, updatedHotel) {
     }
   };
 }
+
+export const getLanding = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:4000/inicio", {
+      headers: {
+        "x-access-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
+    dispatch({
+      type: GET_LANDING,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al obtener datos de la landing", error);
+  }
+};
+
+export const addLanding = (landingData) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/inicio",
+      landingData,
+      {
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+          "Content-Type": "application/json",
+        },
+      }
+    ); // Reemplaza con tu URL de backend
+    dispatch({
+      type: ADD_LANDING,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al agregar datos de la landing", error);
+  }
+};
+
+export const updateLanding = (landingData) => async (dispatch) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:4000/inicio/${landingData.id}`,
+      landingData,
+      {
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+          "Content-Type": "application/json",
+        },
+      }
+    ); // Reemplaza con tu URL de backend
+    dispatch({
+      type: UPDATE_LANDING,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al actualizar datos de la landing", error);
+  }
+};
+
+export const deleteLanding = (landingId) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:4000/inicio/${landingId}`, {
+      headers: {
+        "x-access-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
+    dispatch({
+      type: DELETE_LANDING,
+      payload: landingId,
+    });
+  } catch (error) {
+    console.error("Error al eliminar datos de la landing", error);
+  }
+};
+
+export const logoutUser = () => {
+  return (dispatch) => {
+    // Borra los datos de autenticación del almacenamiento local o de las cookies
+    localStorage.removeItem("user"); // Ajusta esto según tu implementación
+    // Despacha la acción de logout localmente
+    dispatch({
+      type: LOGOUT_USER,
+    });
+  };
+};

@@ -1,0 +1,36 @@
+.botonEditar{
+    background-color: rgba(154, 42, 154, 0.802);
+    border: rgba(154, 42, 154, 0.802);
+    margin: 1%;
+
+}
+.botonEditar:hover{
+    background-color: rgb(226, 147, 226);
+  
+  }
+.encabezadoLista{
+    color: whitesmoke;
+    
+}
+.cardViajes{
+    border: solid rgba(154, 42, 154, 0.802);
+    box-shadow: 5px 5px 10px #8b1299;
+}
+.searchabar{
+    width: 90%;
+    border:solid rgba(111, 32, 111, 0.895) ;box-shadow: 5px 5px 10px #8b1299;
+}
+.searchabar:focus {
+    border-color: #9a55ff; /* Cambia "your-color" al color que desees */
+    outline: none;
+    
+  }
+  .formularioSearch:focus {
+    border-color:rgba(213, 122, 213, 0.998);
+    outline: none;
+  }
+  .formularioSearch{
+    outline: none;
+  }
+  
+  

@@ -30,6 +30,11 @@ import {
   DELETE_HOTEL_FAILURE,
   EDIT_HOTEL_SUCCESS,
   EDIT_HOTEL_FAILURE,
+  GET_LANDING,
+  ADD_LANDING,
+  UPDATE_LANDING,
+  DELETE_LANDING,
+  LOGOUT_USER,
 } from "../actions/actions";
 
 const initialState = {
@@ -52,6 +57,8 @@ const initialState = {
   nuevoHotel: null,
   deleteHotelError: null,
   editHotelError: null,
+  landingData: [],
+  isAuthenticated: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -271,6 +278,37 @@ function rootReducer(state = initialState, action) {
         ...state,
         editHotelError: action.payload,
       };
+    case GET_LANDING:
+      return {
+        ...state,
+        landingData: action.payload,
+      };
+    case ADD_LANDING:
+      return {
+        ...state,
+        landingData: [...state.landingData, action.payload],
+      };
+    case UPDATE_LANDING:
+      return {
+        ...state,
+        landingData: state.landingData.map((landing) =>
+          landing.id === action.payload.id ? action.payload : landing
+        ),
+      };
+    case DELETE_LANDING:
+      return {
+        ...state,
+        landingData: state.landingData.filter(
+          (landing) => landing.id !== action.payload
+        ),
+      };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        isAuthenticated: false,
+        isLoggedIn: false,
+      };
+
     default:
       return state;
   }

@@ -1,0 +1,43 @@
+.formularioViajeContenedor{
+    background-color: whitesmoke;
+    margin: 1%;
+    border-radius: 1%;
+    padding: 1%;
+}
+
+.esiloTablaAdViaje{
+   max-width: 90%;
+  background-color: rgb(254, 255, 255);
+  border-radius: 0.8%;
+}
+.tablaContainer{
+   margin-top: 0.5%;
+}
+.renderizadoSeleccion{
+    background-color: rgba(227, 194, 227, 0.678); /* Color de fondo verde */
+    /* Espacio alrededor del contenedor */
+   margin: 2%;
+   border-radius: 3%;
+  padding: 2%;
+  border: dashed  rgba(222, 87, 222, 0.678);
+
+}
+.tituloForm{
+    font-size: 2rem;
+    color: aliceblue;
+}
+.estilosLabels{
+    font-weight: bolder;
+}
+.estiloBotones{
+    background-color: rgba(154, 42, 154, 0.802);
+    border: rgba(154, 42, 154, 0.802);
+    margin: 1%;
+  }
+  .estiloBotones:hover{
+    background-color: rgb(226, 147, 226);
+  }
+.estiloListaContratosSeleccionados{
+    list-style-type: none; /* Elimina los puntos de la lista */
+    padding: 0;
+}

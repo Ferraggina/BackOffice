@@ -1,0 +1,90 @@
+/* Estilo para el input de tipo "file" (oculto) */
+.inputFotosHotel {
+    display: none;
+  }
+  
+  /* Estilo para el botón personalizado */
+  .custom-file-upload {
+    background-color: rgba(154, 42, 154, 0.802); /* Color de fondo púrpura */
+    color: white; /* Color de texto blanco */
+    padding: 10px 15px; /* Espacio alrededor del botón */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s; /* Transición para el color de fondo */
+  }
+  
+  /* Cambia el color de fondo al pasar el mouse */
+  .custom-file-upload:hover {
+    background-color: rgb(226, 147, 226);
+  }
+
+  .renderizadoElegidas {
+    background-color: rgba(227, 194, 227, 0.678); /* Color de fondo verde */
+     /* Espacio alrededor del contenedor */
+    margin: 2%;
+    border-radius: 3%;
+    max-width: 50%;
+    // border: solid rgb(199, 92, 196) ;
+}
+.listadoRenderizadas{
+    padding: 3%;
+}
+  
+  .selected-files h4 {
+    font-size: 1rem; /* Tamaño de fuente más pequeño */
+  }
+  
+  .selected-files ul {
+    list-style-type: none; /* Elimina los puntos de la lista */
+    padding: 0;
+  }
+  
+  .selected-files li {
+    margin-bottom: 5px;
+  }
+  
+  .selected-files button {
+    margin-left: 20px; /* Espacio extra a la izquierda del botón */
+  }
+  
+  /* Estilo del botón Eliminar */
+  .btn-danger {
+    background-color: red; /* Color de fondo rojo */
+    color: white; /* Color de texto blanco */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espacio alrededor del botón */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+  }
+  
+  /* Cambia el color de fondo al pasar el mouse */
+  .btn-danger:hover {
+    background-color: darkred;
+  }
+
+  .contenedorFormularioHoteles{
+    background-color: whitesmoke;
+    margin: 1%;
+    border-radius: 1%;
+    padding: 1%;
+  }
+
+  .tituloForm{
+    font-size: 2rem;
+    color: aliceblue;
+  }
+
+  .estilosLabels {
+   
+    font-weight: bolder;
+  }
+  .estiloBotones{
+    background-color: rgba(154, 42, 154, 0.802);
+    border: rgba(154, 42, 154, 0.802);
+    margin: 1%;
+  }
+  .estiloBotones:hover{
+    background-color: rgb(226, 147, 226);
+  }
+ 
