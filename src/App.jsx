@@ -18,7 +18,8 @@ import { AdminPantallaInicio } from "./components/admin_pantalla_inicio/AdminPan
 import AbmImagenesLandin from "./components/admin_pantalla_inicio/AbmImagenesLandin";
 import AccesoDenegado from "./components/login/AccesoDenegado";
 import Navbar from "./components/home/Navbar";
-
+import AbmTexto from "./components/admin_pantalla_inicio/AbmTexto";
+import ContactosRecibidos from "./components/admin_pantalla_inicio/ContatosRecividos";
 function App() {
   useEffect(() => {
     // dispatch(getUsers());
@@ -112,6 +113,22 @@ function App() {
           element={
             loggedUserJSON ? (
               <AbmImagenesLandin />
+            ) : (
+              <Navigate to="/AccesoDenegado" />
+            )
+          }
+        />
+        <Route
+          path="/textoLanding"
+          element={
+            loggedUserJSON ? <AbmTexto /> : <Navigate to="/AccesoDenegado" />
+          }
+        />
+        <Route
+          path="/Contactos"
+          element={
+            loggedUserJSON ? (
+              <ContactosRecibidos />
             ) : (
               <Navigate to="/AccesoDenegado" />
             )

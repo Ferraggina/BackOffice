@@ -35,6 +35,13 @@ import {
   UPDATE_LANDING,
   DELETE_LANDING,
   LOGOUT_USER,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  GET_LANDING_TEXT,
+  ADD_LANDING_TEXT,
+  UPDATE_LANDING_TEXT,
+  DELETE_LANDING_TEXT,
+  GET_LANDING_FORM,
 } from "../actions/actions";
 
 const initialState = {
@@ -59,6 +66,9 @@ const initialState = {
   editHotelError: null,
   landingData: [],
   isAuthenticated: false,
+  imageUrl: "",
+  landingDataText: [],
+  landingDataForm: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -307,6 +317,50 @@ function rootReducer(state = initialState, action) {
         ...state,
         isAuthenticated: false,
         isLoggedIn: false,
+      };
+    case UPLOAD_IMAGE_SUCCESS:
+      console.log("URL de la imagen cargada con éxito:", action.payload);
+      return {
+        ...state,
+        imageUrl: action.payload,
+        error: null,
+      };
+
+    case UPLOAD_IMAGE_FAILURE:
+      return {
+        ...state,
+        imageUrl: "",
+        error: action.payload,
+      };
+    case GET_LANDING_TEXT:
+      return {
+        ...state,
+        landingDataText: action.payload,
+      };
+    case ADD_LANDING_TEXT:
+      return {
+        ...state,
+        landingDataText: [...state.landingDataText, action.payload],
+      };
+    case UPDATE_LANDING_TEXT:
+      return {
+        ...state,
+        landingDataText: state.landingDataText.map((landing) =>
+          landing.id === action.payload.id ? action.payload : landing
+        ),
+      };
+    case DELETE_LANDING_TEXT:
+      return {
+        ...state,
+        landingDataText: state.landingDataText.filter(
+          (landing) => landing.id !== action.payload
+        ),
+      };
+
+    case GET_LANDING_FORM:
+      return {
+        ...state,
+        landingDataForm: action.payload,
       };
 
     default:

@@ -3,18 +3,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { crearHotel } from "../../redux/actions/actions";
 import "../../sass/_formularioHoteles.scss";
-import axios from "axios";
 export default function FormularioHoteles() {
   const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
-  const importartFoto = async () => {
-    const response = await axios.post("http://localhost:4001/spaces", {
-      fotos,
-    });
-    console.log("aca fotos", response);
-  };
 
-  const [fotos, setFotos] = useState("");
+  const [fotos, setFotos] = useState([]);
   const [videos, setVideos] = useState("");
   const [alert, setAlert] = useState(null); // Estado para la alerta
   const dispatch = useDispatch();
@@ -22,17 +15,17 @@ export default function FormularioHoteles() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const fotosBase64 = await Promise.all(
-    //   fotos.map(async (file) => {
-    //     const base64 = await convertFileToBase64(file);
-    //     return base64;
-    //   })
-    // );
+    const fotosBase64 = await Promise.all(
+      fotos.map(async (file) => {
+        const base64 = await convertFileToBase64(file);
+        return base64;
+      })
+    );
 
     const nuevoHotel = {
       nombre: nombre,
       direccion: direccion,
-      fotos: fotos,
+      fotos: fotosBase64,
       videos: videos,
     };
 
@@ -64,38 +57,38 @@ export default function FormularioHoteles() {
       });
     }
   };
-  // const handleFileInputChange = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   if (files && files.length > 0) {
-  //     setFotos([...fotos, ...files]); // Agrega nuevos archivos al estado existente
-  //   }
-  // };
-  // const handleRemoveFile = (index) => {
-  //   const updatedFiles = [...fotos];
-  //   updatedFiles.splice(index, 1);
-  //   setFotos(updatedFiles);
-  // };
+  const handleFileInputChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files && files.length > 0) {
+      setFotos([...fotos, ...files]); // Agrega nuevos archivos al estado existente
+    }
+  };
+  const handleRemoveFile = (index) => {
+    const updatedFiles = [...fotos];
+    updatedFiles.splice(index, 1);
+    setFotos(updatedFiles);
+  };
 
-  // const convertFileToBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       const base64 = reader.result.split(",")[1];
-  //       console.log("Base64 de la imagen:", base64); // Agrega este console.log
-  //       resolve(base64);
-  //     };
-  //     reader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //   });
-  // };
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64 = reader.result.split(",")[1];
+        console.log("Base64 de la imagen:", base64); // Agrega este console.log
+        resolve(base64);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   return (
     <div className="card-body">
       <form
         className="form-sample"
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
         <br />
@@ -155,13 +148,13 @@ export default function FormularioHoteles() {
                 type="file"
                 id="file-upload"
                 multiple
-                // onChange={handleFileInputChange}
+                onChange={handleFileInputChange}
                 className="inputFotosHotel"
               />
             </div>
             {/* Área para mostrar archivos seleccionados */}
             {/* Área para mostrar archivos seleccionados */}
-            {/* <div className="selected-files">
+            <div className="selected-files">
               <h4>Fotos Seleccionados:</h4>
               <ul className="renderizadoElegidas">
                 {fotos.map((file, index) => (
@@ -170,14 +163,14 @@ export default function FormularioHoteles() {
                     <button
                       type="button"
                       className="btn btn-danger btn-sm ml-2"
-                      // onClick={() => handleRemoveFile(index)}
+                      onClick={() => handleRemoveFile(index)}
                     >
                       Eliminar
                     </button>
                   </li>
                 ))}
               </ul>
-            </div> */}
+            </div>
             <div className="form-group">
               <label className="estilosLabels">Añadir enlace de Video</label>
               <input
@@ -191,11 +184,7 @@ export default function FormularioHoteles() {
 
             <div className="form-group"></div>
             <br />
-            <button
-              type="submit"
-              className="btn btn-primary estiloBotones"
-              onClick={importartFoto}
-            >
+            <button type="submit" className="btn btn-primary estiloBotones">
               Añadir Hotel
             </button>
 

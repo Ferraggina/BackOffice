@@ -34,7 +34,14 @@ export const GET_LANDING = "GET_LANDING";
 export const ADD_LANDING = "ADD_LANDING";
 export const UPDATE_LANDING = "UPDATE_LANDING";
 export const DELETE_LANDING = "DELETE_LANDING";
+export const GET_LANDING_TEXT = "GET_LANDING_TEXT";
+export const ADD_LANDING_TEXT = "ADD_LANDING_TEXT";
+export const UPDATE_LANDING_TEXT = "UPDATE_LANDING_TEXT";
+export const DELETE_LANDING_TEXT = "DELETE_LANDING_TEXT";
 export const LOGOUT_USER = "LOGOUT_USER";
+export const UPLOAD_IMAGE_SUCCESS = "UPLOAD_IMAGE_SUCCESS";
+export const UPLOAD_IMAGE_FAILURE = "UPLOAD_IMAGE_FAILURE";
+export const GET_LANDING_FORM = "GET_LANDING_FORM";
 
 export function getUsers() {
   return async function (dispatch) {
@@ -531,7 +538,7 @@ export function editHotel(hotelId, updatedHotel) {
 
 export const getLanding = () => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:4000/inicio", {
+    const response = await axios.get("http://localhost:4003/inicio", {
       headers: {
         "x-access-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
@@ -550,8 +557,9 @@ export const getLanding = () => async (dispatch) => {
 
 export const addLanding = (landingData) => async (dispatch) => {
   try {
+    console.log("aca landing data", landingData);
     const response = await axios.post(
-      "http://localhost:4000/inicio",
+      "http://localhost:4003/inicio",
       landingData,
       {
         headers: {
@@ -562,6 +570,7 @@ export const addLanding = (landingData) => async (dispatch) => {
         },
       }
     ); // Reemplaza con tu URL de backend
+    console.log("ACA ESTA LA RESPUESTA", response);
     dispatch({
       type: ADD_LANDING,
       payload: response.data,
@@ -571,10 +580,11 @@ export const addLanding = (landingData) => async (dispatch) => {
   }
 };
 
-export const updateLanding = (landingData) => async (dispatch) => {
+export const updateLanding = (id, landingData) => async (dispatch) => {
   try {
+    console.log("aca landingdata", landingData);
     const response = await axios.put(
-      `http://localhost:4000/inicio/${landingData.id}`,
+      `http://localhost:4003/inicio/${id}`,
       landingData,
       {
         headers: {
@@ -596,7 +606,7 @@ export const updateLanding = (landingData) => async (dispatch) => {
 
 export const deleteLanding = (landingId) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:4000/inicio/${landingId}`, {
+    await axios.delete(`http://localhost:4003/inicio/${landingId}`, {
       headers: {
         "x-access-token":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
@@ -622,4 +632,168 @@ export const logoutUser = () => {
       type: LOGOUT_USER,
     });
   };
+};
+
+export const uploadImage = (imageFile) => async (dispatch) => {
+  try {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    console.log("form data", formData);
+    const response = await axios.post(
+      "http://localhost:4003/spaces",
+      imageFile
+    );
+    console.log("ACA RESPONSE DE IMAGEURL", response);
+    if (response.status === 200) {
+      dispatch({
+        type: UPLOAD_IMAGE_SUCCESS,
+        payload: response.data,
+      });
+      return response.data;
+    } else {
+      dispatch({
+        type: UPLOAD_IMAGE_FAILURE,
+        payload: "Error al cargar la imagen",
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: UPLOAD_IMAGE_FAILURE,
+      payload: "Error al cargar la imagen",
+    });
+  }
+};
+// export const uploadImages = (imageFiles) => async (dispatch) => {
+//   try {
+//     const formData = new FormData();
+//     for (const imageFile of imageFiles) {
+//       formData.append("images", imageFile);
+//     }
+//     const response = await axios.post(
+//       "http://localhost:4003/upload-images",
+//       formData
+//     );
+
+//     if (response.status === 200) {
+//       dispatch({
+//         type: UPLOAD_IMAGE_SUCCESS,
+//         payload: response.data,
+//       });
+//     } else {
+//       dispatch({
+//         type: UPLOAD_IMAGE_FAILURE,
+//         payload: "Error al cargar las imágenes",
+//       });
+//     }
+//   } catch (error) {
+//     dispatch({
+//       type: UPLOAD_IMAGE_FAILURE,
+//       payload: "Error al cargar las imágenes",
+//     });
+//   }
+// };
+
+export const getLandingText = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:4003/texto", {
+      headers: {
+        "x-access-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
+    dispatch({
+      type: GET_LANDING_TEXT,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al obtener datos de la landing", error);
+  }
+};
+
+export const addLandingText = (landingDataText) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:4003/texto",
+      landingDataText,
+      {
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+          "Content-Type": "application/json",
+        },
+      }
+    ); // Reemplaza con tu URL de backend
+    console.log("ACA ESTA LA RESPUESTA", response);
+    dispatch({
+      type: ADD_LANDING_TEXT,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al agregar datos de la landing", error);
+  }
+};
+
+export const updateLandingText = (id, landingDataText) => async (dispatch) => {
+  try {
+    console.log("aca landingdata", landingDataText);
+    const response = await axios.put(
+      `http://localhost:4003/texto/${id}`,
+      landingDataText,
+      {
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+          "Content-Type": "application/json",
+        },
+      }
+    ); // Reemplaza con tu URL de backend
+    dispatch({
+      type: UPDATE_LANDING_TEXT,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al actualizar datos de la landing", error);
+  }
+};
+
+export const deleteLandingText = (landingId) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:4003/texto/${landingId}`, {
+      headers: {
+        "x-access-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
+    dispatch({
+      type: DELETE_LANDING_TEXT,
+      payload: landingId,
+    });
+  } catch (error) {
+    console.error("Error al eliminar datos de la landing", error);
+  }
+};
+
+export const getLandingForm = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:4003/contacto", {
+      headers: {
+        "x-access-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
+    dispatch({
+      type: GET_LANDING_FORM,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al obtener datos de la landing", error);
+  }
 };

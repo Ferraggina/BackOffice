@@ -33,4 +33,7 @@
     outline: none;
   }
   
-  
+  .image-preview {
+    width: 180px; /* Establece el ancho deseado para las imágenes */
+    height: 150px; /* La altura se ajusta automáticamente para mantener la proporción */
+  }
