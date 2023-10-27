@@ -386,7 +386,7 @@ export const crearHotel = (nuevoHotel) => {
         {
           nombre: nuevoHotel.nombre,
           direccion: nuevoHotel.direccion,
-          fotos: nuevoHotel.fotosBase64,
+          fotos: nuevoHotel.fotos,
           videos: nuevoHotel.videos,
         },
 
