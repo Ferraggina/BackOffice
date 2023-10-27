@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { crearHotel } from "../../redux/actions/actions";
+import { crearHotel, uploadImage } from "../../redux/actions/actions";
 import "../../sass/_formularioHoteles.scss";
 export default function FormularioHoteles() {
   const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
-
+  const [selectedImages, setSelectedImages] = useState([]);
   const [fotos, setFotos] = useState([]);
   const [videos, setVideos] = useState("");
   const [alert, setAlert] = useState(null); // Estado para la alerta
@@ -15,19 +15,16 @@ export default function FormularioHoteles() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const fotosBase64 = await Promise.all(
-      fotos.map(async (file) => {
-        const base64 = await convertFileToBase64(file);
-        return base64;
-      })
-    );
 
+    const fotos = JSON.stringify(selectedImages);
+    console.log("Aca Fotos", fotos);
     const nuevoHotel = {
       nombre: nombre,
       direccion: direccion,
-      fotos: fotosBase64,
+      fotos: fotos,
       videos: videos,
     };
+    console.log("nuevo hotel", nuevoHotel);
 
     try {
       // Llamar a la acción para crear el itinerario
@@ -36,8 +33,9 @@ export default function FormularioHoteles() {
       // Limpiar los campos del formulario
       setNombre("");
       setDireccion("");
-      setFotos([]);
+      setFotos("");
       setVideos("");
+      setSelectedImages([]);
 
       // Mostrar una alerta de éxito
       setAlert({
@@ -57,31 +55,40 @@ export default function FormularioHoteles() {
       });
     }
   };
-  const handleFileInputChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files && files.length > 0) {
-      setFotos([...fotos, ...files]); // Agrega nuevos archivos al estado existente
+  // const handleFileInputChange = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   if (files && files.length > 0) {
+  //     setFotos([...fotos, ...files]); // Agrega nuevos archivos al estado existente
+  //   }
+  // };
+  // const handleRemoveFile = (index) => {
+  //   const updatedFiles = [...fotos];
+  //   updatedFiles.splice(index, 1);
+  //   setFotos(updatedFiles);
+  // };
+
+  const handleImageUpload = async (e) => {
+    const selectedImage = e.target.files[0];
+
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append("image", selectedImage);
+
+      try {
+        const response = await dispatch(uploadImage(formData));
+
+        if (response) {
+          setSelectedImages([...selectedImages, response]);
+        }
+      } catch (error) {
+        console.error("Error al cargar la imagen en el servidor:", error);
+      }
     }
   };
-  const handleRemoveFile = (index) => {
-    const updatedFiles = [...fotos];
-    updatedFiles.splice(index, 1);
-    setFotos(updatedFiles);
-  };
-
-  const convertFileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64 = reader.result.split(",")[1];
-        console.log("Base64 de la imagen:", base64); // Agrega este console.log
-        resolve(base64);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-    });
+  const removeSelectedImage = (index) => {
+    const newSelectedImages = [...selectedImages];
+    newSelectedImages.splice(index, 1);
+    setSelectedImages(newSelectedImages);
   };
 
   return (
@@ -141,20 +148,49 @@ export default function FormularioHoteles() {
             <div className="form-group">
               <label className="estilosLabels">Añadir Fotos</label>
               <br />
-              <label htmlFor="file-upload" className="custom-file-upload">
+              {/* <label htmlFor="file-upload" className="custom-file-upload">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImageUpload}
+                />
                 Seleccionar archivos
-              </label>
-              <input
-                type="file"
-                id="file-upload"
-                multiple
-                onChange={handleFileInputChange}
-                className="inputFotosHotel"
-              />
+              </label> */}
+              <div className="custom-file-upload">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  id="file-upload"
+                  className="file-input"
+                  onChange={handleImageUpload}
+                />
+                <label htmlFor="file-upload" className="custom-label">
+                  Selecciona archivos
+                </label>
+              </div>
+
+              {selectedImages &&
+                selectedImages.map((image, index) => (
+                  <div key={index} className="selected-image-item">
+                    <img
+                      src={image}
+                      alt={`Selected ${index}`}
+                      className="selected-image"
+                    />
+                    <button
+                      className="btn btn-danger remove-image"
+                      onClick={() => removeSelectedImage(index)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))}
             </div>
             {/* Área para mostrar archivos seleccionados */}
             {/* Área para mostrar archivos seleccionados */}
-            <div className="selected-files">
+            {/* <div className="selected-files">
               <h4>Fotos Seleccionados:</h4>
               <ul className="renderizadoElegidas">
                 {fotos.map((file, index) => (
@@ -170,7 +206,7 @@ export default function FormularioHoteles() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
             <div className="form-group">
               <label className="estilosLabels">Añadir enlace de Video</label>
               <input

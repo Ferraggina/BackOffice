@@ -5,17 +5,19 @@ import {
   obtenerHoteles,
   deleteHotel,
   editHotel,
+  uploadImage,
 } from "../../redux/actions/actions";
 
 export default function AbmHotel() {
   const dispatch = useDispatch();
   const hoteles = useSelector((state) => state.hoteles);
   const [showModal, setShowModal] = useState(false);
-
+  const [imageUrls, setImageUrls] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
   const [editingHotel, setEditingHotel] = useState({
     nombre: "",
     direccion: "",
-    fotos: [],
+    fotos: "",
     videos: "",
   });
 
@@ -46,6 +48,7 @@ export default function AbmHotel() {
       setShowConfirmationModal(false);
       setHotelToDelete(null);
       alert("El hotel se eliminó con éxito");
+      window.location.reload();
     }
   };
 
@@ -53,21 +56,21 @@ export default function AbmHotel() {
     setShowModal(false);
   };
 
-  const handleSaveEdits = () => {
-    if (editingHotel) {
-      const hotelId = editingHotel.id;
-      const hotelActualizado = {
-        nombre: editingHotel.nombre,
-        direccion: editingHotel.direccion,
-        fotos: editingHotel.fotos,
-        videos: editingHotel.videos,
-      };
+  // const handleSaveEdits = () => {
+  //   if (editingHotel) {
+  //     const hotelId = editingHotel.id;
+  //     const hotelActualizado = {
+  //       nombre: editingHotel.nombre,
+  //       direccion: editingHotel.direccion,
+  //       fotos: editingHotel.fotos,
+  //       videos: editingHotel.videos,
+  //     };
 
-      dispatch(editHotel(hotelId, hotelActualizado));
-      setShowModal(false);
-      alert("Cambios guardados con éxito");
-    }
-  };
+  //     dispatch(editHotel(hotelId, hotelActualizado));
+  //     setShowModal(false);
+  //     alert("Cambios guardados con éxito");
+  //   }
+  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -76,15 +79,109 @@ export default function AbmHotel() {
       [name]: value,
     });
   };
+  // const handleRemoveImage = (index) => {
+  //   const updatedImageUrls = [...imageUrls];
+  //   updatedImageUrls.splice(index, 1);
+  //   setImageUrls(updatedImageUrls);
 
-  const handleFileInputChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (files && files.length > 0) {
-      setEditingHotel({
-        ...editingHotel,
-        fotos: files,
-      });
+  //   const updatedImages = [...editingHotel.fotos];
+  //   updatedImages.splice(index, 1);
+
+  //   setEditingHotel({
+  //     ...editingHotel,
+  //     fotos: updatedImages,
+  //   });
+  // };
+  const handleSaveEdits = () => {
+    // if (editingHotel) {
+    //   const hotelId = editingHotel.id;
+    //   const fotosEnvio = JSON.stringify(selectedImages);
+    //   // Enviar imágenes al backend (implementa esto)
+    //   // Tu API debe esperar un array de imágenes (puedes usar FormData)
+
+    //   const hotelActualizado = {
+    //     nombre: editingHotel.nombre,
+    //     direccion: editingHotel.direccion,
+    //     fotos: fotosEnvio, // Debería ser una matriz de archivos de imagen
+    //     videos: editingHotel.videos,
+    //   };
+
+    //   dispatch(editHotel(hotelId, hotelActualizado));
+    //   setShowModal(false);
+    //   alert("Cambios guardados con éxito");
+
+    //   // Limpiar las URLs de imágenes después de guardar
+    //   setImageUrls([]);
+    // }
+    if (editingHotel) {
+      const hotelId = editingHotel.id;
+
+      // Crear una copia de las fotos existentes y agregar las nuevas seleccionadas
+      const fotosExistente = JSON.parse(editingHotel.fotos);
+      const fotosNuevas = selectedImages;
+      const fotosActualizadas = [...fotosExistente, ...fotosNuevas];
+
+      const hotelActualizado = {
+        nombre: editingHotel.nombre,
+        direccion: editingHotel.direccion,
+        fotos: JSON.stringify(fotosActualizadas), // Convertir a JSON antes de guardar
+        videos: editingHotel.videos,
+      };
+
+      dispatch(editHotel(hotelId, hotelActualizado));
+      setShowModal(false);
+      alert("Cambios guardados con éxito");
+
+      // Limpiar las URLs de imágenes después de guardar
+      setImageUrls([]);
+      window.location.reload();
     }
+  };
+
+  // const handleFileInputChange = (e) => {
+  //   const files = Array.from(e.target.files);
+
+  //   if (files.length > 0) {
+  //     const urls = files.map((file) => URL.createObjectURL(file));
+  //     setImageUrls(urls);
+
+  //     setEditingHotel({
+  //       ...editingHotel,
+  //       fotos: files,
+  //     });
+  //   }
+  // };
+  const handleImageUpload = async (e) => {
+    const selectedImage = e.target.files[0];
+
+    if (selectedImage) {
+      const formData = new FormData();
+      formData.append("image", selectedImage);
+
+      try {
+        const response = await dispatch(uploadImage(formData));
+
+        if (response) {
+          setSelectedImages([...selectedImages, response]);
+        }
+      } catch (error) {
+        console.error("Error al cargar la imagen en el servidor:", error);
+      }
+    }
+  };
+  const removeSelectedImage = (index) => {
+    const newSelectedImages = [...selectedImages];
+    newSelectedImages.splice(index, 1);
+    setSelectedImages(newSelectedImages);
+  };
+  const handleRemoveExistingImage = (index) => {
+    const currentFotos = JSON.parse(editingHotel.fotos);
+    currentFotos.splice(index, 1);
+
+    setEditingHotel({
+      ...editingHotel,
+      fotos: JSON.stringify(currentFotos), // Convertir de nuevo a cadena JSON
+    });
   };
 
   return (
@@ -101,6 +198,19 @@ export default function AbmHotel() {
               <h5 className="card-title">Dirección</h5>
               <p className="card-text">{hotel.direccion}</p>
               {/* Agregar visualización de fotos y videos si es necesario */}
+              <p>Fotos</p>
+              {console.log("ACA HOTELES", hotel)}
+              <div className="images-container">
+                {JSON.parse(hotel.fotos)?.map((foto, index) => (
+                  <img
+                    key={index}
+                    src={foto}
+                    alt={`Imagen ${index}`}
+                    className="hotel-image"
+                  />
+                ))}
+              </div>
+
               <button
                 className="btn btn-primary"
                 onClick={() => handleEditClick(hotel)}
@@ -169,23 +279,59 @@ export default function AbmHotel() {
             onChange={handleInputChange}
           />
           <div className="form-group">
-            {/* <label>Añadir Fotos</label>
-            <br />
-            <input
-              type="file"
-              className="form-control-file"
-              multiple
-              onChange={handleFileInputChange}
-            />
-          </div>
-         
-          <div className="selected-files">
-            <h4>Fotos Seleccionadas:</h4>
-            <ul>
-              {editingHotel.fotos.map((file, index) => (
-                <li key={index}>{file.name}</li>
+            <div className="custom-file-upload">
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                id="file-upload"
+                className="file-input"
+                onChange={handleImageUpload}
+              />
+              <label htmlFor="file-upload" className="custom-label">
+                Selecciona archivos
+              </label>
+            </div>
+            {selectedImages &&
+              selectedImages.map((image, index) => (
+                <div key={index} className="selected-image-item">
+                  <img
+                    src={image}
+                    alt={`Selected ${index}`}
+                    className="selected-image"
+                  />
+                  <button
+                    className="btn btn-danger remove-image"
+                    onClick={() => removeSelectedImage(index)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
               ))}
-            </ul> */}
+
+            <div className="selected-files">
+              <h4>Fotos Seleccionadas:</h4>
+              {editingHotel.fotos ? (
+                JSON.parse(editingHotel.fotos).map((foto, index) => (
+                  <div key={index} className="selected-image-item">
+                    <img
+                      src={foto}
+                      alt={`Selected ${index}`}
+                      className="selected-image"
+                    />
+                    <button
+                      className="btn btn-danger remove-image"
+                      onClick={() => handleRemoveExistingImage(index)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p>No hay fotos</p>
+              )}
+              {console.log("editing fotos", editingHotel.fotos)}
+            </div>
           </div>
           {/* Agregar visualización de videos si es necesario */}
         </Modal.Body>

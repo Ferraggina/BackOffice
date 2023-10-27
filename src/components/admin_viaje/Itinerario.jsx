@@ -255,20 +255,22 @@ export default function Itinerario() {
               <label className="estilosLabels">Texto General</label>
               {camposExtras.map((campo, index) => (
                 <div key={index}>
+                  <label>Titulo de la actividad {index + 1}</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Título"
+                    placeholder="Ejemplo:Desayuno buffet"
                     value={campo.titulo}
                     onChange={(e) =>
                       handleCampoExtraChange(index, "titulo", e.target.value)
                     }
                   />
                   <br />
+                  <label>Descripcion de la actividad {index + 1}</label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Descripción"
+                    placeholder="De 9:45 hs a 12:00 hs"
                     value={campo.descripcion}
                     onChange={(e) =>
                       handleCampoExtraChange(

@@ -87,4 +87,29 @@
   .estiloBotones:hover{
     background-color: rgb(226, 147, 226);
   }
- 
+  .custom-file-upload {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .file-input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .custom-label {
+    background-color: rgba(154, 42, 154, 0.01);
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .custom-label:hover {
+    background-color: rgb(226, 147, 226);
+  }
+  
