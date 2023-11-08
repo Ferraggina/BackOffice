@@ -5,7 +5,8 @@
   
   /* Estilo para el botón personalizado */
   .custom-file-upload {
-    background-color: rgba(154, 42, 154, 0.802); /* Color de fondo púrpura */
+    background-color: rgba(30, 15, 138, 0.883);
+     /* Color de fondo púrpura */
     color: white; /* Color de texto blanco */
     padding: 10px 15px; /* Espacio alrededor del botón */
     border: none; /* Sin borde */
@@ -16,7 +17,7 @@
   
   /* Cambia el color de fondo al pasar el mouse */
   .custom-file-upload:hover {
-    background-color: rgb(226, 147, 226);
+    background-color: rgba(109, 91, 241, 0.883);
   }
 
   .renderizadoElegidas {
@@ -80,12 +81,13 @@
     font-weight: bolder;
   }
   .estiloBotones{
-    background-color: rgba(154, 42, 154, 0.802);
-    border: rgba(154, 42, 154, 0.802);
+    background-color: rgba(30, 15, 138, 0.883);
+    border: rgba(30, 15, 138, 0.883);
     margin: 1%;
+
   }
   .estiloBotones:hover{
-    background-color: rgb(226, 147, 226);
+    background-color: rgba(109, 91, 241, 0.883);
   }
   .custom-file-upload {
     position: relative;

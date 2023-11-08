@@ -30,12 +30,13 @@
     font-weight: bolder;
 }
 .estiloBotones{
-    background-color: rgba(154, 42, 154, 0.802);
-    border: rgba(154, 42, 154, 0.802);
-    margin: 1%;
+  background-color: rgba(30, 15, 138, 0.883);
+  border: rgba(30, 15, 138, 0.883);
+  margin: 1%;
+
   }
   .estiloBotones:hover{
-    background-color: rgb(226, 147, 226);
+    background-color: rgba(109, 91, 241, 0.883);
   }
 .estiloListaContratosSeleccionados{
     list-style-type: none; /* Elimina los puntos de la lista */

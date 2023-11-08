@@ -37,7 +37,6 @@ export function AdminViaje() {
       </div> */}
 
       <div className="container mt-4 table-responsive esiloTablaAdViaje">
-        <h2 className="text-center">Administracion de viajes</h2>
         <table className="table table-bordered  tablaContainer ">
           <thead>
             <tr>

@@ -9,6 +9,7 @@ export default function FormularioHoteles() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [fotos, setFotos] = useState([]);
   const [videos, setVideos] = useState("");
+  const [telefono, setTelefono] = useState("");
   const [alert, setAlert] = useState(null); // Estado para la alerta
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Obtener la función de navegación
@@ -23,6 +24,7 @@ export default function FormularioHoteles() {
       direccion: direccion,
       fotos: fotos,
       videos: videos,
+      telefono: telefono,
     };
     console.log("nuevo hotel", nuevoHotel);
 
@@ -36,6 +38,7 @@ export default function FormularioHoteles() {
       setFotos("");
       setVideos("");
       setSelectedImages([]);
+      setTelefono("");
 
       // Mostrar una alerta de éxito
       setAlert({
@@ -135,6 +138,17 @@ export default function FormularioHoteles() {
                 onChange={(e) => setDireccion(e.target.value)}
               />
             </div>
+            <div className="form-group">
+              <label className="estilosLabels">Telefono</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="+54 1111-1111"
+                value={telefono}
+                required
+                onChange={(e) => setTelefono(e.target.value)}
+              />
+            </div>
             {/* <div className="form-group">
               <label>Añadir Fotos</label>
               <br />
@@ -178,12 +192,14 @@ export default function FormularioHoteles() {
                       src={image}
                       alt={`Selected ${index}`}
                       className="selected-image"
+                      style={{ width: "200px", height: "200px" }}
                     />
+                    <br />
                     <button
                       className="btn btn-danger remove-image"
                       onClick={() => removeSelectedImage(index)}
                     >
-                      Eliminar
+                      X
                     </button>
                   </div>
                 ))}

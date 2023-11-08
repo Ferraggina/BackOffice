@@ -1,0 +1,34 @@
+/* _pagination.scss */
+.pagination {
+    ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      justify-content: space-between;
+      text-decoration: none;
+      color: aqua;
+    }
+    li {
+      display: inline-block;
+      margin: 0 5px; /* Ajusta el espaciado según tus preferencias */
+      color: red;
+    }
+    .selected {
+      font-weight: bold;
+    }
+    .break-me {
+      cursor: default;
+      color: red;
+    }
+    .previous a,
+    .next a {
+      cursor: pointer;
+      text-decoration: none;color: aliceblue;
+    }
+    .pagination__page {
+      display: none; /* Oculta los números de página */
+      color: red;
+    }
+  }
+  
