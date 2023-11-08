@@ -20,6 +20,9 @@ import AccesoDenegado from "./components/login/AccesoDenegado";
 import Navbar from "./components/home/Navbar";
 import AbmTexto from "./components/admin_pantalla_inicio/AbmTexto";
 import ContactosRecibidos from "./components/admin_pantalla_inicio/ContatosRecividos";
+import Abm_usuario from "./components/admin_users/Abm_usuarios";
+import CrearUsuarios from "./components/admin_users/CrearUsuarios";
+
 function App() {
   useEffect(() => {
     // dispatch(getUsers());
@@ -129,6 +132,23 @@ function App() {
           element={
             loggedUserJSON ? (
               <ContactosRecibidos />
+            ) : (
+              <Navigate to="/AccesoDenegado" />
+            )
+          }
+        />
+
+        <Route
+          path="/editUsuarios"
+          element={
+            loggedUserJSON ? <Abm_usuario /> : <Navigate to="/AccesoDenegado" />
+          }
+        />
+        <Route
+          path="/postUsuarios"
+          element={
+            loggedUserJSON ? (
+              <CrearUsuarios />
             ) : (
               <Navigate to="/AccesoDenegado" />
             )

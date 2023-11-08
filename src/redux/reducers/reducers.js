@@ -42,6 +42,12 @@ import {
   UPDATE_LANDING_TEXT,
   DELETE_LANDING_TEXT,
   GET_LANDING_FORM,
+  EDITAR_USUARIO_SUCCESS,
+  EDITAR_USUARIO_FAILURE,
+  CREAR_USUARIO_SUCCESS,
+  CREAR_USUARIO_FAILURE,
+  ELIMINAR_USUARIO_SUCCESS,
+  ELIMINAR_USUARIO_FAILURE,
 } from "../actions/actions";
 
 const initialState = {
@@ -362,7 +368,52 @@ function rootReducer(state = initialState, action) {
         ...state,
         landingDataForm: action.payload,
       };
+    case EDITAR_USUARIO_SUCCESS:
+      // Actualiza el estado con el usuario editado
+      // Asegúrate de encontrar el usuario correcto por ID y actualizar sus datos
+      // Usa la acción para obtener los datos actualizados desde el servidor (action.payload)
+      return {
+        ...state,
+        users: state.users.map((usuario) =>
+          usuario.id === action.payload.id ? action.payload : usuario
+        ),
+        error: null,
+      };
 
+    case CREAR_USUARIO_SUCCESS:
+      // Agrega el nuevo usuario al estado
+      return {
+        ...state,
+        users: [...state.users, action.payload],
+        error: null,
+      };
+
+    case EDITAR_USUARIO_FAILURE:
+    case CREAR_USUARIO_FAILURE:
+      // Maneja errores y actualiza el estado de error si es necesario
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case ELIMINAR_USUARIO_SUCCESS: // Elimina el usuario del estado por su ID
+    {
+      const usuariosActualizados = state.users.filter(
+        (usuario) => usuario.id !== action.payload
+      );
+      return {
+        ...state,
+        users: usuariosActualizados,
+        error: null,
+      };
+    }
+
+    case ELIMINAR_USUARIO_FAILURE:
+      // Maneja errores y actualiza el estado de error si es necesario
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return state;
   }

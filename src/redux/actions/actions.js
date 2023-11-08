@@ -42,11 +42,25 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const UPLOAD_IMAGE_SUCCESS = "UPLOAD_IMAGE_SUCCESS";
 export const UPLOAD_IMAGE_FAILURE = "UPLOAD_IMAGE_FAILURE";
 export const GET_LANDING_FORM = "GET_LANDING_FORM";
-
+export const EDITAR_USUARIO_SUCCESS = "EDITAR_USUARIO_SUCCESS";
+export const EDITAR_USUARIO_FAILURE = "EDITAR_USUARIO_FAILURE";
+export const CREAR_USUARIO_SUCCESS = "CREAR_USUARIO_SUCCESS";
+export const CREAR_USUARIO_FAILURE = "CREAR_USUARIO_FAILURE";
+export const ELIMINAR_USUARIO_SUCCESS = "ELIMINAR_USUARIO_SUCCESS";
+export const ELIMINAR_USUARIO_FAILURE = "ELIMINAR_USUARIO_FAILURE";
+const TOKEN = import.meta.env.VITE_Access_token;
+const getUserUrl = import.meta.env.VITE_TRAERUSUARIOSURL;
+const editUserUrl = import.meta.env.VITE_EDITARUSUARIOS;
 export function getUsers() {
   return async function (dispatch) {
     let response = await axios.get(
-      "http://localhost:4002/usuarios"
+      getUserUrl,
+      {
+        headers: {
+          "x-access-token": TOKEN,
+          "Content-Type": "application/json",
+        },
+      }
 
       //   {
       //     Headers: {
@@ -63,6 +77,76 @@ export function getUsers() {
     });
   };
 }
+export const editarUsuario = (usuarioId, usuarioActualizado) => {
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud HTTP para actualizar el usuario en el servidor
+      const response = await axios.put(
+        `${editUserUrl}${usuarioId}`,
+        usuarioActualizado,
+        {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Despacha una acción para actualizar el estado de usuarios en el store
+      dispatch({ type: EDITAR_USUARIO_SUCCESS, payload: response.data });
+    } catch (error) {
+      // Maneja errores y despacha una acción de error si es necesario
+      dispatch({ type: EDITAR_USUARIO_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const crearUsuario = (nuevoUsuario) => {
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud HTTP para crear un nuevo usuario en el servidor
+      const response = await axios.post(
+        "http://localhost:4002/usuarios",
+        nuevoUsuario,
+        {
+          headers: {
+            "x-access-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Despacha una acción para agregar el nuevo usuario al estado de usuarios en el store
+      dispatch({ type: CREAR_USUARIO_SUCCESS, payload: response.data });
+    } catch (error) {
+      // Maneja errores y despacha una acción de error si es necesario
+      dispatch({ type: CREAR_USUARIO_FAILURE, payload: error.message });
+    }
+  };
+};
+
+export const eliminarUsuario = (usuarioId) => {
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud HTTP para eliminar el usuario en el servidor
+      await axios.delete(`http://localhost:4002/usuarios/${usuarioId}`, {
+        headers: {
+          "x-access-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Despacha una acción para eliminar el usuario del estado de usuarios en el store
+      dispatch({ type: ELIMINAR_USUARIO_SUCCESS, payload: usuarioId });
+    } catch (error) {
+      // Maneja errores y despacha una acción de error si es necesario
+      dispatch({ type: ELIMINAR_USUARIO_FAILURE, payload: error.message });
+    }
+  };
+};
 
 // export function login(username, password) {
 //   // const apiUrl = `http://localhost:4002/usuarios/${username}/${password}`;
@@ -388,6 +472,7 @@ export const crearHotel = (nuevoHotel) => {
           direccion: nuevoHotel.direccion,
           fotos: nuevoHotel.fotos,
           videos: nuevoHotel.videos,
+          telefono: nuevoHotel.telefono,
         },
 
         {

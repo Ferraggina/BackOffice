@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   obtenerHoteles,
   deleteHotel,
   editHotel,
   uploadImage,
 } from "../../redux/actions/actions";
-
+import Pagination from "../../components/home/Pagination.jsx";
 export default function AbmHotel() {
   const dispatch = useDispatch();
   const hoteles = useSelector((state) => state.hoteles);
@@ -20,9 +22,14 @@ export default function AbmHotel() {
     fotos: "",
     videos: "",
   });
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [viewingHotel, setViewingHotel] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [hotelToDelete, setHotelToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     dispatch(obtenerHoteles());
@@ -56,22 +63,6 @@ export default function AbmHotel() {
     setShowModal(false);
   };
 
-  // const handleSaveEdits = () => {
-  //   if (editingHotel) {
-  //     const hotelId = editingHotel.id;
-  //     const hotelActualizado = {
-  //       nombre: editingHotel.nombre,
-  //       direccion: editingHotel.direccion,
-  //       fotos: editingHotel.fotos,
-  //       videos: editingHotel.videos,
-  //     };
-
-  //     dispatch(editHotel(hotelId, hotelActualizado));
-  //     setShowModal(false);
-  //     alert("Cambios guardados con éxito");
-  //   }
-  // };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditingHotel({
@@ -79,40 +70,8 @@ export default function AbmHotel() {
       [name]: value,
     });
   };
-  // const handleRemoveImage = (index) => {
-  //   const updatedImageUrls = [...imageUrls];
-  //   updatedImageUrls.splice(index, 1);
-  //   setImageUrls(updatedImageUrls);
 
-  //   const updatedImages = [...editingHotel.fotos];
-  //   updatedImages.splice(index, 1);
-
-  //   setEditingHotel({
-  //     ...editingHotel,
-  //     fotos: updatedImages,
-  //   });
-  // };
   const handleSaveEdits = () => {
-    // if (editingHotel) {
-    //   const hotelId = editingHotel.id;
-    //   const fotosEnvio = JSON.stringify(selectedImages);
-    //   // Enviar imágenes al backend (implementa esto)
-    //   // Tu API debe esperar un array de imágenes (puedes usar FormData)
-
-    //   const hotelActualizado = {
-    //     nombre: editingHotel.nombre,
-    //     direccion: editingHotel.direccion,
-    //     fotos: fotosEnvio, // Debería ser una matriz de archivos de imagen
-    //     videos: editingHotel.videos,
-    //   };
-
-    //   dispatch(editHotel(hotelId, hotelActualizado));
-    //   setShowModal(false);
-    //   alert("Cambios guardados con éxito");
-
-    //   // Limpiar las URLs de imágenes después de guardar
-    //   setImageUrls([]);
-    // }
     if (editingHotel) {
       const hotelId = editingHotel.id;
 
@@ -137,20 +96,10 @@ export default function AbmHotel() {
       window.location.reload();
     }
   };
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-  // const handleFileInputChange = (e) => {
-  //   const files = Array.from(e.target.files);
-
-  //   if (files.length > 0) {
-  //     const urls = files.map((file) => URL.createObjectURL(file));
-  //     setImageUrls(urls);
-
-  //     setEditingHotel({
-  //       ...editingHotel,
-  //       fotos: files,
-  //     });
-  //   }
-  // };
   const handleImageUpload = async (e) => {
     const selectedImage = e.target.files[0];
 
@@ -183,52 +132,175 @@ export default function AbmHotel() {
       fotos: JSON.stringify(currentFotos), // Convertir de nuevo a cadena JSON
     });
   };
+  const handleViewClick = (hotel) => {
+    setViewingHotel(hotel);
+    setShowViewModal(true);
+  };
+  // const filterHoteles = (hoteles) => {
+  //   const filteredHoteles = hoteles.filter((hotel) => {
+  //     return hotel.nombre.toLowerCase().includes(searchTerm.toLowerCase());
+  //   });
+  //   return filteredHoteles;
+  // };
+  const filterHoteles = (hoteles) => {
+    const filteredHoteles = hoteles.filter((hotel) => {
+      return hotel.nombre.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
+    // Calcular el índice del primer elemento y del último elemento en la página actual
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    // Obtener los elementos de la página actual
+    const currentItems = filteredHoteles.slice(
+      indexOfFirstItem,
+      indexOfLastItem
+    );
+
+    return currentItems;
+  };
+  const handlePageChange = (pageNumber) => {
+    console.log(`Cambiando a la página ${pageNumber}`);
+    setCurrentPage(pageNumber);
+  };
+
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(parseInt(e.target.value, 10));
+    setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
+  };
   return (
-    <div className="container mt-4">
-      <h2>Lista de Hoteles</h2>
-
+    <div className="custom-container mt-8">
       <br />
-      {hoteles.length ? (
-        hoteles.map((hotel) => (
-          <div key={hotel.id} className="card mb-4">
-            <div className="card-body">
-              <h5 className="card-title">Nombre</h5>
-              <p className="card-text">{hotel.nombre}</p>
-              <h5 className="card-title">Dirección</h5>
-              <p className="card-text">{hotel.direccion}</p>
-              {/* Agregar visualización de fotos y videos si es necesario */}
-              <p>Fotos</p>
-              {console.log("ACA HOTELES", hotel)}
-              <div className="images-container">
-                {JSON.parse(hotel.fotos)?.map((foto, index) => (
-                  <img
-                    key={index}
-                    src={foto}
-                    alt={`Imagen ${index}`}
-                    className="hotel-image"
-                  />
-                ))}
+      <br />
+      <br />
+      <br />
+      <div className="cardViajes ">
+        <br />
+        <div className="search-field d-none d-md-block busquedaContenedor">
+          <form
+            className="d-flex align-items-center h-100 formularioSearch"
+            action="#"
+          >
+            <div className="input-group">
+              <div className="input-group-prepend bg-transparent">
+                <span className="input-group-text border-0">
+                  <FontAwesomeIcon icon={faSearch} />
+                </span>
               </div>
-
-              <button
-                className="btn btn-primary"
-                onClick={() => handleEditClick(hotel)}
-              >
-                Editar
-              </button>
-              <button
-                className="btn btn-danger"
-                onClick={() => handleDeleteClick(hotel)}
-              >
-                Eliminar
-              </button>
+              <input
+                type="search"
+                className="input-md  searchabar"
+                placeholder="Busque el nombre del hotel"
+                value={searchTerm}
+                onChange={handleSearchInputChange}
+              />
             </div>
-          </div>
-        ))
-      ) : (
-        <p>No hay hoteles disponibles.</p>
-      )}
+          </form>
+        </div>
+        <br />
+        <div className="text-center encabezadoLista">Lista de Hoteles</div>
+        <br />
+        <div className="table-responsive">
+          <table className="table table-bordered tablaViaje">
+            <thead className="text-center cabecerasDeTabla">
+              <tr>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Telefono</th>
+                <th>Fotos</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="text-center cuerpoTabla">
+              {hoteles.length ? (
+                filterHoteles(hoteles).map((hotel) => (
+                  <tr key={hotel.id}>
+                    <td>{hotel.nombre}</td>
+                    <td>{hotel.direccion}</td>
+                    <td>{hotel.telefono}</td>
+                    <td>
+                      <div className="images-container">
+                        {hotel.fotos &&
+                          JSON.parse(hotel.fotos).map((foto, index) => (
+                            <img
+                              key={index}
+                              src={foto}
+                              alt={`Imagen ${index}`}
+                              className="hotel-image"
+                              style={{ width: "40px", height: "40px" }}
+                            />
+                          ))}
+                      </div>
+                    </td>
+
+                    <td>
+                      <button
+                        className="btn btn-primary botonEditar"
+                        onClick={() => handleEditClick(hotel)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/zfzufhzk.json"
+                          trigger="hover"
+                          style={{ width: "15px", height: "15px" }}
+                        ></lord-icon>
+                      </button>
+                      <button
+                        className="btn btn-danger botonEliminar"
+                        onClick={() => handleDeleteClick(hotel)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/xekbkxul.json"
+                          trigger="hover"
+                          style={{ width: "15px", height: "15px" }}
+                        ></lord-icon>
+                      </button>
+                      <button
+                        className="btn btn-info botonEditar"
+                        onClick={() => handleViewClick(hotel)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/ascijbjj.json"
+                          trigger="hover"
+                          style={{ width: "15px", height: "15px" }}
+                        ></lord-icon>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3">No hay hoteles disponibles.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="pagination  d-flex justify-content-center align-items-center">
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={hoteles.length}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+          <p className="mx-2 textoItemsViaje ">
+            Cantidad de hoteles por pagina:
+          </p>
+          <form className="d-flex align-items-center h-100 " action="#">
+            {/* Resto de tu código */}
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              className="form-select mx-1 seletItemsViajes"
+            >
+              <option value="2">2</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </form>
+        </div>
+      </div>
 
       {/* Modal de Edición */}
       <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>
@@ -299,12 +371,14 @@ export default function AbmHotel() {
                     src={image}
                     alt={`Selected ${index}`}
                     className="selected-image"
+                    style={{ width: "150px", height: "150px" }}
                   />
+                  <br />
                   <button
                     className="btn btn-danger remove-image"
                     onClick={() => removeSelectedImage(index)}
                   >
-                    Eliminar
+                    X
                   </button>
                 </div>
               ))}
@@ -318,12 +392,14 @@ export default function AbmHotel() {
                       src={foto}
                       alt={`Selected ${index}`}
                       className="selected-image"
+                      style={{ width: "150px", height: "150px" }}
                     />
+
                     <button
                       className="btn btn-danger remove-image"
                       onClick={() => handleRemoveExistingImage(index)}
                     >
-                      Eliminar
+                      X
                     </button>
                   </div>
                 ))
@@ -341,6 +417,45 @@ export default function AbmHotel() {
           </Button>
           <Button variant="primary" onClick={handleSaveEdits}>
             Guardar Cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showViewModal} onHide={() => setShowViewModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Detalles del Hotel</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {viewingHotel && (
+            <div>
+              <h5>Nombre: {viewingHotel.nombre}</h5>
+              <h5>Direccion: {viewingHotel.direccion}</h5>
+              <h5>Telefono: {viewingHotel.telefono}</h5>
+              <h5>Fotos:</h5>
+              <div className="text-center">
+                {viewingHotel.fotos ? (
+                  <div className="row">
+                    {JSON.parse(viewingHotel.fotos).map((foto, index) => (
+                      <div key={index}>
+                        <br />
+                        <img
+                          src={foto}
+                          alt={`Selected ${index}`}
+                          className="selected-image img-fluid"
+                          style={{ width: "450px", height: "250px" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>No hay fotos</p>
+                )}
+              </div>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowViewModal(false)}>
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>
