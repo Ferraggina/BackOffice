@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutUser } from "../../redux/actions/actions";
+import { getUsers, logoutUser } from "../../redux/actions/actions";
 import { useNavigate } from "react-router-dom"; // Importa useHistory
 import "../../sass/_navbar.scss";
 

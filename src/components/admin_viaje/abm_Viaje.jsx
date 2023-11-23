@@ -486,14 +486,32 @@ export default function Abm_Viaje() {
                   ?.nombre || "Hotel Desconocido"}
               </p>
               <p>
-                Itinerario:{" "}
+                Itinerario: <br />
                 {itinerarios.find(
                   (itinerario) => itinerario.id === viewingViaje.scheduleId
-                )?.nombre || "Itinerario Desconocido"}
+                )?.nombre || "Itinerario Desconocido"}{" "}
+                <br />
                 {itinerarios.find(
                   (itinerario) => itinerario.id === viewingViaje.scheduleId
-                )?.texto_gral || "Itinerario Desconocido"}
+                )?.texto_gral ? (
+                  <span>
+                    {JSON.parse(
+                      itinerarios.find(
+                        (itinerario) =>
+                          itinerario.id === viewingViaje.scheduleId
+                      )?.texto_gral
+                    ).map((comentario, index) => (
+                      <span key={index}>
+                        Titulo: {comentario.titulo} <br /> Descripcion:{" "}
+                        {comentario.descripcion} <br />
+                      </span>
+                    ))}
+                  </span>
+                ) : (
+                  "Itinerario Desconocido"
+                )}
               </p>
+
               <p>Contratos: {formatContratos(viewingViaje.contratos)}</p>
             </div>
           )}

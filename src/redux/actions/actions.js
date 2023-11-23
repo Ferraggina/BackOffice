@@ -51,25 +51,18 @@ export const ELIMINAR_USUARIO_FAILURE = "ELIMINAR_USUARIO_FAILURE";
 const TOKEN = import.meta.env.VITE_Access_token;
 const getUserUrl = import.meta.env.VITE_TRAERUSUARIOSURL;
 const editUserUrl = import.meta.env.VITE_EDITARUSUARIOS;
+const createUserUrl = import.meta.env.VITE_CREARUSUARIOS;
 export function getUsers() {
   return async function (dispatch) {
-    let response = await axios.get(
-      getUserUrl,
-      {
-        headers: {
-          "x-access-token": TOKEN,
-          "Content-Type": "application/json",
-        },
-      }
-
-      //   {
-      //     Headers: {
-      //       "Content-Type": "application/json",
-      //       "x-access-token":
-      //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
-      //     },
-      //   }
-    );
+    let response = await axios.get(getUserUrl, {
+      headers: {
+        "x-access-token": TOKEN,
+        "Content-Type": "application/json",
+      },
+    });
+    const usuarios = response.data;
+    console.log("traer usesr", usuarios);
+    usuarios.sort((a, b) => b.id - a.id);
 
     return dispatch({
       type: GET_USERS,
@@ -86,8 +79,7 @@ export const editarUsuario = (usuarioId, usuarioActualizado) => {
         usuarioActualizado,
         {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "x-access-token": TOKEN,
             "Content-Type": "application/json",
           },
         }
@@ -106,17 +98,12 @@ export const crearUsuario = (nuevoUsuario) => {
   return async (dispatch) => {
     try {
       // Realiza una solicitud HTTP para crear un nuevo usuario en el servidor
-      const response = await axios.post(
-        "http://localhost:4002/usuarios",
-        nuevoUsuario,
-        {
-          headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(createUserUrl, nuevoUsuario, {
+        headers: {
+          "x-access-token": TOKEN,
+          "Content-Type": "application/json",
+        },
+      });
 
       // Despacha una acción para agregar el nuevo usuario al estado de usuarios en el store
       dispatch({ type: CREAR_USUARIO_SUCCESS, payload: response.data });
@@ -128,10 +115,11 @@ export const crearUsuario = (nuevoUsuario) => {
 };
 
 export const eliminarUsuario = (usuarioId) => {
+  const eliminarUrl = import.meta.env.VITE_ELIMINARUSUARIOS;
   return async (dispatch) => {
     try {
       // Realiza una solicitud HTTP para eliminar el usuario en el servidor
-      await axios.delete(`http://localhost:4002/usuarios/${usuarioId}`, {
+      await axios.delete(`${eliminarUrl}${usuarioId}`, {
         headers: {
           "x-access-token":
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
@@ -148,43 +136,18 @@ export const eliminarUsuario = (usuarioId) => {
   };
 };
 
-// export function login(username, password) {
-//   // const apiUrl = `http://localhost:4002/usuarios/${username}/${password}`;
-
-//   return async function (dispatch) {
-//     let response = await axios.get(
-//       `http://localhost:4002/usuarios/${username}/${password}`,
-//       {
-//         headers: {
-//           "x-access-token":
-//             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-
-//     return dispatch({
-//       type: LOGIN_SUCCESS,
-//       payload: response,
-//     });
-//   };
-// }
 export function login(username, password) {
-  // ...
+  const loginUrl = import.meta.env.VITE_LOGEARSE;
 
   return async function (dispatch) {
     try {
       // Realiza la solicitud de inicio de sesión al backend
-      const response = await axios.get(
-        `http://localhost:4002/usuarios/${username}/${password}`,
-        {
-          headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.get(`${loginUrl}${username}/${password}`, {
+        headers: {
+          "x-access-token": TOKEN,
+          "Content-Type": "application/json",
+        },
+      });
       console.log("Aca la respuesta", response);
       // Si el inicio de sesión es exitoso
       if (response.status === 200) {
@@ -223,12 +186,13 @@ export const forgotPasswordFailure = (error) => ({
 });
 
 export const forgotPassword = (username) => {
+  const resetUrl = import.meta.env.VITE_RESETEARPASS;
   return async (dispatch) => {
     dispatch(forgotPasswordRequest());
 
     try {
       const response = await axios.post(
-        "http://localhost:4002/reset",
+        resetUrl,
         { usuario: username },
         {
           headers: {
@@ -273,12 +237,13 @@ export const newPasswordSuccess = () => ({
 });
 
 export const updatePassword = (token, idUsuario, newPassword) => {
+  const updatePassUrl = import.meta.env.VITE_ACTUALIZARPASSWORD;
   return async (dispatch) => {
     // Obtener el token del estado
     console.log("SOY LA ACTION", idUsuario);
     try {
       const response = await axios.put(
-        `http://localhost:4002/usuarios`, // Ajusta la URL según tu backend
+        updatePassUrl, // Ajusta la URL según tu backend
         {
           idUsuario: idUsuario, //dato obligatorio
           password: newPassword,
@@ -305,6 +270,7 @@ export const updatePassword = (token, idUsuario, newPassword) => {
 };
 
 export const crearViaje = (nuevoViajeData) => {
+  const createTravel = import.meta.env.VITE_CREARVIAJE;
   return async (dispatch) => {
     try {
       // Realiza una solicitud POST al backend para crear el viaje
@@ -316,7 +282,7 @@ export const crearViaje = (nuevoViajeData) => {
         nuevoViajeData.nuevoScheduleIdData
       );
       const response = await axios.post(
-        "http://localhost:4001/nuevoviaje",
+        createTravel,
 
         {
           destino: nuevoViajeData.nuevoDestinoData,
@@ -329,8 +295,7 @@ export const crearViaje = (nuevoViajeData) => {
 
         {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "x-access-token": TOKEN,
             "Content-Type": "application/json",
           },
         }
@@ -355,11 +320,12 @@ export const crearViaje = (nuevoViajeData) => {
 };
 
 export const obtenerContratos = () => async (dispatch) => {
+  const getContrat = import.meta.env.VITE_TRAERCONTRATOS;
+
   try {
-    const response = await axios.get("http://localhost:4001/contrato/", {
+    const response = await axios.get(getContrat, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
     }); // Reemplaza con la ruta correcta
@@ -374,15 +340,18 @@ export const obtenerContratos = () => async (dispatch) => {
 };
 
 export const obtenerHoteles = () => async (dispatch) => {
+  const getHotelsUrl = import.meta.env.VITE_TRAERHOTELES;
   try {
-    const response = await axios.get("http://localhost:4001/hoteles/", {
+    const response = await axios.get(getHotelsUrl, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
     }); // Reemplaza con la ruta correcta
     const hoteles = response.data; // Supongamos que la respuesta es un array de contratos
+
+    hoteles.sort((a, b) => b.id - a.id);
+    console.log("hoteles", hoteles);
     dispatch({ type: OBTENER_HOTELES_EXITO, payload: hoteles });
   } catch (error) {
     dispatch({ type: OBTENER_HOTELES_ERROR, payload: error.message });
@@ -390,11 +359,11 @@ export const obtenerHoteles = () => async (dispatch) => {
 };
 
 export const obtenerItinerario = () => async (dispatch) => {
+  const getSchedulleUrl = import.meta.env.VITE_TRAERITINERARIO;
   try {
-    const response = await axios.get("http://localhost:4001/itinerario/", {
+    const response = await axios.get(getSchedulleUrl, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
     }); // Reemplaza con la ruta correcta
@@ -406,11 +375,12 @@ export const obtenerItinerario = () => async (dispatch) => {
 };
 
 export const crearItinerario = (nuevoItinerario) => {
+  const createSchedule = import.meta.env.VITE_CREARITINERARIO;
   return async (dispatch) => {
     try {
       // Realiza una solicitud POST al backend para crear el viaje
       const response = await axios.post(
-        "http://localhost:4001/itinerario",
+        createSchedule,
 
         {
           nombre: nuevoItinerario.nombre,
@@ -419,8 +389,7 @@ export const crearItinerario = (nuevoItinerario) => {
 
         {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "x-access-token": TOKEN,
             "Content-Type": "application/json",
           },
         }
@@ -442,15 +411,16 @@ export const crearItinerario = (nuevoItinerario) => {
 };
 
 export const obtenerViajes = () => async (dispatch) => {
+  const getTravelUrl = import.meta.env.VITE_OBTENERVIAJES;
   try {
-    const response = await axios.get("http://localhost:4001/viaje", {
+    const response = await axios.get(getTravelUrl, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
     }); // Reemplaza con la ruta correcta
     const viajes = response.data;
+    viajes.sort((a, b) => b.id - a.id);
 
     // Supongamos que la respuesta es un array de contratos
 
@@ -461,11 +431,12 @@ export const obtenerViajes = () => async (dispatch) => {
 };
 
 export const crearHotel = (nuevoHotel) => {
+  const createHotel = import.meta.env.VITE_CREARHOTEL;
   return async (dispatch) => {
     try {
       // Realiza una solicitud POST al backend para crear el viaje
       const response = await axios.post(
-        "http://localhost:4001/hoteles",
+        createHotel,
 
         {
           nombre: nuevoHotel.nombre,
@@ -477,13 +448,12 @@ export const crearHotel = (nuevoHotel) => {
 
         {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "x-access-token": TOKEN,
             "Content-Type": "application/json",
           },
         }
       );
-
+      console.log("RESPUESTA", response);
       // Despacha una acción de éxito si se crea el viaje
       dispatch({
         type: POSTEAR_HOTELES_EXITO,
@@ -500,13 +470,13 @@ export const crearHotel = (nuevoHotel) => {
 };
 
 export const eliminarViaje = (viajeId) => {
+  const deleteTravelUrl = import.meta.env.VITE_ELIMINARVIAJE;
   return async (dispatch) => {
     try {
       // Realiza una solicitud DELETE al backend para eliminar el viaje
-      await axios.delete(`http://localhost:4001/viaje/${viajeId}`, {
+      await axios.delete(`${deleteTravelUrl}${viajeId}`, {
         headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+          "x-access-token": TOKEN,
           "Content-Type": "application/json",
         },
       });
@@ -527,18 +497,18 @@ export const eliminarViaje = (viajeId) => {
 };
 
 export function editarViaje(idViaje, data) {
+  const editTravelUrl = import.meta.env.VITE_EDITARVIAJE;
   return async function (dispatch) {
     try {
       console.log("ACA DATA EN ACTIONS", data);
 
       const response = await axios.put(
-        `http://localhost:4001/viaje/${idViaje}`, // Reemplaza con la URL correcta de tu API
+        `${editTravelUrl}${idViaje}`, // Reemplaza con la URL correcta de tu API
         data, // Los datos editados del viaje
 
         {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "x-access-token": TOKEN,
             "Content-Type": "application/json",
           },
         }
@@ -568,12 +538,12 @@ export function editarViaje(idViaje, data) {
 }
 
 export function deleteHotel(hotelId) {
+  const deleteHotelUrl = import.meta.env.VITE_DELETEHOTEL;
   return async function (dispatch) {
     try {
-      await axios.delete(`http://localhost:4001/hoteles/${hotelId}`, {
+      await axios.delete(`${deleteHotelUrl}${hotelId}`, {
         headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+          "x-access-token": TOKEN,
 
           "Content-Type": "application/json",
         },
@@ -593,15 +563,15 @@ export function deleteHotel(hotelId) {
 }
 
 export function editHotel(hotelId, updatedHotel) {
+  const edtiHotelUrl = import.meta.env.VITE_EDTIARHOTEL;
   return async function (dispatch) {
     try {
       const response = await axios.put(
-        `http://localhost:4001/hoteles/${hotelId}`,
+        `${edtiHotelUrl}${hotelId}`,
         updatedHotel,
         {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "x-access-token": TOKEN,
 
             "Content-Type": "application/json",
           },
@@ -622,15 +592,18 @@ export function editHotel(hotelId, updatedHotel) {
 }
 
 export const getLanding = () => async (dispatch) => {
+  const getLandingUrl = import.meta.env.VITE_TRAERLANDING;
   try {
-    const response = await axios.get("http://localhost:4003/inicio", {
+    const response = await axios.get(getLandingUrl, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
 
         "Content-Type": "application/json",
       },
     }); // Reemplaza con tu URL de backend
+    console.log("GET LANDING", response);
+    const landingimage = response.data;
+    landingimage.sort((a, b) => b.id - a.id);
     dispatch({
       type: GET_LANDING,
       payload: response.data,
@@ -641,20 +614,16 @@ export const getLanding = () => async (dispatch) => {
 };
 
 export const addLanding = (landingData) => async (dispatch) => {
+  const getLandingUrl = import.meta.env.VITE_TRAERLANDING;
   try {
     console.log("aca landing data", landingData);
-    const response = await axios.post(
-      "http://localhost:4003/inicio",
-      landingData,
-      {
-        headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+    const response = await axios.post(getLandingUrl, landingData, {
+      headers: {
+        "x-access-token": TOKEN,
 
-          "Content-Type": "application/json",
-        },
-      }
-    ); // Reemplaza con tu URL de backend
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
     console.log("ACA ESTA LA RESPUESTA", response);
     dispatch({
       type: ADD_LANDING,
@@ -666,20 +635,16 @@ export const addLanding = (landingData) => async (dispatch) => {
 };
 
 export const updateLanding = (id, landingData) => async (dispatch) => {
+  const getLandingUrl = import.meta.env.VITE_TRAERLANDING;
   try {
     console.log("aca landingdata", landingData);
-    const response = await axios.put(
-      `http://localhost:4003/inicio/${id}`,
-      landingData,
-      {
-        headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+    const response = await axios.put(`${getLandingUrl}/${id}`, landingData, {
+      headers: {
+        "x-access-token": TOKEN,
 
-          "Content-Type": "application/json",
-        },
-      }
-    ); // Reemplaza con tu URL de backend
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
     dispatch({
       type: UPDATE_LANDING,
       payload: response.data,
@@ -690,11 +655,12 @@ export const updateLanding = (id, landingData) => async (dispatch) => {
 };
 
 export const deleteLanding = (landingId) => async (dispatch) => {
+  const getLandingUrl = import.meta.env.VITE_TRAERLANDING;
+
   try {
-    await axios.delete(`http://localhost:4003/inicio/${landingId}`, {
+    await axios.delete(`${getLandingUrl}/${landingId}`, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
 
         "Content-Type": "application/json",
       },
@@ -720,19 +686,17 @@ export const logoutUser = () => {
 };
 
 export const uploadImage = (imageFile) => async (dispatch) => {
+  const uploadImageUrl = import.meta.env.VITE_UPLOADIMAGE;
   try {
     const formData = new FormData();
     formData.append("image", imageFile);
     console.log("form data", formData);
-    const response = await axios.post(
-      "http://localhost:4003/spaces",
-      imageFile
-    );
-    console.log("ACA RESPONSE DE IMAGEURL", response);
+    const response = await axios.post(uploadImageUrl, imageFile);
+    console.log("ACA RESPONSE DE IMAGEURL", response.data.urlImage);
     if (response.status === 200) {
       dispatch({
         type: UPLOAD_IMAGE_SUCCESS,
-        payload: response.data,
+        payload: response.data.urlImage,
       });
       return response.data;
     } else {
@@ -748,46 +712,19 @@ export const uploadImage = (imageFile) => async (dispatch) => {
     });
   }
 };
-// export const uploadImages = (imageFiles) => async (dispatch) => {
-//   try {
-//     const formData = new FormData();
-//     for (const imageFile of imageFiles) {
-//       formData.append("images", imageFile);
-//     }
-//     const response = await axios.post(
-//       "http://localhost:4003/upload-images",
-//       formData
-//     );
-
-//     if (response.status === 200) {
-//       dispatch({
-//         type: UPLOAD_IMAGE_SUCCESS,
-//         payload: response.data,
-//       });
-//     } else {
-//       dispatch({
-//         type: UPLOAD_IMAGE_FAILURE,
-//         payload: "Error al cargar las imágenes",
-//       });
-//     }
-//   } catch (error) {
-//     dispatch({
-//       type: UPLOAD_IMAGE_FAILURE,
-//       payload: "Error al cargar las imágenes",
-//     });
-//   }
-// };
 
 export const getLandingText = () => async (dispatch) => {
+  const getTextLandingUrl = import.meta.env.VITE_TEXTOLANDING;
   try {
-    const response = await axios.get("http://localhost:4003/texto", {
+    const response = await axios.get(getTextLandingUrl, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
 
         "Content-Type": "application/json",
       },
     }); // Reemplaza con tu URL de backend
+    const texto = response.data;
+    texto.sort((a, b) => b.id - a.id);
     dispatch({
       type: GET_LANDING_TEXT,
       payload: response.data,
@@ -798,19 +735,15 @@ export const getLandingText = () => async (dispatch) => {
 };
 
 export const addLandingText = (landingDataText) => async (dispatch) => {
+  const getTextLandingUrl = import.meta.env.VITE_TEXTOLANDING;
   try {
-    const response = await axios.post(
-      "http://localhost:4003/texto",
-      landingDataText,
-      {
-        headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+    const response = await axios.post(getTextLandingUrl, landingDataText, {
+      headers: {
+        "x-access-token": TOKEN,
 
-          "Content-Type": "application/json",
-        },
-      }
-    ); // Reemplaza con tu URL de backend
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con tu URL de backend
     console.log("ACA ESTA LA RESPUESTA", response);
     dispatch({
       type: ADD_LANDING_TEXT,
@@ -822,15 +755,15 @@ export const addLandingText = (landingDataText) => async (dispatch) => {
 };
 
 export const updateLandingText = (id, landingDataText) => async (dispatch) => {
+  const getTextLandingUrl = import.meta.env.VITE_TEXTOLANDING;
   try {
     console.log("aca landingdata", landingDataText);
     const response = await axios.put(
-      `http://localhost:4003/texto/${id}`,
+      `${getTextLandingUrl}/${id}`,
       landingDataText,
       {
         headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+          "x-access-token": TOKEN,
 
           "Content-Type": "application/json",
         },
@@ -846,11 +779,11 @@ export const updateLandingText = (id, landingDataText) => async (dispatch) => {
 };
 
 export const deleteLandingText = (landingId) => async (dispatch) => {
+  const getTextLandingUrl = import.meta.env.VITE_TEXTOLANDING;
   try {
-    await axios.delete(`http://localhost:4003/texto/${landingId}`, {
+    await axios.delete(`${getTextLandingUrl}/${landingId}`, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
 
         "Content-Type": "application/json",
       },
@@ -865,11 +798,11 @@ export const deleteLandingText = (landingId) => async (dispatch) => {
 };
 
 export const getLandingForm = () => async (dispatch) => {
+  const getLandingFormUrl = import.meta.env.VITE_CONTACTOS;
   try {
-    const response = await axios.get("http://localhost:4003/contacto", {
+    const response = await axios.get(getLandingFormUrl, {
       headers: {
-        "x-access-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+        "x-access-token": TOKEN,
 
         "Content-Type": "application/json",
       },

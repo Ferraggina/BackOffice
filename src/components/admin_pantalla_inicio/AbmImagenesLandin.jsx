@@ -16,11 +16,11 @@ import Pagination from "../home/Pagination";
 export default function AbmImagenesLandin() {
   const dispatch = useDispatch();
   const landingData = useSelector((state) => state.landingData);
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState("");
   const [selectedFolletos, setSelectedFolletos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    imagen: "",
+    image: "",
     folleto: "",
     activo: true,
     posicion: "", // Agregamos el campo de posición
@@ -30,48 +30,60 @@ export default function AbmImagenesLandin() {
   const [viewingImage, setViewingImage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [activatedCount, setActivatedCount] = useState(0);
 
   useEffect(() => {
     dispatch(getLanding());
   }, [dispatch]);
 
+  // const handleEditImage = (id) => {
+  //   const editingImage = landingData.find((image) => image.id === id);
+  //   const existingImages = JSON.parse(editingImage.image);
+  //   const existingFolletos = JSON.parse(editingImage.folleto);
+
+  //   setFormData({
+  //     image: "",
+  //     folleto: "",
+  //     activo: editingImage.activo,
+  //     posicion: editingImage.posicion, // Cargamos la posición
+  //   });
+  //   setSelectedImages(existingImages);
+  //   setSelectedFolletos(existingFolletos);
+  //   setEditingId(id);
+  //   setShowModal(true);
+  // };
   const handleEditImage = (id) => {
     const editingImage = landingData.find((image) => image.id === id);
-    const existingImages = JSON.parse(editingImage.imagen);
+    const existingImages = editingImage.image;
     const existingFolletos = JSON.parse(editingImage.folleto);
 
     setFormData({
-      imagen: "",
+      image: existingImages.length > 0 ? existingImages[0] : "", // Tomar la primera URL
       folleto: "",
-      activo: editingImage.activo,
-      posicion: editingImage.posicion, // Cargamos la posición
+      activo: editingImage.activo === "true",
+      posicion: editingImage.posicion,
     });
+
     setSelectedImages(existingImages);
     setSelectedFolletos(existingFolletos);
     setEditingId(id);
     setShowModal(true);
   };
-
-  const handleSaveEdits = () => {
-    if (editingId) {
-      dispatch(
-        updateLanding(editingId, {
-          imagen: JSON.stringify(selectedImages),
-          folleto: JSON.stringify(selectedFolletos),
-          activo: formData.activo,
-          posicion: formData.posicion, // Agregamos la posición
-        })
-      );
-      setEditingId(null);
-      setShowModal(false);
-      alert("Cambios guardados con éxito");
-    }
-  };
-
-  const handleDeleteImage = (id) => {
-    dispatch(deleteLanding(id));
-  };
-
+  // const handleSaveEdits = () => {
+  //   if (editingId) {
+  //     dispatch(
+  //       updateLanding(editingId, {
+  //         image: JSON.stringify(selectedImages),
+  //         folleto: JSON.stringify(selectedFolletos),
+  //         activo: formData.activo,
+  //         posicion: formData.posicion, // Agregamos la posición
+  //       })
+  //     );
+  //     setEditingId(null);
+  //     setShowModal(false);
+  //     alert("Cambios guardados con éxito");
+  //   }
+  // };
   const handleImageUpload = async (e) => {
     const selectedImage = e.target.files[0];
 
@@ -83,13 +95,97 @@ export default function AbmImagenesLandin() {
         const response = await dispatch(uploadImage(formData));
 
         if (response) {
-          setSelectedImages([...selectedImages, response]);
+          setSelectedImages(response);
         }
       } catch (error) {
         console.error("Error al cargar la imagen en el servidor:", error);
       }
     }
+    console.log(selectedImages);
   };
+
+  const handleSaveEdits = () => {
+    // if (editingId) {
+    //   // Extraer la primera URL del array
+    //   const firstImageUrl = selectedImages;
+
+    //   dispatch(
+    //     updateLanding(editingId, {
+    //       image: firstImageUrl,
+    //       folleto: JSON.stringify(selectedFolletos),
+    //       activo: formData.activo,
+    //       posicion: formData.posicion,
+    //     })
+    //   );
+    //   setEditingId(null);
+    //   setShowModal(false);
+    //   alert("Cambios guardados con éxito");
+    // }
+    if (editingId) {
+      const firstImageUrl = selectedImages;
+      const activatedImagesCount = landingData.filter(
+        (image) => image.activo === "true"
+      ).length;
+
+      if (activatedImagesCount <= 5 || formData.activo === false) {
+        dispatch(
+          updateLanding(editingId, {
+            image: firstImageUrl,
+            folleto: JSON.stringify(selectedFolletos),
+            activo: formData.activo,
+            posicion: formData.posicion,
+          })
+        );
+        setEditingId(null);
+        setShowModal(false);
+        alert("Cambios guardados con éxito");
+      } else {
+        alert("Solo puede tener 5 landings activas");
+      }
+    }
+  };
+  // const handleCheckChange = (e) => {
+  //   const isCurrentlyActivated = e.target.checked;
+
+  //   // Si el elemento está siendo activado y ya hay 5 elementos activados, mostrar una alerta
+  //   if (isCurrentlyActivated && activatedCount >= 5) {
+  //     alert("Solo se pueden activar 5 elementos.");
+  //     return;
+  //   }
+
+  //   setFormData({ ...formData, activo: isCurrentlyActivated });
+
+  //   // Si el elemento está activado, incrementar el conteo; de lo contrario, decrementarlo
+  //   const updatedActivatedCount = isCurrentlyActivated
+  //     ? activatedCount + 1
+  //     : activatedCount - 1;
+
+  //   // Actualizar el conteo de elementos activados
+  //   setActivatedCount(updatedActivatedCount);
+  // };
+
+  const handleDeleteImage = (id) => {
+    dispatch(deleteLanding(id));
+  };
+
+  // const handleImageUpload = async (e) => {
+  //   const selectedImage = e.target.files[0];
+
+  //   if (selectedImage) {
+  //     const formData = new FormData();
+  //     formData.append("image", selectedImage);
+
+  //     try {
+  //       const response = await dispatch(uploadImage(formData));
+
+  //       if (response) {
+  //         setSelectedImages([...selectedImages, response]);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error al cargar la imagen en el servidor:", error);
+  //     }
+  //   }
+  // };
 
   const handleFolletoUpload = async (e) => {
     const selectedFolleto = e.target.files[0];
@@ -110,10 +206,13 @@ export default function AbmImagenesLandin() {
     }
   };
 
-  const removeSelectedImage = (index) => {
-    const newSelectedImages = [...selectedImages];
-    newSelectedImages.splice(index, 1);
-    setSelectedImages(newSelectedImages);
+  // const removeSelectedImage = (index) => {
+  //   const newSelectedImages = [...selectedImages];
+  //   newSelectedImages.splice(index, 1);
+  //   setSelectedImages(newSelectedImages);
+  // };
+  const removeSelectedImage = () => {
+    setSelectedImages(""); // O puedes establecerlo en null, dependiendo de tus necesidades
   };
 
   const removeSelectedFolleto = (index) => {
@@ -122,19 +221,89 @@ export default function AbmImagenesLandin() {
     setSelectedFolletos(newSelectedFolletos);
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (editingId) {
+  //     handleSaveEdits();
+  //   } else {
+  //     if (selectedImages.length > 0 && selectedFolletos.length > 0) {
+  //       const imagenes = JSON.stringify(selectedImages);
+  //       const folletos = JSON.stringify(selectedFolletos);
+
+  //       dispatch(
+  //         addLanding({
+  //           ...formData,
+  //           image: imagenes,
+  //           folleto: folletos,
+  //           activo: formData.activo,
+  //           posicion: formData.posicion,
+  //         })
+  //       );
+
+  //       setSelectedImages([]);
+  //       setSelectedFolletos([]);
+  //       setFormData({
+  //         image: "",
+  //         folleto: "",
+  //         activo: true,
+  //         posicion: "",
+  //       });
+
+  //       setShowModal(false);
+  //     } else {
+  //       alert("Debes seleccionar al menos una imagen y un folleto.");
+  //     }
+  //   }
+  // };
+
   const handleSubmit = (e) => {
+    // e.preventDefault();
+    // if (editingId) {
+    //   handleSaveEdits();
+    // } else {
+    //   if (selectedImages.length > 0 && selectedFolletos.length > 0) {
+    //     const imagenes = selectedImages;
+    //     const folletos = JSON.stringify(selectedFolletos);
+
+    //     dispatch(
+    //       addLanding({
+    //         ...formData,
+    //         image: imagenes,
+    //         folleto: folletos,
+    //         activo: formData.activo,
+    //         posicion: formData.posicion,
+    //       })
+    //     );
+
+    //     setSelectedImages([]);
+    //     setSelectedFolletos([]);
+    //     setFormData({
+    //       image: "",
+    //       folleto: "",
+    //       activo: true,
+    //       posicion: "",
+    //     });
+
+    //     setShowModal(false);
+    //   } else {
+    //     alert("Debes seleccionar al menos una imagen y un folleto.");
+    //   }
+    // }
     e.preventDefault();
     if (editingId) {
       handleSaveEdits();
     } else {
-      if (selectedImages.length > 0 && selectedFolletos.length > 0) {
-        const imagenes = JSON.stringify(selectedImages);
-        const folletos = JSON.stringify(selectedFolletos);
+      const imagenes = selectedImages;
+      const folletos = JSON.stringify(selectedFolletos);
+      const activatedImagesCount = landingData.filter(
+        (image) => image.activo === "true"
+      ).length;
 
+      if (activatedImagesCount < 5 || formData.activo === false) {
         dispatch(
           addLanding({
             ...formData,
-            imagen: imagenes,
+            image: imagenes,
             folleto: folletos,
             activo: formData.activo,
             posicion: formData.posicion,
@@ -144,7 +313,7 @@ export default function AbmImagenesLandin() {
         setSelectedImages([]);
         setSelectedFolletos([]);
         setFormData({
-          imagen: "",
+          image: "",
           folleto: "",
           activo: true,
           posicion: "",
@@ -152,10 +321,11 @@ export default function AbmImagenesLandin() {
 
         setShowModal(false);
       } else {
-        alert("Debes seleccionar al menos una imagen y un folleto.");
+        alert("Solo puede tener 5 landings activas");
       }
     }
   };
+
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingId(null);
@@ -183,6 +353,29 @@ export default function AbmImagenesLandin() {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
   };
+  const handleCheckChange = (e) => {
+    const isCurrentlyActivated = e.target.checked;
+
+    const activatedImagesCount = landingData.filter(
+      (image) => image.activo === "true"
+    ).length;
+
+    const willExceedLimit = isCurrentlyActivated && activatedImagesCount >= 5;
+
+    if (willExceedLimit) {
+      alert("No se permiten más de 5 landings activas");
+      return;
+    }
+
+    setFormData({ ...formData, activo: isCurrentlyActivated });
+
+    const updatedActivatedCount = isCurrentlyActivated
+      ? activatedImagesCount + 1
+      : activatedImagesCount - 1;
+
+    setActivatedCount(updatedActivatedCount);
+  };
+
   return (
     <div className="custom-container mt-8">
       <br />
@@ -198,8 +391,8 @@ export default function AbmImagenesLandin() {
               if (editingId) {
                 setEditingId(null);
               }
-              setFormData({ imagen: "", folleto: "", activo: true });
-              setSelectedImages([]);
+              setFormData({ image: "", folleto: "", activo: true });
+              setSelectedImages("");
               setSelectedFolletos([]);
               setShowModal(true);
             }}
@@ -221,20 +414,16 @@ export default function AbmImagenesLandin() {
             <tbody className="text-center cuerpoTabla">
               {filterLanding(landingData).map((image) => (
                 <tr key={image.id}>
+                  {console.log("IMAGE.IMAGE", image.image)}
                   <td>
-                    {image.imagen && (
-                      <div>
-                        <div className="image-list">
-                          {JSON.parse(image.imagen).map((imageUrl, index) => (
-                            <img
-                              key={index}
-                              src={imageUrl}
-                              alt={`Image ${index}`}
-                              className="img-fluid image-preview"
-                              style={{ width: "80px", height: "80px" }}
-                            />
-                          ))}
-                        </div>
+                    {image.image && (
+                      <div className="image-list">
+                        <img
+                          src={image.image}
+                          alt={`${image.image}`}
+                          className="img-fluid image-preview"
+                          style={{ width: "80px", height: "80px" }}
+                        />
                       </div>
                     )}
                   </td>
@@ -359,9 +548,7 @@ export default function AbmImagenesLandin() {
             <input
               type="checkbox"
               checked={formData.activo}
-              onChange={(e) =>
-                setFormData({ ...formData, activo: e.target.checked })
-              }
+              onChange={handleCheckChange}
             />
           </div>
           <div className="mb-3">
@@ -376,24 +563,24 @@ export default function AbmImagenesLandin() {
             />
           </div>
           <div className="selected-images">
-            {selectedImages &&
-              selectedImages.map((image, index) => (
-                <div key={index} className="selected-image-item">
-                  <h4>Imagen Landing:</h4>
-                  <img
-                    src={image}
-                    alt={`Selected ${index}`}
-                    className="selected-image"
-                    style={{ width: "450px", height: "250px" }}
-                  />
-                  <button
-                    className="btn btn-danger remove-image"
-                    onClick={() => removeSelectedImage(index)}
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
+            {selectedImages && typeof selectedImages === "string" && (
+              <div className="selected-image-item">
+                {console.log("selectedeIMAGES", selectedImages)}
+                <h4>Imagen Landing:</h4>
+                <img
+                  src={selectedImages}
+                  alt={`Selected`}
+                  className="selected-image"
+                  style={{ width: "450px", height: "250px" }}
+                />
+                <button
+                  className="btn btn-danger remove-image"
+                  onClick={() => removeSelectedImage(0)}
+                >
+                  X
+                </button>
+              </div>
+            )}
           </div>
           <div className="selected-folletos">
             {selectedFolletos &&
@@ -435,18 +622,14 @@ export default function AbmImagenesLandin() {
               <div>
                 <h5>Foto Landing:</h5>
                 <div className="text-center">
-                  {viewingImage.imagen ? (
+                  {viewingImage.image ? (
                     <div className="row">
-                      {JSON.parse(viewingImage.imagen).map((foto, index) => (
-                        <div key={index}>
-                          <img
-                            src={foto}
-                            alt={`Selected ${index}`}
-                            className="selected-image img-fluid"
-                            style={{ width: "450px", height: "250px" }}
-                          />
-                        </div>
-                      ))}
+                      <img
+                        src={viewingImage.image}
+                        alt={`Selected 0`}
+                        className="selected-image img-fluid"
+                        style={{ width: "450px", height: "250px" }}
+                      />
                     </div>
                   ) : (
                     <p>No hay fotos</p>
@@ -454,6 +637,7 @@ export default function AbmImagenesLandin() {
                 </div>
               </div>
             )}
+
             {viewingImage && (
               <div>
                 <h5>Folleto:</h5>

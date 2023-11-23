@@ -123,14 +123,32 @@ export default function AbmHotel() {
     newSelectedImages.splice(index, 1);
     setSelectedImages(newSelectedImages);
   };
+  // const handleRemoveExistingImage = (index) => {
+  //   const currentFotos = JSON.parse(editingHotel.fotos);
+  //   currentFotos.splice(index, 1);
+
+  //   setEditingHotel({
+  //     ...editingHotel,
+  //     fotos: JSON.stringify(currentFotos), // Convertir de nuevo a cadena JSON
+  //   });
+  // };
   const handleRemoveExistingImage = (index) => {
     const currentFotos = JSON.parse(editingHotel.fotos);
-    currentFotos.splice(index, 1);
 
-    setEditingHotel({
-      ...editingHotel,
-      fotos: JSON.stringify(currentFotos), // Convertir de nuevo a cadena JSON
-    });
+    if (Array.isArray(currentFotos)) {
+      const updatedImages = currentFotos.filter((_, i) => i !== index);
+
+      setEditingHotel({
+        ...editingHotel,
+        fotos: JSON.stringify(updatedImages),
+      });
+    } else {
+      // Manejo si no es un arreglo de imágenes, podría ser una URL individual
+      setEditingHotel({
+        ...editingHotel,
+        fotos: null, // O cualquier otro valor que consideres adecuado en este caso
+      });
+    }
   };
   const handleViewClick = (hotel) => {
     setViewingHotel(hotel);
@@ -231,6 +249,26 @@ export default function AbmHotel() {
                             />
                           ))}
                       </div>
+                      {/* <div className="images-container">
+                        {Array.isArray(hotel.fotos) ? (
+                          hotel.fotos.map((foto, index) => (
+                            <img
+                              key={index}
+                              src={foto}
+                              alt={`Imagen ${index}`}
+                              className="hotel-image"
+                              style={{ width: "40px", height: "40px" }}
+                            />
+                          ))
+                        ) : (
+                          <img
+                            src={hotel.fotos} // Renderizar la única URL de imagen
+                            alt="Imagen"
+                            className="hotel-image"
+                            style={{ width: "40px", height: "40px" }}
+                          />
+                        )}
+                      </div> */}
                     </td>
 
                     <td>

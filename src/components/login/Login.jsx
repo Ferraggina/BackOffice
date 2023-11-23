@@ -3,8 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/actions/actions";
+import { getUsers, login } from "../../redux/actions/actions";
 import validator from "validator";
+
 export function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +31,48 @@ export function Login() {
     return true;
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if (!validateUsername(username)) {
+  //     return;
+  //   }
+
+  //   // Valida los datos
+  //   if (username === "") {
+  //     setError("El nombre de usuario no puede estar vacío.");
+  //     return;
+  //   }
+
+  //   if (password === "") {
+  //     setError("La contraseña no puede estar vacía.");
+  //     return;
+  //   }
+
+  //   // Envia la solicitud de login al backend
+  //   // ...
+
+  //   dispatch(login(username, password))
+  //     .then((res) => {
+  //       // Redirige al usuario a otra página
+  //       // console.log('SOY LO Q HAY', res.payload.status)
+  //       if (res.payload.status === 200) {
+  //         navigate("/home");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // Manejo los errores que puedan ocurrir en la acción loginAuth
+  //       alert("Error, datos Incorrectos");
+  //       console.error("Error, datos Incorrectos", error);
+  //     });
+  //   // Verifica si el login es correcto
+
+  //   if (!user) {
+  //     setError("El login no es correcto.");
+  //     console.log("aca no  fue");
+  //     alert("no se encontro el usuario");
+  //     return;
+  //   }
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateUsername(username)) {
@@ -52,25 +95,18 @@ export function Login() {
 
     dispatch(login(username, password))
       .then((res) => {
-        // Redirige al usuario a otra página
-        // console.log('SOY LO Q HAY', res.payload.status)
+        // Redirige al usuario a la página de inicio si el inicio de sesión es exitoso
         if (res.payload.status === 200) {
+          // No es necesario verificar el estado del usuario aquí
           navigate("/home");
+          window.location.reload();
         }
       })
       .catch((error) => {
-        // Manejo los errores que puedan ocurrir en la acción loginAuth
+        // Manejo de errores para el inicio de sesión
         alert("Error, datos Incorrectos");
         console.error("Error, datos Incorrectos", error);
       });
-    // Verifica si el login es correcto
-
-    if (!user) {
-      setError("El login no es correcto.");
-      console.log("aca no  fue");
-      alert("no se encontro el usuario");
-      return;
-    }
   };
 
   useEffect(() => {
