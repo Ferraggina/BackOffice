@@ -13,6 +13,7 @@ export default function CrearUsuarios() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [rol, setRol] = useState("");
+  const [estado, setEstado] = useState(false);
   const [searchTerm, setSearchTerm] = useState(""); // Barra de búsqueda
   const [contratosSeleccionados, setContratosSeleccionados] = useState([]);
   const [nuevoContratoData, setNuevoContratoData] = useState([]);
@@ -21,6 +22,7 @@ export default function CrearUsuarios() {
   const [usuarioCreado, setUsuarioCreado] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const rolesOptions = ["Padre", "Coordinador", "Administrador"];
 
   const error = useSelector((state) => state.error);
   const contratos = useSelector((state) => state.contratos);
@@ -29,6 +31,20 @@ export default function CrearUsuarios() {
     dispatch(obtenerContratos());
   }, [dispatch]);
 
+  // const toggleContractSelection = (contractNum) => {
+  //   if (contratosSeleccionados.includes(contractNum)) {
+  //     // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
+  //     setContratosSeleccionados((prevSelected) =>
+  //       prevSelected.filter((num) => num !== contractNum)
+  //     );
+  //   } else {
+  //     // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
+  //     setContratosSeleccionados((prevSelected) => [
+  //       ...prevSelected,
+  //       contractNum,
+  //     ]);
+  //   }
+  // };
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
       // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
@@ -66,9 +82,10 @@ export default function CrearUsuarios() {
       usuario,
       email,
       telefono,
-      contrato: contratosFinal,
+      contrato: contratosSeleccionados.map((contract) => contract.toString()),
       password,
       rol,
+      estado: estado,
     };
 
     dispatch(crearUsuario(nuevoUsuario))
@@ -107,6 +124,7 @@ export default function CrearUsuarios() {
       setPasswordMatch(false);
     }
   };
+
   return (
     <div className="card-tittle">
       <form className="form-sample" onSubmit={handleSubmit}>
@@ -212,13 +230,26 @@ export default function CrearUsuarios() {
             </div>
             <div className="form-group">
               <label className="estilosLabels">Rol (obligatorio)</label>
-              <input
-                type="text"
+              <select
                 className="form-control"
-                placeholder="Rol"
                 value={rol}
                 onChange={(e) => setRol(e.target.value)}
                 required
+              >
+                <option value="">Selecciona un rol:</option>
+                {rolesOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <p>Seleccionar estado:</p>
+              <input
+                type="checkbox"
+                checked={estado}
+                onChange={(e) => setEstado(e.target.checked)}
               />
             </div>
             <div className="form-group">
@@ -229,8 +260,10 @@ export default function CrearUsuarios() {
                 placeholder="Buscar Contratos"
                 onChange={(e) => {
                   const searchTerm = e.target.value.toLowerCase();
-                  const filteredContracts = contratos.filter((contract) =>
-                    contract.num.toLowerCase().includes(searchTerm)
+                  const filteredContracts = contratos.filter(
+                    (contract) =>
+                      contract.num.toLowerCase().includes(searchTerm) ||
+                      contract.colegio.toLowerCase().includes(searchTerm)
                   );
                   setContratosFiltrados(filteredContracts);
                 }}
@@ -326,6 +359,10 @@ export default function CrearUsuarios() {
                             {contratosSeleccionados.map((contractNum) => (
                               <li key={contractNum}>
                                 {getContractNameById(contractNum)}
+                                {console.log(
+                                  "contrato",
+                                  contratosSeleccionados
+                                )}
                               </li>
                             ))}
                           </ul>

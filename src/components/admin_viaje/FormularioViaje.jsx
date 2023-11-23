@@ -230,8 +230,10 @@ export default function FormularioViaje() {
                   placeholder="Buscar Contratos"
                   onChange={(e) => {
                     const searchTerm = e.target.value.toLowerCase();
-                    const filteredContracts = contratos.filter((contract) =>
-                      contract.num.toLowerCase().includes(searchTerm)
+                    const filteredContracts = contratos.filter(
+                      (contract) =>
+                        contract.num.toLowerCase().includes(searchTerm) ||
+                        contract.colegio.toLowerCase().includes(searchTerm)
                     );
                     setContratosFiltrados(filteredContracts);
                   }}
@@ -267,7 +269,7 @@ export default function FormularioViaje() {
                           : ""
                       }
                     >
-                      - Contrato {contrato.num}
+                      - Contrato {contrato.num} - Colegio {contrato.colegio}
                     </option>
                   ))}
                 </select>
@@ -345,10 +347,22 @@ export default function FormularioViaje() {
                           {itinerarioSeleccionado ? (
                             <div>
                               <p>Nombre: {itinerarioSeleccionado.nombre}</p>
-                              <p>
-                                Comentarios de itinerario:{" "}
-                                {itinerarioSeleccionado.texto_gral}
-                              </p>
+                              {itinerarioSeleccionado.texto_gral ? (
+                                <p>
+                                  Comentarios de itinerario: <br />
+                                  {JSON.parse(
+                                    itinerarioSeleccionado.texto_gral
+                                  ).map((comentario, index) => (
+                                    <span key={index}>
+                                      Titulo: {comentario.titulo} <br />{" "}
+                                      Descripcion:
+                                      {comentario.descripcion} <br />
+                                    </span>
+                                  ))}
+                                </p>
+                              ) : (
+                                <p>No hay comentarios de itinerario.</p>
+                              )}
                             </div>
                           ) : (
                             <p>No se ha seleccionado un itinerario.</p>

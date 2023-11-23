@@ -91,7 +91,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         user: action.payload,
         isLoggedIn: true,
-        currentUser: action.payload.usuario || {},
+        currentUser: action.payload.usuario ? action.payload.usuario : {},
       };
 
     case LOGIN_FAILURE:
@@ -396,8 +396,8 @@ function rootReducer(state = initialState, action) {
         error: action.payload,
       };
 
-    case ELIMINAR_USUARIO_SUCCESS: // Elimina el usuario del estado por su ID
-    {
+    case ELIMINAR_USUARIO_SUCCESS: {
+      // Elimina el usuario del estado por su ID
       const usuariosActualizados = state.users.filter(
         (usuario) => usuario.id !== action.payload
       );

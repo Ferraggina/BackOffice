@@ -4,7 +4,7 @@ import "../../app.scss";
 import { useSelector } from "react-redux";
 import { AdminPantallaInicio } from "../admin_pantalla_inicio/adminPantallaInicio";
 import { AdminUsers } from "../admin_users/adminUsers";
-import { AdminViaje } from "../admin_viaje/adminViaje";
+import { AdminViaje } from "../admin_viaje/AdminViaje";
 // import Navbar from "./Navbar";
 
 export function Home() {

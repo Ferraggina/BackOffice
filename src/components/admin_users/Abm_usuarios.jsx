@@ -31,10 +31,11 @@ export default function Abm_usuario() {
   const [searchTermContratos, setSearchTermContratos] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [estado, setEstado] = useState(false);
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
+  const rolesOptions = ["Padre", "Coordinador", "Administrador"];
   useEffect(() => {
     dispatch(getUsers());
     dispatch(obtenerContratos()); // Asegúrate de que la acción obtenerUsuarios esté definida
@@ -43,13 +44,28 @@ export default function Abm_usuario() {
   const handleEditClick = (usuario) => {
     setEditingUsuario(usuario);
     setShowModal(true);
+    setContratosSeleccionados(usuario.contrato);
   };
+  // const toggleContractSelection = (contractNum) => {
+  //   if (contratosSeleccionados.includes(contractNum)) {
+  //     setContratosSeleccionados((prevSelected) =>
+  //       prevSelected.filter((num) => num !== contractNum)
+  //     );
+  //   } else {
+  //     setContratosSeleccionados((prevSelected) => [
+  //       ...prevSelected,
+  //       contractNum,
+  //     ]);
+  //   }
+  // };
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
+      // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) =>
         prevSelected.filter((num) => num !== contractNum)
       );
     } else {
+      // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) => [
         ...prevSelected,
         contractNum,
@@ -100,7 +116,8 @@ export default function Abm_usuario() {
         apellido: editingUsuario.apellido,
         rol: editingUsuario.rol,
         usuario: editingUsuario.usuario,
-        contrato: contratosFinal,
+        contrato: contratosSeleccionados.map((contract) => contract.toString()),
+        estado: editingUsuario.estado,
 
         // Otros campos editados aquí...
       };
@@ -128,7 +145,11 @@ export default function Abm_usuario() {
 
   const filterUsuarios = (usuarios) => {
     const filteredUsuarios = usuarios.filter((usuario) => {
-      return usuario.nombre.toLowerCase().includes(searchTerm.toLowerCase());
+      return (
+        usuario.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        usuario.apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        usuario.usuario.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     });
 
     // Calcular el índice del primer elemento y del último elemento en la página actual
@@ -239,7 +260,7 @@ export default function Abm_usuario() {
                 <th>Telefono</th>
                 <th>Contratos</th>
                 <th>Rol</th>
-                <th>Password</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -253,7 +274,10 @@ export default function Abm_usuario() {
                   <td>{usuario.telefono}</td>
                   <td>{formatContratos(usuario.contrato)}</td>
                   <td>{usuario.rol}</td>
-                  <td>{usuario.password}</td>
+                  <td>
+                    {usuario.estado === "true" ? "Activado" : "Desactivado"}
+                  </td>
+
                   <td>
                     <button
                       className="btn btn-primary botonEditar"
@@ -261,16 +285,6 @@ export default function Abm_usuario() {
                     >
                       <lord-icon
                         src="https://cdn.lordicon.com/zfzufhzk.json"
-                        trigger="hover"
-                        style={{ width: "15px", height: "15px" }}
-                      ></lord-icon>
-                    </button>
-                    <button
-                      className="btn btn-danger botonEliminar"
-                      onClick={() => handleDeleteClick(usuario)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/xekbkxul.json"
                         trigger="hover"
                         style={{ width: "15px", height: "15px" }}
                       ></lord-icon>
@@ -379,14 +393,19 @@ export default function Abm_usuario() {
           </div>
           <div>
             Rol:
-            <input
+            <select
               className="form-control mb-3"
-              type="text"
               name="rol"
-              placeholder="Indique rol"
               value={editingUsuario ? editingUsuario.rol : ""}
               onChange={handleInputChange}
-            />
+            >
+              <option value="">Selecciona un rol:</option>
+              {rolesOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             Telefono:
@@ -408,6 +427,19 @@ export default function Abm_usuario() {
               placeholder="Indique rol"
               value={editingUsuario ? editingUsuario.password : ""}
               onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-3">
+            <p>Seleccionar estado:</p>
+            <input
+              type="checkbox"
+              checked={editingUsuario.estado === "true"}
+              onChange={(e) =>
+                setEditingUsuario({
+                  ...editingUsuario,
+                  estado: e.target.checked ? "true" : "false",
+                })
+              }
             />
           </div>
           <div>
