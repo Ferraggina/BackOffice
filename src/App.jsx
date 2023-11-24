@@ -19,13 +19,14 @@ import AccesoDenegado from "./components/login/AccesoDenegado";
 import Navbar from "./components/home/Navbar";
 import AbmTexto from "./components/admin_pantalla_inicio/AbmTexto";
 import ContactosRecibidos from "./components/admin_pantalla_inicio/ContatosRecividos";
-import Abm_usuario from "./components/admin_users/Abm_usuarios";
+
 import CrearUsuarios from "./components/admin_users/CrearUsuarios";
 
 import { AdminViaje } from "./components/admin_viaje/AdminViaje";
 
 import { AdminPantallaInicio } from "./components/admin_pantalla_inicio/AdminPantallaInicio";
 import AbmViaje from "./components/admin_viaje/AbmViaje";
+import Abmusuario from "./components/admin_users/Abmusuarios";
 
 function App() {
   useEffect(() => {
@@ -151,7 +152,7 @@ function App() {
         <Route
           path="/editUsuarios"
           element={
-            loggedUserJSON ? <Abm_usuario /> : <Navigate to="/AccesoDenegado" />
+            loggedUserJSON ? <Abmusuario /> : <Navigate to="/AccesoDenegado" />
           }
         />
         <Route

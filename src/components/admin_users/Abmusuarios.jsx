@@ -11,9 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import Pagination from "../../components/home/Pagination.jsx";
+import Pagination from "../home/Pagination.jsx";
 
-export default function Abm_usuario() {
+export default function Abmusuario() {
   const dispatch = useDispatch();
   const usuarios = useSelector((state) => state.users); // Asegúrate de que el estado de usuarios esté definido
   const [showModal, setShowModal] = useState(false);
