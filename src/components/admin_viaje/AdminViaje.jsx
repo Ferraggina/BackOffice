@@ -45,7 +45,7 @@ export function AdminViaje() {
                   <a className="enlacesAdmin" href="/ViajesEdicion">
                     VIAJES
                     <lord-icon
-                      src="https://cdn.lordicon.com/pwgndsvz.json"
+                      src="https://cdn.lordicon.com/rdfmytjv.json"
                       trigger="hover"
                       style={{
                         width: "250px",
@@ -77,7 +77,7 @@ export function AdminViaje() {
                   <a className="enlacesAdmin" href="/CrearItinerario/">
                     CREAR ITINERARIO
                     <lord-icon
-                      src="https://cdn.lordicon.com/inlmkmqf.json"
+                      src="https://cdn.lordicon.com/qvyppzqz.json"
                       trigger="hover"
                       style={{
                         width: "250px",
@@ -93,7 +93,7 @@ export function AdminViaje() {
                   <a className="enlacesAdmin" href="/AgregarHoteles">
                     AGREGAR HOTEL
                     <lord-icon
-                      src="https://cdn.lordicon.com/tsnmmdby.json"
+                      src="https://cdn.lordicon.com/fzoffrbp.json"
                       trigger="hover"
                       style={{
                         width: "250px",
@@ -109,7 +109,7 @@ export function AdminViaje() {
                   <a className="enlacesAdmin" href="/ListadoHoteles">
                     LISTADO HOTELES
                     <lord-icon
-                      src="https://cdn.lordicon.com/xqukarvl.json"
+                      src="https://cdn.lordicon.com/lenjvibx.json"
                       trigger="hover"
                       style={{
                         width: "250px",
