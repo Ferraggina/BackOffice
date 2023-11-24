@@ -15,7 +15,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Pagination from "../home/Pagination";
 
-export default function Abm_Viaje() {
+export default function AbmViaje() {
   const dispatch = useDispatch();
   const viajes = useSelector((state) => state.viajes);
   const hoteles = useSelector((state) => state.hoteles);

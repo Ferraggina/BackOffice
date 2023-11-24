@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FormularioViaje from "./FormularioViaje";
 // import "./formularioViaje.scss";
 import Itinerario from "./Itinerario";
-import Abm_Viaje from "./Abm_Viaje";
+import Abm_Viaje from "./AbmViaje";
 import FormularioHoteles from "./FormularioHoteles";
 import AbmHotel from "./AbmHotel";
 import "../../sass/_adminViaje.scss";
