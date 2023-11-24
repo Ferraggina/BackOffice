@@ -21,7 +21,7 @@ import AbmTexto from "./components/admin_pantalla_inicio/AbmTexto";
 import ContactosRecibidos from "./components/admin_pantalla_inicio/ContatosRecividos";
 import Abm_usuario from "./components/admin_users/Abm_usuarios";
 import CrearUsuarios from "./components/admin_users/CrearUsuarios";
-import Abm_Viaje from "./components/admin_viaje/Abm_Viaje";
+import Abm_Viaje from "./components/admin_viaje/abm_Viaje";
 
 function App() {
   useEffect(() => {
