@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "../../app.scss";
 
 import { useSelector } from "react-redux";
-import { AdminPantallaInicio } from "../admin_pantalla_inicio/adminPantallaInicio";
+import { AdminPantallaInicio } from "../admin_pantalla_inicio/AdminPantallaInicio";
 import { AdminUsers } from "../admin_users/adminUsers";
 import { AdminViaje } from "../admin_viaje/AdminViaje";
 // import Navbar from "./Navbar";
