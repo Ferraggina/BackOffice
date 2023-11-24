@@ -23,7 +23,7 @@ import Abm_usuario from "./components/admin_users/Abm_usuarios";
 import CrearUsuarios from "./components/admin_users/CrearUsuarios";
 
 import { AdminViaje } from "./components/admin_viaje/AdminViaje";
-import Abm_Viaje from "./components/admin_viaje/Abm_Viaje";
+import { Abm_Viaje } from "./components/admin_viaje/Abm_Viaje";
 import { AdminPantallaInicio } from "./components/admin_pantalla_inicio/AdminPantallaInicio";
 
 function App() {
