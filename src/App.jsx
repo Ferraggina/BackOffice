@@ -21,8 +21,8 @@ import AbmTexto from "./components/admin_pantalla_inicio/AbmTexto";
 import ContactosRecibidos from "./components/admin_pantalla_inicio/ContatosRecividos";
 import Abm_usuario from "./components/admin_users/Abm_usuarios";
 import CrearUsuarios from "./components/admin_users/CrearUsuarios";
-import Abm_Viaje from "./components/admin_viaje/abm_Viaje";
 
+import Abm_Viaje from "./components/admin_viaje/Abm_Viaje";
 import { AdminPantallaInicio } from "./components/admin_pantalla_inicio/adminPantallaInicio";
 
 function App() {
