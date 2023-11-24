@@ -10,7 +10,6 @@ import FormularioViaje from "./components/admin_viaje/FormularioViaje";
 import Itinerario from "./components/admin_viaje/Itinerario";
 
 import FormularioHoteles from "./components/admin_viaje/FormularioHoteles";
-import Abm_Viaje from "./components/admin_viaje/Abm_Viaje";
 
 import { useDispatch, useSelector } from "react-redux";
 import AbmHotel from "./components/admin_viaje/AbmHotel";
@@ -22,6 +21,7 @@ import AbmTexto from "./components/admin_pantalla_inicio/AbmTexto";
 import ContactosRecibidos from "./components/admin_pantalla_inicio/ContatosRecividos";
 import Abm_usuario from "./components/admin_users/Abm_usuarios";
 import CrearUsuarios from "./components/admin_users/CrearUsuarios";
+import Abm_Viaje from "./components/admin_viaje/Abm_Viaje";
 
 function App() {
   useEffect(() => {
