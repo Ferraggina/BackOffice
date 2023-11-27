@@ -10,6 +10,7 @@ import {
   uploadImage,
 } from "../../redux/actions/actions";
 import Pagination from "../../components/home/Pagination.jsx";
+import { reuleaux } from "ldrs";
 export default function AbmHotel() {
   const dispatch = useDispatch();
   const hoteles = useSelector((state) => state.hoteles);
@@ -30,9 +31,15 @@ export default function AbmHotel() {
   const [hotelToDelete, setHotelToDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     dispatch(obtenerHoteles());
+    const timeout = setTimeout(() => {
+      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+
+    return () => clearTimeout(timeout);
   }, [dispatch]);
 
   const handleEditClick = (hotel) => {
@@ -123,15 +130,7 @@ export default function AbmHotel() {
     newSelectedImages.splice(index, 1);
     setSelectedImages(newSelectedImages);
   };
-  // const handleRemoveExistingImage = (index) => {
-  //   const currentFotos = JSON.parse(editingHotel.fotos);
-  //   currentFotos.splice(index, 1);
 
-  //   setEditingHotel({
-  //     ...editingHotel,
-  //     fotos: JSON.stringify(currentFotos), // Convertir de nuevo a cadena JSON
-  //   });
-  // };
   const handleRemoveExistingImage = (index) => {
     const currentFotos = JSON.parse(editingHotel.fotos);
 
@@ -154,12 +153,7 @@ export default function AbmHotel() {
     setViewingHotel(hotel);
     setShowViewModal(true);
   };
-  // const filterHoteles = (hoteles) => {
-  //   const filteredHoteles = hoteles.filter((hotel) => {
-  //     return hotel.nombre.toLowerCase().includes(searchTerm.toLowerCase());
-  //   });
-  //   return filteredHoteles;
-  // };
+
   const filterHoteles = (hoteles) => {
     const filteredHoteles = hoteles.filter((hotel) => {
       return hotel.nombre.toLowerCase().includes(searchTerm.toLowerCase());
@@ -191,154 +185,153 @@ export default function AbmHotel() {
       <br />
       <br />
       <br />
-      <br />
-      <div className="cardViajes ">
-        <br />
-        <div className="search-field d-none d-md-block busquedaContenedor">
-          <form
-            className="d-flex align-items-center h-100 formularioSearch"
-            action="#"
-          >
-            <div className="input-group">
-              <div className="input-group-prepend bg-transparent">
-                <span className="input-group-text border-0">
-                  <FontAwesomeIcon icon={faSearch} />
-                </span>
-              </div>
-              <input
-                type="search"
-                className="input-md  searchabar"
-                placeholder="Busque el nombre del hotel"
-                value={searchTerm}
-                onChange={handleSearchInputChange}
-              />
-            </div>
-          </form>
-        </div>
-        <br />
-        <div className="text-center encabezadoLista">Lista de Hoteles</div>
-        <br />
-        <div className="table-responsive">
-          <table className="table table-bordered tablaViaje">
-            <thead className="text-center cabecerasDeTabla">
-              <tr>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th>Telefono</th>
-                <th>Fotos</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="text-center cuerpoTabla">
-              {hoteles.length ? (
-                filterHoteles(hoteles).map((hotel) => (
-                  <tr key={hotel.id}>
-                    <td>{hotel.nombre}</td>
-                    <td>{hotel.direccion}</td>
-                    <td>{hotel.telefono}</td>
-                    <td>
-                      <div className="images-container">
-                        {hotel.fotos &&
-                          JSON.parse(hotel.fotos).map((foto, index) => (
-                            <img
-                              key={index}
-                              src={foto}
-                              alt={`Imagen ${index}`}
-                              className="hotel-image"
-                              style={{ width: "40px", height: "40px" }}
-                            />
-                          ))}
-                      </div>
-                      {/* <div className="images-container">
-                        {Array.isArray(hotel.fotos) ? (
-                          hotel.fotos.map((foto, index) => (
-                            <img
-                              key={index}
-                              src={foto}
-                              alt={`Imagen ${index}`}
-                              className="hotel-image"
-                              style={{ width: "40px", height: "40px" }}
-                            />
-                          ))
-                        ) : (
-                          <img
-                            src={hotel.fotos} // Renderizar la única URL de imagen
-                            alt="Imagen"
-                            className="hotel-image"
-                            style={{ width: "40px", height: "40px" }}
-                          />
-                        )}
-                      </div> */}
-                    </td>
 
-                    <td>
-                      <button
-                        className="btn btn-primary botonEditar"
-                        onClick={() => handleEditClick(hotel)}
-                      >
-                        <lord-icon
-                          src="https://cdn.lordicon.com/zfzufhzk.json"
-                          trigger="hover"
-                          style={{ width: "15px", height: "15px" }}
-                        ></lord-icon>
-                      </button>
-                      <button
-                        className="btn btn-danger botonEliminar"
-                        onClick={() => handleDeleteClick(hotel)}
-                      >
-                        <lord-icon
-                          src="https://cdn.lordicon.com/xekbkxul.json"
-                          trigger="hover"
-                          style={{ width: "15px", height: "15px" }}
-                        ></lord-icon>
-                      </button>
-                      <button
-                        className="btn btn-info botonEditar"
-                        onClick={() => handleViewClick(hotel)}
-                      >
-                        <lord-icon
-                          src="https://cdn.lordicon.com/ascijbjj.json"
-                          trigger="hover"
-                          style={{ width: "15px", height: "15px" }}
-                        ></lord-icon>
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3">No hay hoteles disponibles.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+      {isLoading ? (
+        <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+          <div className="spinner">
+            {/* Contenido del spinner */}
+
+            {reuleaux.register()}
+            <l-reuleaux
+              size="120"
+              stroke="7"
+              stroke-length="0.15"
+              bg-opacity="0.40"
+              speed="1.2"
+              color="#244AE0"
+            ></l-reuleaux>
+          </div>
+          <p className="text-center mt-3">Cargando...</p>
         </div>
-        <div className="pagination  d-flex justify-content-center align-items-center">
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            totalItems={hoteles.length}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-          <p className="mx-2 textoItemsViaje ">
-            Cantidad de hoteles por pagina:
-          </p>
-          <form className="d-flex align-items-center h-100 " action="#">
-            {/* Resto de tu código */}
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              className="form-select mx-1 seletItemsViajes"
+      ) : (
+        <div className="cardViajes ">
+          <br />
+          <div className="search-field d-none d-md-block busquedaContenedor">
+            <form
+              className="d-flex align-items-center h-100 formularioSearch"
+              action="#"
             >
-              <option value="2">2</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-          </form>
+              <div className="input-group">
+                <div className="input-group-prepend bg-transparent">
+                  <span className="input-group-text border-0">
+                    <FontAwesomeIcon icon={faSearch} />
+                  </span>
+                </div>
+                <input
+                  type="search"
+                  className="input-md  searchabar"
+                  placeholder="Busque el nombre del hotel"
+                  value={searchTerm}
+                  onChange={handleSearchInputChange}
+                />
+              </div>
+            </form>
+          </div>
+          <br />
+          <div className="text-center encabezadoLista">Lista de Hoteles</div>
+          <br />
+          <div className="table-responsive">
+            <table className="table table-bordered tablaViaje">
+              <thead className="text-center cabecerasDeTabla">
+                <tr>
+                  <th>Nombre</th>
+                  <th>Dirección</th>
+                  <th>Telefono</th>
+                  <th>Fotos</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="text-center cuerpoTabla">
+                {hoteles.length ? (
+                  filterHoteles(hoteles).map((hotel) => (
+                    <tr key={hotel.id}>
+                      <td>{hotel.nombre}</td>
+                      <td>{hotel.direccion}</td>
+                      <td>{hotel.telefono}</td>
+                      <td>
+                        <div className="images-container">
+                          {hotel.fotos &&
+                            JSON.parse(hotel.fotos).map((foto, index) => (
+                              <img
+                                key={index}
+                                src={foto}
+                                alt={`Imagen ${index}`}
+                                className="hotel-image"
+                                style={{ width: "40px", height: "40px" }}
+                              />
+                            ))}
+                        </div>
+                      </td>
+
+                      <td>
+                        <button
+                          className="btn btn-primary botonEditar"
+                          onClick={() => handleEditClick(hotel)}
+                        >
+                          <lord-icon
+                            src="https://cdn.lordicon.com/zfzufhzk.json"
+                            trigger="hover"
+                            style={{ width: "15px", height: "15px" }}
+                          ></lord-icon>
+                        </button>
+                        <button
+                          className="btn btn-danger botonEliminar"
+                          onClick={() => handleDeleteClick(hotel)}
+                        >
+                          <lord-icon
+                            src="https://cdn.lordicon.com/xekbkxul.json"
+                            trigger="hover"
+                            style={{ width: "15px", height: "15px" }}
+                          ></lord-icon>
+                        </button>
+                        <button
+                          className="btn btn-info botonEditar"
+                          onClick={() => handleViewClick(hotel)}
+                        >
+                          <lord-icon
+                            src="https://cdn.lordicon.com/ascijbjj.json"
+                            trigger="hover"
+                            style={{ width: "15px", height: "15px" }}
+                          ></lord-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="3">No hay hoteles disponibles.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="pagination  d-flex justify-content-center align-items-center">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={hoteles.length}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+            <p className="mx-2 textoItemsViaje ">
+              Cantidad de hoteles por pagina:
+            </p>
+            <form className="d-flex align-items-center h-100 " action="#">
+              {/* Resto de tu código */}
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                className="form-select mx-1 seletItemsViajes"
+              >
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Modal de Edición */}
       <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>

@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import FormularioViaje from "./FormularioViaje";
-// import "./formularioViaje.scss";
-import Itinerario from "./Itinerario";
-import Abm_Viaje from "./AbmViaje";
-import FormularioHoteles from "./FormularioHoteles";
-import AbmHotel from "./AbmHotel";
+
 import "../../sass/_adminViaje.scss";
 export function AdminViaje() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -14,28 +9,6 @@ export function AdminViaje() {
 
   return (
     <div>
-      {/* <button onClick={toggleFormulario} className="btn btn-primary">
-        {mostrarFormulario
-          ? "Cerrar Formulario"
-          : "Desplegar administración de viajes"}
-      </button> */}
-      {/* <div className="text-center contenedorIconoViaje">
-       
-        <div className="icon-container">
-          <lord-icon
-            src="https://cdn.lordicon.com/clvhcjvo.json"
-            trigger="hover"
-            style={{
-              width: "250px",
-              height: "250px",
-              cursor: "pointer", // Cambia el cursor al pasar el mouse
-            }}
-            onClick={toggleFormulario} // Agrega el evento onClick para mostrar/ocultar el formulario
-          ></lord-icon>
-          <h3 className="tituloViajeAdm">Viajes</h3>
-        </div>
-      </div> */}
-
       <div className="container mt-4 table-responsive esiloTablaAdViaje">
         <table className="table table-bordered  tablaContainer ">
           <thead>
@@ -56,22 +29,7 @@ export function AdminViaje() {
                   </a>
                 </h2>
               </th>
-              {/* <th>
-                <h2 className="text-center tipoLetraViaje">
-                  <a className="enlacesAdmin" href="/FormularioViaje/">
-                    CREAR VIAJE
-                    <lord-icon
-                      src="https://cdn.lordicon.com/vczdmdkt.json"
-                      trigger="hover"
-                      style={{
-                        width: "250px",
-                        height: "250px",
-                        cursor: "pointer",
-                      }}
-                    ></lord-icon>
-                  </a>
-                </h2>
-              </th> */}
+
               <th>
                 <h2 className="text-center">
                   <a className="enlacesAdmin" href="/CrearItinerario/">
