@@ -45,7 +45,7 @@ export function Home() {
     // Simulación de tiempo de carga (puedes reemplazarlo por tu lógica de carga real)
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+    }, 6500); // Cambia el número a la cantidad de tiempo que desees simular
 
     return () => clearTimeout(timeout); // Limpia el timeout en caso de que el componente se desmonte antes de que termine la carga simulada
   }, []);
