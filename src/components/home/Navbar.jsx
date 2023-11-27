@@ -102,7 +102,7 @@ export default function Navbar() {
     const timeout = setTimeout(() => {
       setIsLoading(false);
       setShowNavbar(true); // Muestra el Navbar después de la carga
-    }, 6500);
+    }, 1500);
 
     return () => clearTimeout(timeout);
   }, []);

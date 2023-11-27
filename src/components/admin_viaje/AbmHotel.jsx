@@ -37,7 +37,7 @@ export default function AbmHotel() {
     dispatch(obtenerHoteles());
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 6500); // Cambia el número a la cantidad de tiempo que desees simular
+    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
 
     return () => clearTimeout(timeout);
   }, [dispatch]);

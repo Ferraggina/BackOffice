@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
 import "../../sass/_abm_Viaje.scss";
 import Pagination from "../home/Pagination";
+import { reuleaux } from "ldrs";
 
 export default function AbmTexto() {
   const dispatch = useDispatch();
@@ -26,8 +27,14 @@ export default function AbmTexto() {
   const [editingId, setEditingId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     dispatch(getLandingText());
+    const timeout = setTimeout(() => {
+      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+
+    return () => clearTimeout(timeout);
   }, [dispatch]);
 
   // const handleEditText = (id) => {
@@ -179,99 +186,119 @@ export default function AbmTexto() {
       <br />
       <br />
       <br />
+      {isLoading ? (
+        <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+          <div className="spinner">
+            {/* Contenido del spinner */}
 
-      <div className="cardViajes">
-        <h2 className="text-center encabezadoLista">Administrar Textos</h2>
-
-        <br />
-        <div className="d-flex justify-content-end mb-3">
-          <button
-            className="btn btn-primary botonEditar"
-            onClick={() => {
-              setFormData({ texto: "", activo: true });
-              setShowModal(true);
-            }}
-          >
-            <FontAwesomeIcon icon={faPlus} /> Agregar Texto
-          </button>
+            {reuleaux.register()}
+            <l-reuleaux
+              size="120"
+              stroke="7"
+              stroke-length="0.15"
+              bg-opacity="0.40"
+              speed="1.2"
+              color="#244AE0"
+            ></l-reuleaux>
+          </div>
+          <p className="text-center mt-3">Cargando...</p>
         </div>
-        <table className="table table-bordered tablaViaje">
-          <thead className="text-center cabecerasDeTabla">
-            <tr>
-              <th>Titulo</th>
-              <th>Texto</th>
-              <th>Estado</th>
-              <th>Posicion</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="text-center cuerpoTabla">
-            {filterLanding(landingDataText).map((text) => (
-              <tr key={text.id}>
-                <td>
-                  <h5>{text.titulo}</h5>
-                </td>
-                <td>
-                  <h5>{text.texto}</h5>
-                </td>
-                <td>
-                  <h5>{text.activo === "true" ? "Activado" : "Desactivado"}</h5>
-                </td>
-                <td>
-                  <h5>{text.posicion}</h5>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-primary botonEditar"
-                    onClick={() => handleEditText(text.id)}
-                  >
-                    <lord-icon
-                      src="https://cdn.lordicon.com/zfzufhzk.json"
-                      trigger="hover"
-                      style={{ width: "25px", height: "25px" }}
-                    ></lord-icon>
-                  </button>
-                  <button
-                    className="btn btn-danger botonEliminar"
-                    onClick={() => handleDeleteText(text.id)}
-                  >
-                    <lord-icon
-                      src="https://cdn.lordicon.com/xekbkxul.json"
-                      trigger="hover"
-                      style={{ width: "25px", height: "25px" }}
-                    ></lord-icon>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="pagination  d-flex justify-content-center align-items-center">
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            totalItems={landingDataText.length}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-          <p className="mx-2 textoItemsViaje ">
-            Cantidad de imagenes por pagina:
-          </p>
-          <form className="d-flex align-items-center h-100 " action="#">
-            {/* Resto de tu código */}
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              className="form-select mx-1 seletItemsViajes"
+      ) : (
+        <div className="cardViajes">
+          <h2 className="text-center encabezadoLista">Administrar Textos</h2>
+
+          <br />
+          <div className="d-flex justify-content-end mb-3">
+            <button
+              className="btn btn-primary botonEditar"
+              onClick={() => {
+                setFormData({ texto: "", activo: true });
+                setShowModal(true);
+              }}
             >
-              <option value="2">2</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-          </form>
+              <FontAwesomeIcon icon={faPlus} /> Agregar Texto
+            </button>
+          </div>
+          <table className="table table-bordered tablaViaje">
+            <thead className="text-center cabecerasDeTabla">
+              <tr>
+                <th>Titulo</th>
+                <th>Texto</th>
+                <th>Estado</th>
+                <th>Posicion</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="text-center cuerpoTabla">
+              {filterLanding(landingDataText).map((text) => (
+                <tr key={text.id}>
+                  <td>
+                    <h5>{text.titulo}</h5>
+                  </td>
+                  <td>
+                    <h5>{text.texto}</h5>
+                  </td>
+                  <td>
+                    <h5>
+                      {text.activo === "true" ? "Activado" : "Desactivado"}
+                    </h5>
+                  </td>
+                  <td>
+                    <h5>{text.posicion}</h5>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-primary botonEditar"
+                      onClick={() => handleEditText(text.id)}
+                    >
+                      <lord-icon
+                        src="https://cdn.lordicon.com/zfzufhzk.json"
+                        trigger="hover"
+                        style={{ width: "25px", height: "25px" }}
+                      ></lord-icon>
+                    </button>
+                    <button
+                      className="btn btn-danger botonEliminar"
+                      onClick={() => handleDeleteText(text.id)}
+                    >
+                      <lord-icon
+                        src="https://cdn.lordicon.com/xekbkxul.json"
+                        trigger="hover"
+                        style={{ width: "25px", height: "25px" }}
+                      ></lord-icon>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="pagination  d-flex justify-content-center align-items-center">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={landingDataText.length}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+            <p className="mx-2 textoItemsViaje ">
+              Cantidad de imagenes por pagina:
+            </p>
+            <form className="d-flex align-items-center h-100 " action="#">
+              {/* Resto de tu código */}
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                className="form-select mx-1 seletItemsViajes"
+              >
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

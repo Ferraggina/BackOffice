@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
 import "../../sass/_abm_Viaje.scss";
 import Pagination from "../home/Pagination";
-
+import { reuleaux } from "ldrs";
 export default function AbmImagenesLandin() {
   const dispatch = useDispatch();
   const landingData = useSelector((state) => state.landingData);
@@ -31,9 +31,15 @@ export default function AbmImagenesLandin() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [activatedCount, setActivatedCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getLanding());
+    const timeout = setTimeout(() => {
+      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+
+    return () => clearTimeout(timeout);
   }, [dispatch]);
 
   // const handleEditImage = (id) => {
@@ -382,141 +388,160 @@ export default function AbmImagenesLandin() {
       <br />
       <br />
       <br />
-      <div className="cardViajes">
-        <h2 className="text-center encabezadoLista">Imágenes y Folletos</h2>
-        <div className="botonCrear ">
-          <button
-            className="btn btn-primary botonCrearLink"
-            onClick={() => {
-              if (editingId) {
-                setEditingId(null);
-              }
-              setFormData({ image: "", folleto: "", activo: true });
-              setSelectedImages("");
-              setSelectedFolletos([]);
-              setShowModal(true);
-            }}
-          >
-            <FontAwesomeIcon icon={faPlus} /> Agregar Imagen
-          </button>
+      {isLoading ? (
+        <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+          <div className="spinner">
+            {/* Contenido del spinner */}
+
+            {reuleaux.register()}
+            <l-reuleaux
+              size="120"
+              stroke="7"
+              stroke-length="0.15"
+              bg-opacity="0.40"
+              speed="1.2"
+              color="#244AE0"
+            ></l-reuleaux>
+          </div>
+          <p className="text-center mt-3">Cargando...</p>
         </div>
-        <div className="table-responsive">
-          <table className="table table-bordered tablaViaje">
-            <thead className="text-center cabecerasDeTabla">
-              <tr>
-                <th>Imágenes</th>
-                <th>Folletos</th>
-                <th>Estado</th>
-                <th>Posición</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="text-center cuerpoTabla">
-              {filterLanding(landingData).map((image) => (
-                <tr key={image.id}>
-                  {console.log("IMAGE.IMAGE", image.image)}
-                  <td>
-                    {image.image && (
-                      <div className="image-list">
-                        <img
-                          src={image.image}
-                          alt={`${image.image}`}
-                          className="img-fluid image-preview"
-                          style={{ width: "80px", height: "80px" }}
-                        />
-                      </div>
-                    )}
-                  </td>
-                  <td>
-                    {image.folleto && (
-                      <div>
-                        <div className="folleto-list">
-                          {JSON.parse(image.folleto).map(
-                            (folletoUrl, index) => (
-                              <img
-                                key={index}
-                                src={folletoUrl}
-                                alt={`Folleto ${index}`}
-                                className="img-fluid image-preview"
-                                style={{ width: "80px", height: "80px" }}
-                              />
-                            )
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </td>
-                  <td>
-                    <h5>
-                      {image.activo === "true" ? "Activado" : "Desactivado"}
-                    </h5>
-                  </td>
-                  <td>
-                    <h5>{image.posicion}</h5>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-primary botonEditar"
-                      onClick={() => handleEditImage(image.id)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/zfzufhzk.json"
-                        trigger="hover"
-                        style={{ width: "25px", height: "25px" }}
-                      ></lord-icon>
-                    </button>
-                    <button
-                      className="btn btn-danger botonEliminar"
-                      onClick={() => handleDeleteImage(image.id)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/xekbkxul.json"
-                        trigger="hover"
-                        style={{ width: "25px", height: "25px" }}
-                      ></lord-icon>
-                    </button>
-                    <button
-                      className="btn btn-info botonEditar"
-                      onClick={() => handleViewClick(image)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/ascijbjj.json"
-                        trigger="hover"
-                        style={{ width: "25px", height: "25px" }}
-                      ></lord-icon>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="pagination  d-flex justify-content-center align-items-center">
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            totalItems={landingData.length}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-          <p className="mx-2 textoItemsViaje ">
-            Cantidad de imagenes por pagina:
-          </p>
-          <form className="d-flex align-items-center h-100 " action="#">
-            {/* Resto de tu código */}
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              className="form-select mx-1 seletItemsViajes"
+      ) : (
+        <div className="cardViajes">
+          <h2 className="text-center encabezadoLista">Imágenes y Folletos</h2>
+          <div className="botonCrear ">
+            <button
+              className="btn btn-primary botonCrearLink"
+              onClick={() => {
+                if (editingId) {
+                  setEditingId(null);
+                }
+                setFormData({ image: "", folleto: "", activo: true });
+                setSelectedImages("");
+                setSelectedFolletos([]);
+                setShowModal(true);
+              }}
             >
-              <option value="2">2</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-          </form>
+              <FontAwesomeIcon icon={faPlus} /> Agregar Imagen
+            </button>
+          </div>
+          <div className="table-responsive">
+            <table className="table table-bordered tablaViaje">
+              <thead className="text-center cabecerasDeTabla">
+                <tr>
+                  <th>Imágenes</th>
+                  <th>Folletos</th>
+                  <th>Estado</th>
+                  <th>Posición</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="text-center cuerpoTabla">
+                {filterLanding(landingData).map((image) => (
+                  <tr key={image.id}>
+                    {console.log("IMAGE.IMAGE", image.image)}
+                    <td>
+                      {image.image && (
+                        <div className="image-list">
+                          <img
+                            src={image.image}
+                            alt={`${image.image}`}
+                            className="img-fluid image-preview"
+                            style={{ width: "80px", height: "80px" }}
+                          />
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      {image.folleto && (
+                        <div>
+                          <div className="folleto-list">
+                            {JSON.parse(image.folleto).map(
+                              (folletoUrl, index) => (
+                                <img
+                                  key={index}
+                                  src={folletoUrl}
+                                  alt={`Folleto ${index}`}
+                                  className="img-fluid image-preview"
+                                  style={{ width: "80px", height: "80px" }}
+                                />
+                              )
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </td>
+                    <td>
+                      <h5>
+                        {image.activo === "true" ? "Activado" : "Desactivado"}
+                      </h5>
+                    </td>
+                    <td>
+                      <h5>{image.posicion}</h5>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-primary botonEditar"
+                        onClick={() => handleEditImage(image.id)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/zfzufhzk.json"
+                          trigger="hover"
+                          style={{ width: "25px", height: "25px" }}
+                        ></lord-icon>
+                      </button>
+                      <button
+                        className="btn btn-danger botonEliminar"
+                        onClick={() => handleDeleteImage(image.id)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/xekbkxul.json"
+                          trigger="hover"
+                          style={{ width: "25px", height: "25px" }}
+                        ></lord-icon>
+                      </button>
+                      <button
+                        className="btn btn-info botonEditar"
+                        onClick={() => handleViewClick(image)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/ascijbjj.json"
+                          trigger="hover"
+                          style={{ width: "25px", height: "25px" }}
+                        ></lord-icon>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="pagination  d-flex justify-content-center align-items-center">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={landingData.length}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+            <p className="mx-2 textoItemsViaje ">
+              Cantidad de imagenes por pagina:
+            </p>
+            <form className="d-flex align-items-center h-100 " action="#">
+              {/* Resto de tu código */}
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                className="form-select mx-1 seletItemsViajes"
+              >
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

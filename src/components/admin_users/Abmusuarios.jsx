@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Pagination from "../home/Pagination.jsx";
-
+import { reuleaux } from "ldrs";
 export default function Abmusuario() {
   const dispatch = useDispatch();
   const usuarios = useSelector((state) => state.users); // Asegúrate de que el estado de usuarios esté definido
@@ -32,6 +32,7 @@ export default function Abmusuario() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [estado, setEstado] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -39,6 +40,11 @@ export default function Abmusuario() {
   useEffect(() => {
     dispatch(getUsers());
     dispatch(obtenerContratos()); // Asegúrate de que la acción obtenerUsuarios esté definida
+    const timeout = setTimeout(() => {
+      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+
+    return () => clearTimeout(timeout);
   }, [dispatch]);
 
   const handleEditClick = (usuario) => {
@@ -81,10 +87,10 @@ export default function Abmusuario() {
       : "Nombre de Contrato Desconocido";
   };
 
-  const handleDeleteClick = (usuarioId) => {
-    setUsuarioToDelete(usuarioId);
-    setShowConfirmationModal(true);
-  };
+  // const handleDeleteClick = (usuarioId) => {
+  //   setUsuarioToDelete(usuarioId);
+  //   setShowConfirmationModal(true);
+  // };
 
   const handleCloseConfirmationModal = () => {
     setShowConfirmationModal(false);
@@ -217,110 +223,129 @@ export default function Abmusuario() {
       <br />
       <br />
       <br />
-      <div className="cardViajes">
-        <br />
-        <div className="search-field d-none d-md-block busquedaContenedor">
-          <form
-            className="d-flex align-items-center h-100 formularioSearch"
-            action="#"
-          >
-            <div className="input-group">
-              <div className="input-group-prepend bg-transparent">
-                <span className="input-group-text border-0">
-                  <FontAwesomeIcon icon={faSearch} />
-                </span>
-              </div>
-              <input
-                type="search"
-                className="input-md searchabar"
-                placeholder="Buscar Usuarios"
-                value={searchTerm}
-                onChange={handleSearchInputChange}
-              />
-            </div>
-          </form>
-        </div>
-        <br />
-        <br />
-        <br />
-        <h2 className="text-center encabezadoLista">Lista de Usuarios</h2>
-        <div className="botonCrear">
-          <Link to="/postUsuarios" className="btn btn-primary botonCrearLink">
-            Agregar Usuario
-          </Link>
-        </div>
-        <div className="table-responsive">
-          <table className="table table-bordered tablaViaje">
-            <thead className="text-center cabecerasDeTabla">
-              <tr>
-                <th>Usuario</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-                <th>Telefono</th>
-                <th>Contratos</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="text-center cuerpoTabla">
-              {filterUsuarios(usuarios).map((usuario) => (
-                <tr key={usuario.id}>
-                  <td>{usuario.usuario}</td>
-                  <td>{usuario.nombre}</td>
-                  <td>{usuario.apellido}</td>
-                  <td>{usuario.email}</td>
-                  <td>{usuario.telefono}</td>
-                  <td>{formatContratos(usuario.contrato)}</td>
-                  <td>{usuario.rol}</td>
-                  <td>
-                    {usuario.estado === "true" ? "Activado" : "Desactivado"}
-                  </td>
+      {isLoading ? (
+        <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+          <div className="spinner">
+            {/* Contenido del spinner */}
 
-                  <td>
-                    <button
-                      className="btn btn-primary botonEditar"
-                      onClick={() => handleEditClick(usuario)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/zfzufhzk.json"
-                        trigger="hover"
-                        style={{ width: "15px", height: "15px" }}
-                      ></lord-icon>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            {reuleaux.register()}
+            <l-reuleaux
+              size="120"
+              stroke="7"
+              stroke-length="0.15"
+              bg-opacity="0.40"
+              speed="1.2"
+              color="#244AE0"
+            ></l-reuleaux>
+          </div>
+          <p className="text-center mt-3">Cargando...</p>
         </div>
-        <div className="pagination  d-flex justify-content-center align-items-center">
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            totalItems={usuarios.length}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-          <p className="mx-2 textoItemsViaje ">
-            Cantidad de usuarios por pagina:
-          </p>
-          <form className="d-flex align-items-center h-100 " action="#">
-            {/* Resto de tu código */}
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              className="form-select mx-1 seletItemsViajes"
+      ) : (
+        <div className="cardViajes">
+          <br />
+          <div className="search-field d-none d-md-block busquedaContenedor">
+            <form
+              className="d-flex align-items-center h-100 formularioSearch"
+              action="#"
             >
-              <option value="2">2</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-          </form>
+              <div className="input-group">
+                <div className="input-group-prepend bg-transparent">
+                  <span className="input-group-text border-0">
+                    <FontAwesomeIcon icon={faSearch} />
+                  </span>
+                </div>
+                <input
+                  type="search"
+                  className="input-md searchabar"
+                  placeholder="Buscar Usuarios"
+                  value={searchTerm}
+                  onChange={handleSearchInputChange}
+                />
+              </div>
+            </form>
+          </div>
+          <br />
+          <br />
+          <br />
+          <h2 className="text-center encabezadoLista">Lista de Usuarios</h2>
+          <div className="botonCrear">
+            <Link to="/postUsuarios" className="btn btn-primary botonCrearLink">
+              Agregar Usuario
+            </Link>
+          </div>
+          <div className="table-responsive">
+            <table className="table table-bordered tablaViaje">
+              <thead className="text-center cabecerasDeTabla">
+                <tr>
+                  <th>Usuario</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Email</th>
+                  <th>Telefono</th>
+                  <th>Contratos</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="text-center cuerpoTabla">
+                {filterUsuarios(usuarios).map((usuario) => (
+                  <tr key={usuario.id}>
+                    <td>{usuario.usuario}</td>
+                    <td>{usuario.nombre}</td>
+                    <td>{usuario.apellido}</td>
+                    <td>{usuario.email}</td>
+                    <td>{usuario.telefono}</td>
+                    <td>{formatContratos(usuario.contrato)}</td>
+                    <td>{usuario.rol}</td>
+                    <td>
+                      {usuario.estado === "true" ? "Activado" : "Desactivado"}
+                    </td>
+
+                    <td>
+                      <button
+                        className="btn btn-primary botonEditar"
+                        onClick={() => handleEditClick(usuario)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/zfzufhzk.json"
+                          trigger="hover"
+                          style={{ width: "15px", height: "15px" }}
+                        ></lord-icon>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="pagination  d-flex justify-content-center align-items-center">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={usuarios.length}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+            <p className="mx-2 textoItemsViaje ">
+              Cantidad de usuarios por pagina:
+            </p>
+            <form className="d-flex align-items-center h-100 " action="#">
+              {/* Resto de tu código */}
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                className="form-select mx-1 seletItemsViajes"
+              >
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
       <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>
         <Modal.Header closeButton>
           <Modal.Title>Eliminar Usuario</Modal.Title>

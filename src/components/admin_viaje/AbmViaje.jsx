@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Pagination from "../home/Pagination";
-
+import { reuleaux } from "ldrs";
 export default function AbmViaje() {
   const dispatch = useDispatch();
   const viajes = useSelector((state) => state.viajes);
@@ -40,7 +40,7 @@ export default function AbmViaje() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [viajeToDelete, setViajeToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -50,6 +50,11 @@ export default function AbmViaje() {
     dispatch(obtenerHoteles());
     dispatch(obtenerItinerario());
     dispatch(obtenerContratos());
+    const timeout = setTimeout(() => {
+      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+
+    return () => clearTimeout(timeout);
   }, [dispatch]);
 
   const handleEditClick = (viaje) => {
@@ -189,146 +194,164 @@ export default function AbmViaje() {
       <br />
       <br />
       <br />
+      {isLoading ? (
+        <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+          <div className="spinner">
+            {/* Contenido del spinner */}
 
-      <div className="cardViajes ">
-        <br />
-        <div className="search-field d-none d-md-block busquedaContenedor">
-          <form
-            className="d-flex align-items-center h-100 formularioSearch"
-            action="#"
-          >
-            <div className="input-group">
-              <div className="input-group-prepend bg-transparent">
-                <span className="input-group-text border-0">
-                  <FontAwesomeIcon icon={faSearch} />
-                </span>
-              </div>
-              <input
-                type="search"
-                className="input-md  searchabar"
-                placeholder="Busque el destino del viaje"
-                value={searchTerm}
-                onChange={handleSearchInputChange}
-              />
-            </div>
-          </form>
+            {reuleaux.register()}
+            <l-reuleaux
+              size="120"
+              stroke="7"
+              stroke-length="0.15"
+              bg-opacity="0.40"
+              speed="1.2"
+              color="#244AE0"
+            ></l-reuleaux>
+          </div>
+          <p className="text-center mt-3">Cargando...</p>
         </div>
-        <br />
-        <br />
-        <br />
-        <h2 className="text-center encabezadoLista">Lista de Viajes</h2>
-        <div className="botonCrear">
-          <Link
-            to="/FormularioViaje"
-            className="btn btn-primary botonCrearLink"
-          >
-            Agregar Viaje
-          </Link>
-        </div>
-        <div className="table-responsive">
-          <table className="table table-bordered  tablaViaje">
-            <thead className="text-center cabecerasDeTabla">
-              <tr>
-                <th>Destino</th>
-                <th>Salida</th>
-                <th>Regreso</th>
-                <th>Hotel</th>
-                <th>Contratos</th>
-                <th>Itinerario</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-
-            <tbody className="text-center cuerpoTabla">
-              {filterViajes(viajes).map((viaje) => (
-                <tr key={viaje.id}>
-                  <td>{viaje.destino}</td>
-                  <td>{viaje.salida}</td>
-                  <td>{viaje.regreso}</td>
-                  <td>
-                    {hoteles.map((hotel) =>
-                      hotel.id === viaje.hotelId ? (
-                        <div key={hotel.id}>
-                          <p>Nombre: {hotel.nombre}</p>
-                          {/* <p>Dirección: {hotel.direccion}</p> */}
-                        </div>
-                      ) : null
-                    )}
-                  </td>
-                  <td>{formatContratos(viaje.contratos)}</td>
-                  <td>
-                    {itinerarios.map((itinerario) =>
-                      itinerario.id === viaje.scheduleId ? (
-                        <div key={itinerario.id}>
-                          <p>Nombre: {itinerario.nombre}</p>
-                        </div>
-                      ) : null
-                    )}
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-primary botonEditar"
-                      onClick={() => handleEditClick(viaje)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/zfzufhzk.json"
-                        trigger="hover"
-                        style={{ width: "15px", height: "15px" }}
-                      ></lord-icon>
-                    </button>
-                    <button
-                      className="btn btn-danger botonEliminar"
-                      onClick={() => handleDeleteClick(viaje)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/xekbkxul.json"
-                        trigger="hover"
-                        style={{ width: "15px", height: "15px" }}
-                      ></lord-icon>
-                    </button>
-                    <button
-                      className="btn btn-info botonEditar"
-                      onClick={() => handleViewClick(viaje)}
-                    >
-                      <lord-icon
-                        src="https://cdn.lordicon.com/ascijbjj.json"
-                        trigger="hover"
-                        style={{ width: "15px", height: "15px" }}
-                      ></lord-icon>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <br />
-        <div className="pagination  d-flex justify-content-center align-items-center">
-          <Pagination
-            itemsPerPage={itemsPerPage}
-            totalItems={viajes.length}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-          <p className="mx-2 textoItemsViaje ">
-            Cantidad de viajes por pagina:
-          </p>
-          <form className="d-flex align-items-center h-100 " action="#">
-            {/* Resto de tu código */}
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              className="form-select mx-1 seletItemsViajes"
+      ) : (
+        <div className="cardViajes ">
+          <br />
+          <div className="search-field d-none d-md-block busquedaContenedor">
+            <form
+              className="d-flex align-items-center h-100 formularioSearch"
+              action="#"
             >
-              <option value="2">2</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-          </form>
+              <div className="input-group">
+                <div className="input-group-prepend bg-transparent">
+                  <span className="input-group-text border-0">
+                    <FontAwesomeIcon icon={faSearch} />
+                  </span>
+                </div>
+                <input
+                  type="search"
+                  className="input-md  searchabar"
+                  placeholder="Busque el destino del viaje"
+                  value={searchTerm}
+                  onChange={handleSearchInputChange}
+                />
+              </div>
+            </form>
+          </div>
+          <br />
+          <br />
+          <br />
+          <h2 className="text-center encabezadoLista">Lista de Viajes</h2>
+          <div className="botonCrear">
+            <Link
+              to="/FormularioViaje"
+              className="btn btn-primary botonCrearLink"
+            >
+              Agregar Viaje
+            </Link>
+          </div>
+          <div className="table-responsive">
+            <table className="table table-bordered  tablaViaje">
+              <thead className="text-center cabecerasDeTabla">
+                <tr>
+                  <th>Destino</th>
+                  <th>Salida</th>
+                  <th>Regreso</th>
+                  <th>Hotel</th>
+                  <th>Contratos</th>
+                  <th>Itinerario</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody className="text-center cuerpoTabla">
+                {filterViajes(viajes).map((viaje) => (
+                  <tr key={viaje.id}>
+                    <td>{viaje.destino}</td>
+                    <td>{viaje.salida}</td>
+                    <td>{viaje.regreso}</td>
+                    <td>
+                      {hoteles.map((hotel) =>
+                        hotel.id === viaje.hotelId ? (
+                          <div key={hotel.id}>
+                            <p>Nombre: {hotel.nombre}</p>
+                            {/* <p>Dirección: {hotel.direccion}</p> */}
+                          </div>
+                        ) : null
+                      )}
+                    </td>
+                    <td>{formatContratos(viaje.contratos)}</td>
+                    <td>
+                      {itinerarios.map((itinerario) =>
+                        itinerario.id === viaje.scheduleId ? (
+                          <div key={itinerario.id}>
+                            <p>Nombre: {itinerario.nombre}</p>
+                          </div>
+                        ) : null
+                      )}
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-primary botonEditar"
+                        onClick={() => handleEditClick(viaje)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/zfzufhzk.json"
+                          trigger="hover"
+                          style={{ width: "15px", height: "15px" }}
+                        ></lord-icon>
+                      </button>
+                      <button
+                        className="btn btn-danger botonEliminar"
+                        onClick={() => handleDeleteClick(viaje)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/xekbkxul.json"
+                          trigger="hover"
+                          style={{ width: "15px", height: "15px" }}
+                        ></lord-icon>
+                      </button>
+                      <button
+                        className="btn btn-info botonEditar"
+                        onClick={() => handleViewClick(viaje)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/ascijbjj.json"
+                          trigger="hover"
+                          style={{ width: "15px", height: "15px" }}
+                        ></lord-icon>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <br />
+          <div className="pagination  d-flex justify-content-center align-items-center">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              totalItems={viajes.length}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+            <p className="mx-2 textoItemsViaje ">
+              Cantidad de viajes por pagina:
+            </p>
+            <form className="d-flex align-items-center h-100 " action="#">
+              {/* Resto de tu código */}
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                className="form-select mx-1 seletItemsViajes"
+              >
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
       <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>
         <Modal.Header closeButton>
           <Modal.Title>Eliminar Viaje</Modal.Title>

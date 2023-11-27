@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "../../sass/_itinerario.scss";
 import { crearItinerario } from "../../redux/actions/actions";
+import { reuleaux } from "ldrs";
 
 export default function Itinerario() {
   const [nombre, setNombre] = useState("");
   const [textoGral, setTextoGral] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [camposExtras, setCamposExtras] = useState([
     { titulo: "", descripcion: "" },
   ]);
   const [alert, setAlert] = useState(null); // Estado para la alerta
   const dispatch = useDispatch();
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
 
+    return () => clearTimeout(timeout);
+  }, [dispatch]);
   const handleCampoExtraChange = (index, field, value) => {
     const newCamposExtras = [...camposExtras];
     newCamposExtras[index][field] = value;
@@ -80,83 +88,107 @@ export default function Itinerario() {
       <br />
       <br />
       <br />
-      <h1 className="text-center tituloForm">Crear Itinerario</h1>
+      {isLoading ? (
+        <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+          <div className="spinner">
+            {/* Contenido del spinner */}
 
-      <form className="form-sample " onSubmit={handleSubmit}>
-        <div className="row justify-content-center formularioItinerarioContenedor">
-          <div>
-            {alert && (
-              <div className={`alert alert-${alert.type}`} role="alert">
-                {alert.message}
-              </div>
-            )}
+            {reuleaux.register()}
+            <l-reuleaux
+              size="120"
+              stroke="7"
+              stroke-length="0.15"
+              bg-opacity="0.40"
+              speed="1.2"
+              color="#244AE0"
+            ></l-reuleaux>
           </div>
-          <div className="col-md-6">
-            {/* ...otros campos */}
-            <div className="form-group">
-              <label className="estilosLabels">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nombre"
-                value={nombre}
-                required
-                onChange={(e) => setNombre(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label className="estilosLabels">Texto General</label>
-              {camposExtras.map((campo, index) => (
-                <div key={index}>
-                  <label>Titulo de la actividad {index + 1}</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Ejemplo:Desayuno buffet"
-                    value={campo.titulo}
-                    onChange={(e) =>
-                      handleCampoExtraChange(index, "titulo", e.target.value)
-                    }
-                  />
-                  <br />
-                  <label>Descripcion de la actividad {index + 1}</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="De 9:45 hs a 12:00 hs"
-                    value={campo.descripcion}
-                    onChange={(e) =>
-                      handleCampoExtraChange(
-                        index,
-                        "descripcion",
-                        e.target.value
-                      )
-                    }
-                  />
-                  <br />
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={handleAgregarCampoExtra}
-                className="btn btn-primary estiloBotones"
-              >
-                Agregar Campo Extra
-              </button>
-            </div>
-            {/* ...otros campos */}
-            <button
-              type="submit"
-              className="btn btn-primary estiloBotones"
-              onClick={handleSubmit}
-            >
-              Agregar Itinerario
-            </button>
-            {/* ...botón de redirección */}
-          </div>
+          <p className="text-center mt-3">Cargando...</p>
         </div>
-      </form>
-      {/* Alerta condicional */}
+      ) : (
+        <div>
+          <h1 className="text-center tituloForm">Crear Itinerario</h1>
+
+          <form className="form-sample " onSubmit={handleSubmit}>
+            <div className="row justify-content-center formularioItinerarioContenedor">
+              <div>
+                {alert && (
+                  <div className={`alert alert-${alert.type}`} role="alert">
+                    {alert.message}
+                  </div>
+                )}
+              </div>
+              <div className="col-md-6">
+                {/* ...otros campos */}
+                <div className="form-group">
+                  <label className="estilosLabels">Nombre</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Nombre"
+                    value={nombre}
+                    required
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="estilosLabels">Texto General</label>
+                  {camposExtras.map((campo, index) => (
+                    <div key={index}>
+                      <label>Titulo de la actividad {index + 1}</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Ejemplo:Desayuno buffet"
+                        value={campo.titulo}
+                        onChange={(e) =>
+                          handleCampoExtraChange(
+                            index,
+                            "titulo",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <br />
+                      <label>Descripcion de la actividad {index + 1}</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="De 9:45 hs a 12:00 hs"
+                        value={campo.descripcion}
+                        onChange={(e) =>
+                          handleCampoExtraChange(
+                            index,
+                            "descripcion",
+                            e.target.value
+                          )
+                        }
+                      />
+                      <br />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={handleAgregarCampoExtra}
+                    className="btn btn-primary estiloBotones"
+                  >
+                    Agregar Campo Extra
+                  </button>
+                </div>
+                {/* ...otros campos */}
+                <button
+                  type="submit"
+                  className="btn btn-primary estiloBotones"
+                  onClick={handleSubmit}
+                >
+                  Agregar Itinerario
+                </button>
+                {/* ...botón de redirección */}
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
