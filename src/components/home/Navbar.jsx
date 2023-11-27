@@ -85,7 +85,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUsers, logoutUser } from "../../redux/actions/actions";
 import { useNavigate } from "react-router-dom";
 import "../../sass/_navbar.scss";
-
+//para probar
 export default function Navbar() {
   const user = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
