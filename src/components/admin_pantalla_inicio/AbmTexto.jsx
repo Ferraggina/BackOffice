@@ -37,17 +37,6 @@ export default function AbmTexto() {
     return () => clearTimeout(timeout);
   }, [dispatch]);
 
-  // const handleEditText = (id) => {
-  //   const editingText = landingDataText.find((text) => text.id === id);
-  //   setFormData({
-  //     texto: editingText.texto,
-  //     activo: editingText.activo, // Asegurar que 'activo' sea establecido desde el texto actual
-  //     posicion: editingText.posicion,
-  //     titulo: editingText.titulo,
-  //   });
-  //   setEditingId(id);
-  //   setShowModal(true);
-  // };
   const handleEditText = (id) => {
     const editingText = landingDataText.find((text) => text.id === id);
     setFormData({
@@ -60,29 +49,6 @@ export default function AbmTexto() {
     setShowModal(true);
   };
 
-  // const handleSaveEdits = () => {
-  //   if (editingId) {
-  //     const editingText = landingDataText.find((text) => text.id === editingId);
-  //     const wasActiveBeforeEdit = editingText.activo;
-  //     const newTextIsActive = formData.activo;
-
-  //     if (!wasActiveBeforeEdit && newTextIsActive) {
-  //       const activeTextsCount = landingDataText.filter(
-  //         (text) => text.activo
-  //       ).length;
-  //       if (activeTextsCount >= 5) {
-  //         alert("No puede haber más de 5 textos activos");
-  //         return;
-  //       }
-  //     }
-
-  //     dispatch(updateLandingText(editingId, formData));
-  //     setEditingId(null);
-  //     setShowModal(false);
-  //     alert("Cambios guardados con éxito");
-  //     window.location.reload();
-  //   }
-  // };
   const handleSaveEdits = () => {
     if (editingId) {
       const editingText = landingDataText.find((text) => text.id === editingId);

@@ -52,18 +52,7 @@ export default function Abmusuario() {
     setShowModal(true);
     setContratosSeleccionados(usuario.contrato);
   };
-  // const toggleContractSelection = (contractNum) => {
-  //   if (contratosSeleccionados.includes(contractNum)) {
-  //     setContratosSeleccionados((prevSelected) =>
-  //       prevSelected.filter((num) => num !== contractNum)
-  //     );
-  //   } else {
-  //     setContratosSeleccionados((prevSelected) => [
-  //       ...prevSelected,
-  //       contractNum,
-  //     ]);
-  //   }
-  // };
+
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
       // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
@@ -87,11 +76,6 @@ export default function Abmusuario() {
       : "Nombre de Contrato Desconocido";
   };
 
-  // const handleDeleteClick = (usuarioId) => {
-  //   setUsuarioToDelete(usuarioId);
-  //   setShowConfirmationModal(true);
-  // };
-
   const handleCloseConfirmationModal = () => {
     setShowConfirmationModal(false);
   };
@@ -112,7 +96,7 @@ export default function Abmusuario() {
   const handleSaveEdits = () => {
     if (editingUsuario) {
       const usuarioId = editingUsuario.id;
-      const contratosFinal = `[${contratosSeleccionados.join(",")}]`;
+      // const contratosFinal = `[${contratosSeleccionados.join(",")}]`;
       // Crear un objeto usuarioActualizado con los campos editados
       const usuarioActualizado = {
         nombre: editingUsuario.nombre,
@@ -141,13 +125,6 @@ export default function Abmusuario() {
       [name]: value,
     });
   };
-
-  // const filterUsuarios = (usuarios) => {
-  //   return usuarios.filter((usuario) => {
-  //     return usuario.nombre.toLowerCase().includes(searchTerm.toLowerCase());
-  //   });
-
-  // };
 
   const filterUsuarios = (usuarios) => {
     const filteredUsuarios = usuarios.filter((usuario) => {

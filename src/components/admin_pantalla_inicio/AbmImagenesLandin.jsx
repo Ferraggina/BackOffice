@@ -42,22 +42,6 @@ export default function AbmImagenesLandin() {
     return () => clearTimeout(timeout);
   }, [dispatch]);
 
-  // const handleEditImage = (id) => {
-  //   const editingImage = landingData.find((image) => image.id === id);
-  //   const existingImages = JSON.parse(editingImage.image);
-  //   const existingFolletos = JSON.parse(editingImage.folleto);
-
-  //   setFormData({
-  //     image: "",
-  //     folleto: "",
-  //     activo: editingImage.activo,
-  //     posicion: editingImage.posicion, // Cargamos la posición
-  //   });
-  //   setSelectedImages(existingImages);
-  //   setSelectedFolletos(existingFolletos);
-  //   setEditingId(id);
-  //   setShowModal(true);
-  // };
   const handleEditImage = (id) => {
     const editingImage = landingData.find((image) => image.id === id);
     const existingImages = editingImage.image;
@@ -111,22 +95,6 @@ export default function AbmImagenesLandin() {
   };
 
   const handleSaveEdits = () => {
-    // if (editingId) {
-    //   // Extraer la primera URL del array
-    //   const firstImageUrl = selectedImages;
-
-    //   dispatch(
-    //     updateLanding(editingId, {
-    //       image: firstImageUrl,
-    //       folleto: JSON.stringify(selectedFolletos),
-    //       activo: formData.activo,
-    //       posicion: formData.posicion,
-    //     })
-    //   );
-    //   setEditingId(null);
-    //   setShowModal(false);
-    //   alert("Cambios guardados con éxito");
-    // }
     if (editingId) {
       const firstImageUrl = selectedImages;
       const activatedImagesCount = landingData.filter(
@@ -150,25 +118,6 @@ export default function AbmImagenesLandin() {
       }
     }
   };
-  // const handleCheckChange = (e) => {
-  //   const isCurrentlyActivated = e.target.checked;
-
-  //   // Si el elemento está siendo activado y ya hay 5 elementos activados, mostrar una alerta
-  //   if (isCurrentlyActivated && activatedCount >= 5) {
-  //     alert("Solo se pueden activar 5 elementos.");
-  //     return;
-  //   }
-
-  //   setFormData({ ...formData, activo: isCurrentlyActivated });
-
-  //   // Si el elemento está activado, incrementar el conteo; de lo contrario, decrementarlo
-  //   const updatedActivatedCount = isCurrentlyActivated
-  //     ? activatedCount + 1
-  //     : activatedCount - 1;
-
-  //   // Actualizar el conteo de elementos activados
-  //   setActivatedCount(updatedActivatedCount);
-  // };
 
   const handleDeleteImage = (id) => {
     dispatch(deleteLanding(id));
@@ -263,38 +212,6 @@ export default function AbmImagenesLandin() {
   // };
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // if (editingId) {
-    //   handleSaveEdits();
-    // } else {
-    //   if (selectedImages.length > 0 && selectedFolletos.length > 0) {
-    //     const imagenes = selectedImages;
-    //     const folletos = JSON.stringify(selectedFolletos);
-
-    //     dispatch(
-    //       addLanding({
-    //         ...formData,
-    //         image: imagenes,
-    //         folleto: folletos,
-    //         activo: formData.activo,
-    //         posicion: formData.posicion,
-    //       })
-    //     );
-
-    //     setSelectedImages([]);
-    //     setSelectedFolletos([]);
-    //     setFormData({
-    //       image: "",
-    //       folleto: "",
-    //       activo: true,
-    //       posicion: "",
-    //     });
-
-    //     setShowModal(false);
-    //   } else {
-    //     alert("Debes seleccionar al menos una imagen y un folleto.");
-    //   }
-    // }
     e.preventDefault();
     if (editingId) {
       handleSaveEdits();

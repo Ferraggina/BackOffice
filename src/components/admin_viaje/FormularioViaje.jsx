@@ -64,18 +64,6 @@ export default function FormularioViaje() {
   }, [nuevoScheduleIdData, itinerarios]);
 
   const toggleContractSelection = (contractNum) => {
-    // if (contratosSeleccionados.includes(contractNum)) {
-    //   // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
-    //   setContratosSeleccionados((prevSelected) =>
-    //     prevSelected.filter((num) => num !== contractNum)
-    //   );
-    // } else {
-    //   // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
-    //   setContratosSeleccionados((prevSelected) => [
-    //     ...prevSelected,
-    //     contractNum,
-    //   ]);
-    // }
     if (contratosSeleccionados.includes(contractNum)) {
       // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) =>
