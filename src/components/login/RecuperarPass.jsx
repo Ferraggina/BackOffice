@@ -9,7 +9,7 @@ export function RecuperarPass() {
   const token = searchParams.get("token");
   const idUsuario = searchParams.get("idUsuario");
   console.log("SOY IDUSER DE RECPASS", idUsuario, token);
-  //   console.log("SOY LO QUE BUSCAN", token, idUsuario);
+
   const dispatch = useDispatch();
   const [newPassword, setNewPassword] = useState("");
   const [passwordUpdated, setPasswordUpdated] = useState(false);

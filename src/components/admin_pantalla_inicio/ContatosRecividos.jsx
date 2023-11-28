@@ -30,7 +30,6 @@ export default function ContactosRecibidos() {
     return currentItems;
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`Cambiando a la página ${pageNumber}`);
     setCurrentPage(pageNumber);
   };
 
@@ -47,8 +46,6 @@ export default function ContactosRecibidos() {
       {isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">
-            {/* Contenido del spinner */}
-
             {reuleaux.register()}
             <l-reuleaux
               size="120"
@@ -101,7 +98,6 @@ export default function ContactosRecibidos() {
               Cantidad de contactos por pagina:
             </p>
             <form className="d-flex align-items-center h-100 " action="#">
-              {/* Resto de tu código */}
               <select
                 value={itemsPerPage}
                 onChange={handleItemsPerPageChange}

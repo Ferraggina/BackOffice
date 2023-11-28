@@ -31,7 +31,7 @@ export default function Abmusuario() {
   const [searchTermContratos, setSearchTermContratos] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [estado, setEstado] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -128,10 +128,15 @@ export default function Abmusuario() {
 
   const filterUsuarios = (usuarios) => {
     const filteredUsuarios = usuarios.filter((usuario) => {
+      const nombre = usuario.nombre ? usuario.nombre.toLowerCase() : "";
+      const apellido = usuario.apellido ? usuario.apellido.toLowerCase() : "";
+      const usuarioNombre = usuario.usuario
+        ? usuario.usuario.toLowerCase()
+        : "";
       return (
-        usuario.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        usuario.apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        usuario.usuario.toLowerCase().includes(searchTerm.toLowerCase())
+        nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        usuarioNombre.toLowerCase().includes(searchTerm.toLowerCase())
       );
     });
 
@@ -148,7 +153,6 @@ export default function Abmusuario() {
     return currentItems;
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`Cambiando a la página ${pageNumber}`);
     setCurrentPage(pageNumber);
   };
 
@@ -203,8 +207,6 @@ export default function Abmusuario() {
       {isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">
-            {/* Contenido del spinner */}
-
             {reuleaux.register()}
             <l-reuleaux
               size="120"
@@ -490,7 +492,6 @@ export default function Abmusuario() {
               ))}
             </ul>
           </div>
-          {/* Otros campos de usuario aquí... */}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

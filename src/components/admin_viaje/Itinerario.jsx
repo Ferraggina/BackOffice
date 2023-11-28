@@ -91,8 +91,6 @@ export default function Itinerario() {
       {isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">
-            {/* Contenido del spinner */}
-
             {reuleaux.register()}
             <l-reuleaux
               size="120"
@@ -183,7 +181,6 @@ export default function Itinerario() {
                 >
                   Agregar Itinerario
                 </button>
-                {/* ...botón de redirección */}
               </div>
             </div>
           </form>

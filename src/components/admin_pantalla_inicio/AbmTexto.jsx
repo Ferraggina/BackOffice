@@ -123,7 +123,6 @@ export default function AbmTexto() {
           alert("El campo de texto no puede estar vacío.");
         }
       }
-      console.log("ESTOY FUNCIONANDO");
     }
   };
   const filterLanding = (landing) => {
@@ -137,7 +136,6 @@ export default function AbmTexto() {
     return currentItems;
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`Cambiando a la página ${pageNumber}`);
     setCurrentPage(pageNumber);
   };
 

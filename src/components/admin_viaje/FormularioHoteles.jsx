@@ -19,7 +19,7 @@ export default function FormularioHoteles() {
     e.preventDefault();
 
     const fotos = JSON.stringify(selectedImages);
-    console.log("Aca Fotos", fotos);
+
     const nuevoHotel = {
       nombre: nombre,
       direccion: direccion,
@@ -27,7 +27,6 @@ export default function FormularioHoteles() {
       videos: videos,
       telefono: telefono,
     };
-    console.log("nuevo hotel", nuevoHotel);
 
     try {
       // Llamar a la acción para crear el itinerario

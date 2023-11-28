@@ -86,7 +86,6 @@ function rootReducer(state = initialState, action) {
         users: action.payload,
       };
     case LOGIN_SUCCESS:
-      console.log("ACA LOGINS SUCC", action.payload.usuario);
       return {
         ...state,
         user: action.payload,
@@ -122,7 +121,6 @@ function rootReducer(state = initialState, action) {
         error: action.payload,
       };
     case URL_USER_PASS:
-      console.log("Valor actual de urlToken:", action.payload);
       return {
         ...state,
         urlToken: action.payload,
@@ -325,7 +323,6 @@ function rootReducer(state = initialState, action) {
         isLoggedIn: false,
       };
     case UPLOAD_IMAGE_SUCCESS:
-      console.log("URL de la imagen cargada con éxito:", action.payload);
       return {
         ...state,
         imageUrl: action.payload,

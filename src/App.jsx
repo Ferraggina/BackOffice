@@ -11,7 +11,7 @@ import Itinerario from "./components/admin_viaje/Itinerario";
 
 import FormularioHoteles from "./components/admin_viaje/FormularioHoteles";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AbmHotel from "./components/admin_viaje/AbmHotel";
 
 import AbmImagenesLandin from "./components/admin_pantalla_inicio/AbmImagenesLandin";
@@ -33,7 +33,7 @@ function App() {
     // dispatch(getUsers());
   }, []);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   useEffect(() => {
     // Recupera la información del usuario del Local Storage
     const user = JSON.parse(localStorage.getItem("user"));

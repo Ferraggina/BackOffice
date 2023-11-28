@@ -61,7 +61,7 @@ export function getUsers() {
       },
     });
     const usuarios = response.data;
-    console.log("traer usesr", usuarios);
+
     usuarios.sort((a, b) => b.id - a.id);
 
     return dispatch({
@@ -148,7 +148,7 @@ export function login(username, password) {
           "Content-Type": "application/json",
         },
       });
-      console.log("Aca la respuesta", response);
+
       // Si el inicio de sesión es exitoso
       if (response.status === 200) {
         // Almacena la información del usuario en el Local Storage
@@ -207,7 +207,6 @@ export const forgotPassword = (username) => {
       if (response.status === 200) {
         dispatch(forgotPasswordSuccess());
         dispatch(olvidoPassDatosUrl(dataUserUrl));
-        console.log(dataUserUrl);
       } else {
         dispatch(
           forgotPasswordFailure("Error al enviar el correo de recuperación.")
@@ -240,7 +239,7 @@ export const updatePassword = (token, idUsuario, newPassword) => {
   const updatePassUrl = import.meta.env.VITE_ACTUALIZARPASSWORD;
   return async (dispatch) => {
     // Obtener el token del estado
-    console.log("SOY LA ACTION", idUsuario);
+
     try {
       const response = await axios.put(
         updatePassUrl, // Ajusta la URL según tu backend
@@ -248,11 +247,10 @@ export const updatePassword = (token, idUsuario, newPassword) => {
           idUsuario: idUsuario, //dato obligatorio
           password: newPassword,
         }, // Envia la nueva contraseña al servidor
-        // console.log("SOY LA ACTION", response),
+
         {
           headers: {
-            "x-access-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+            "x-access-token": TOKEN,
             "Content-Type": "application/json",
           },
         }
@@ -274,13 +272,7 @@ export const crearViaje = (nuevoViajeData) => {
   return async (dispatch) => {
     try {
       // Realiza una solicitud POST al backend para crear el viaje
-      console.log(
-        "Aca nuevoViajeData antes de enviar la solicitud",
-        nuevoViajeData.nuevoDestinoData,
-        nuevoViajeData.nuevoHotelIdData,
-        nuevoViajeData.contratosFinal,
-        nuevoViajeData.nuevoScheduleIdData
-      );
+
       const response = await axios.post(
         createTravel,
 
@@ -300,15 +292,12 @@ export const crearViaje = (nuevoViajeData) => {
           },
         }
       );
-      console.log("Aca response luego de dispatch", response.data);
+
       // Despacha una acción de éxito si se crea el viaje
-      dispatch(
-        {
-          type: VIAJE_CREAR_EXITO,
-          payload: response.data,
-        },
-        console.log("Aca response luego de dispatch", response.data)
-      );
+      dispatch({
+        type: VIAJE_CREAR_EXITO,
+        payload: response.data,
+      });
     } catch (error) {
       // Despacha una acción de error si falla la creación del viaje
       dispatch({
@@ -351,7 +340,7 @@ export const obtenerHoteles = () => async (dispatch) => {
     const hoteles = response.data; // Supongamos que la respuesta es un array de contratos
 
     hoteles.sort((a, b) => b.id - a.id);
-    console.log("hoteles", hoteles);
+
     dispatch({ type: OBTENER_HOTELES_EXITO, payload: hoteles });
   } catch (error) {
     dispatch({ type: OBTENER_HOTELES_ERROR, payload: error.message });
@@ -453,7 +442,7 @@ export const crearHotel = (nuevoHotel) => {
           },
         }
       );
-      console.log("RESPUESTA", response);
+
       // Despacha una acción de éxito si se crea el viaje
       dispatch({
         type: POSTEAR_HOTELES_EXITO,
@@ -500,8 +489,6 @@ export function editarViaje(idViaje, data) {
   const editTravelUrl = import.meta.env.VITE_EDITARVIAJE;
   return async function (dispatch) {
     try {
-      console.log("ACA DATA EN ACTIONS", data);
-
       const response = await axios.put(
         `${editTravelUrl}${idViaje}`, // Reemplaza con la URL correcta de tu API
         data, // Los datos editados del viaje
@@ -601,7 +588,7 @@ export const getLanding = () => async (dispatch) => {
         "Content-Type": "application/json",
       },
     }); // Reemplaza con tu URL de backend
-    console.log("GET LANDING", response);
+
     const landingimage = response.data;
     landingimage.sort((a, b) => b.id - a.id);
     dispatch({
@@ -616,7 +603,6 @@ export const getLanding = () => async (dispatch) => {
 export const addLanding = (landingData) => async (dispatch) => {
   const getLandingUrl = import.meta.env.VITE_TRAERLANDING;
   try {
-    console.log("aca landing data", landingData);
     const response = await axios.post(getLandingUrl, landingData, {
       headers: {
         "x-access-token": TOKEN,
@@ -624,7 +610,7 @@ export const addLanding = (landingData) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     }); // Reemplaza con tu URL de backend
-    console.log("ACA ESTA LA RESPUESTA", response);
+
     dispatch({
       type: ADD_LANDING,
       payload: response.data,
@@ -637,7 +623,6 @@ export const addLanding = (landingData) => async (dispatch) => {
 export const updateLanding = (id, landingData) => async (dispatch) => {
   const getLandingUrl = import.meta.env.VITE_TRAERLANDING;
   try {
-    console.log("aca landingdata", landingData);
     const response = await axios.put(`${getLandingUrl}/${id}`, landingData, {
       headers: {
         "x-access-token": TOKEN,
@@ -690,9 +675,9 @@ export const uploadImage = (imageFile) => async (dispatch) => {
   try {
     const formData = new FormData();
     formData.append("image", imageFile);
-    console.log("form data", formData);
+
     const response = await axios.post(uploadImageUrl, imageFile);
-    console.log("ACA RESPONSE DE IMAGEURL", response.data.urlImage);
+
     if (response.status === 200) {
       dispatch({
         type: UPLOAD_IMAGE_SUCCESS,
@@ -744,7 +729,7 @@ export const addLandingText = (landingDataText) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     }); // Reemplaza con tu URL de backend
-    console.log("ACA ESTA LA RESPUESTA", response);
+
     dispatch({
       type: ADD_LANDING_TEXT,
       payload: response.data,
@@ -757,7 +742,6 @@ export const addLandingText = (landingDataText) => async (dispatch) => {
 export const updateLandingText = (id, landingDataText) => async (dispatch) => {
   const getTextLandingUrl = import.meta.env.VITE_TEXTOLANDING;
   try {
-    console.log("aca landingdata", landingDataText);
     const response = await axios.put(
       `${getTextLandingUrl}/${id}`,
       landingDataText,
