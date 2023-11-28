@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getUsers, logoutUser } from "../../redux/actions/actions";
+import { logoutUser } from "../../redux/actions/actions";
 import { useNavigate } from "react-router-dom";
 import "../../sass/_navbar.scss";
 //para probar

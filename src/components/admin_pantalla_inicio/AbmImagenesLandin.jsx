@@ -91,7 +91,6 @@ export default function AbmImagenesLandin() {
         console.error("Error al cargar la imagen en el servidor:", error);
       }
     }
-    console.log(selectedImages);
   };
 
   const handleSaveEdits = () => {
@@ -122,25 +121,6 @@ export default function AbmImagenesLandin() {
   const handleDeleteImage = (id) => {
     dispatch(deleteLanding(id));
   };
-
-  // const handleImageUpload = async (e) => {
-  //   const selectedImage = e.target.files[0];
-
-  //   if (selectedImage) {
-  //     const formData = new FormData();
-  //     formData.append("image", selectedImage);
-
-  //     try {
-  //       const response = await dispatch(uploadImage(formData));
-
-  //       if (response) {
-  //         setSelectedImages([...selectedImages, response]);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error al cargar la imagen en el servidor:", error);
-  //     }
-  //   }
-  // };
 
   const handleFolletoUpload = async (e) => {
     const selectedFolleto = e.target.files[0];
@@ -268,7 +248,6 @@ export default function AbmImagenesLandin() {
     return currentItems;
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`Cambiando a la página ${pageNumber}`);
     setCurrentPage(pageNumber);
   };
 
@@ -355,7 +334,6 @@ export default function AbmImagenesLandin() {
               <tbody className="text-center cuerpoTabla">
                 {filterLanding(landingData).map((image) => (
                   <tr key={image.id}>
-                    {console.log("IMAGE.IMAGE", image.image)}
                     <td>
                       {image.image && (
                         <div className="image-list">
@@ -507,7 +485,6 @@ export default function AbmImagenesLandin() {
           <div className="selected-images">
             {selectedImages && typeof selectedImages === "string" && (
               <div className="selected-image-item">
-                {console.log("selectedeIMAGES", selectedImages)}
                 <h4>Imagen Landing:</h4>
                 <img
                   src={selectedImages}

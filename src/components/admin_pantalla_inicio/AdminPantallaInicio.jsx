@@ -19,7 +19,6 @@ export function AdminPantallaInicio() {
                       style={{ width: "230px", height: "230px" }}
                     />
                   </a>
-                  {/* Agrega el icono dentro del componente */}
                 </h2>
               </th>
               <th>
@@ -32,7 +31,6 @@ export function AdminPantallaInicio() {
                       style={{ width: "230px", height: "230px" }}
                     ></lord-icon>
                   </a>
-                  {/* Agrega el icono dentro del componente */}
                 </h2>
               </th>
 
@@ -46,7 +44,6 @@ export function AdminPantallaInicio() {
                       style={{ width: "230px", height: "230px" }}
                     ></lord-icon>
                   </a>
-                  {/* Agrega el icono dentro del componente */}
                 </h2>
               </th>
               <th>
@@ -59,7 +56,6 @@ export function AdminPantallaInicio() {
                       style={{ width: "230px", height: "230px" }}
                     ></lord-icon>
                   </a>
-                  {/* Agrega el icono dentro del componente */}
                 </h2>
               </th>
             </tr>

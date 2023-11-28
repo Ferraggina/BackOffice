@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { crearUsuario, obtenerContratos } from "../../redux/actions/actions";
-import { useNavigate } from "react-router-dom";
 
 export default function CrearUsuarios() {
   const [nombre, setNombre] = useState("");
@@ -9,19 +8,19 @@ export default function CrearUsuarios() {
   const [usuario, setUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [contrato, setContrato] = useState([]); // Estado local para almacenar contratos seleccionados
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [rol, setRol] = useState("");
   const [estado, setEstado] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // Barra de búsqueda
+
   const [contratosSeleccionados, setContratosSeleccionados] = useState([]);
   const [nuevoContratoData, setNuevoContratoData] = useState([]);
   const [contratosFiltrados, setContratosFiltrados] = useState([]);
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [usuarioCreado, setUsuarioCreado] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const rolesOptions = ["Padre", "Coordinador", "Administrador"];
 
   const error = useSelector((state) => state.error);
@@ -31,20 +30,6 @@ export default function CrearUsuarios() {
     dispatch(obtenerContratos());
   }, [dispatch]);
 
-  // const toggleContractSelection = (contractNum) => {
-  //   if (contratosSeleccionados.includes(contractNum)) {
-  //     // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
-  //     setContratosSeleccionados((prevSelected) =>
-  //       prevSelected.filter((num) => num !== contractNum)
-  //     );
-  //   } else {
-  //     // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
-  //     setContratosSeleccionados((prevSelected) => [
-  //       ...prevSelected,
-  //       contractNum,
-  //     ]);
-  //   }
-  // };
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
       // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
@@ -69,13 +54,9 @@ export default function CrearUsuarios() {
       : "Nombre de Contrato Desconocido";
   };
 
-  const filteredContratos = contratos.filter((contract) =>
-    contract.num.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const contratosFinal = `[${contratosSeleccionados.join(",")}]`;
+
     const nuevoUsuario = {
       nombre,
       apellido,
@@ -90,8 +71,6 @@ export default function CrearUsuarios() {
 
     dispatch(crearUsuario(nuevoUsuario))
       .then(() => {
-        // navigate("/home");
-        console.log("contratosFinal", contratosFinal);
         setUsuarioCreado(true);
         setTimeout(() => {
           window.location.reload();
@@ -359,10 +338,6 @@ export default function CrearUsuarios() {
                             {contratosSeleccionados.map((contractNum) => (
                               <li key={contractNum}>
                                 {getContractNameById(contractNum)}
-                                {console.log(
-                                  "contrato",
-                                  contratosSeleccionados
-                                )}
                               </li>
                             ))}
                           </ul>

@@ -39,12 +39,12 @@ export default function FormularioViaje() {
 
   useEffect(() => {
     // Busca el hotel correspondiente según el id seleccionado
-    console.log("ACA ESTA TODO ", nuevoHotelIdData, hoteles);
+
     if (nuevoHotelIdData && hoteles.length > 0) {
       const hotelEncontrado = hoteles.find(
         (hotel) => hotel.id == nuevoHotelIdData
       );
-      console.log("Hotel encontrado:", hotelEncontrado);
+
       setHotelSeleccionado(hotelEncontrado || null); // Si no se encuentra un hotel, establece el estado en null
     } else {
       setHotelSeleccionado(null);
@@ -91,7 +91,6 @@ export default function FormularioViaje() {
 
     // Formatea el array de contratos como una cadena JSON
     // Asegúrate de que nuevoContratoData sea un array
-    console.log("Contratos seleccionados", contratosSeleccionados);
 
     const contratosFormateados = contratosSeleccionados.join(",");
 
@@ -173,7 +172,6 @@ export default function FormularioViaje() {
                   value={nuevoHotelIdData}
                   // onChange={(e) => setNuevoHotelIdData(e.target.value)}
                   onChange={(e) => {
-                    console.log("Nuevo valor seleccionado:", e.target.value);
                     setNuevoHotelIdData(e.target.value);
                   }}
                   required
@@ -277,7 +275,6 @@ export default function FormularioViaje() {
                           <ul className="estiloListaContratosSeleccionados">
                             {contratosSeleccionados.map((contractNum) => (
                               <li key={contractNum}>
-                                {/* Usa la función getContractNameById para obtener el nombre del contrato */}
                                 {getContractNameById(contractNum)}
                               </li>
                             ))}

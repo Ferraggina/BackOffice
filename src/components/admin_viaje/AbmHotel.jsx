@@ -172,7 +172,6 @@ export default function AbmHotel() {
     return currentItems;
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`Cambiando a la página ${pageNumber}`);
     setCurrentPage(pageNumber);
   };
 
@@ -356,13 +355,11 @@ export default function AbmHotel() {
         </Modal.Footer>
       </Modal>
 
-      {/* Modal de Edición */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Editar Hotel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Campos de edición */}
           Nombre:
           <input
             className="form-control mb-3"
@@ -437,10 +434,8 @@ export default function AbmHotel() {
               ) : (
                 <p>No hay fotos</p>
               )}
-              {console.log("editing fotos", editingHotel.fotos)}
             </div>
           </div>
-          {/* Agregar visualización de videos si es necesario */}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

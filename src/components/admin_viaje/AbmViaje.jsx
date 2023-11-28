@@ -180,7 +180,6 @@ export default function AbmViaje() {
     return currentItems;
   };
   const handlePageChange = (pageNumber) => {
-    console.log(`Cambiando a la página ${pageNumber}`);
     setCurrentPage(pageNumber);
   };
 
@@ -197,8 +196,6 @@ export default function AbmViaje() {
       {isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">
-            {/* Contenido del spinner */}
-
             {reuleaux.register()}
             <l-reuleaux
               size="120"

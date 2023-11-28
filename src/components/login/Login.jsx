@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers, login } from "../../redux/actions/actions";
+import { login } from "../../redux/actions/actions";
 import validator from "validator";
 
 export function Login() {
