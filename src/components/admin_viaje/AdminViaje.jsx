@@ -2,11 +2,6 @@ import React, { useState } from "react";
 
 import "../../sass/_adminViaje.scss";
 export function AdminViaje() {
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const toggleFormulario = () => {
-    setMostrarFormulario(!mostrarFormulario);
-  };
-
   return (
     <div>
       <div className="container mt-4 table-responsive esiloTablaAdViaje">

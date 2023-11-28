@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 
 export function AdminPantallaInicio() {
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const toggleFormulario = () => {
-    setMostrarFormulario(!mostrarFormulario);
-  };
-
   return (
     <div>
       <br />

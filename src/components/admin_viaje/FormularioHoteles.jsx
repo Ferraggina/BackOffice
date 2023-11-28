@@ -66,17 +66,6 @@ export default function FormularioHoteles() {
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
-  // const handleFileInputChange = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   if (files && files.length > 0) {
-  //     setFotos([...fotos, ...files]); // Agrega nuevos archivos al estado existente
-  //   }
-  // };
-  // const handleRemoveFile = (index) => {
-  //   const updatedFiles = [...fotos];
-  //   updatedFiles.splice(index, 1);
-  //   setFotos(updatedFiles);
-  // };
 
   const handleImageUpload = async (e) => {
     const selectedImage = e.target.files[0];
@@ -175,28 +164,11 @@ export default function FormularioHoteles() {
                   onChange={(e) => setTelefono(e.target.value)}
                 />
               </div>
-              {/* <div className="form-group">
-              <label>Añadir Fotos</label>
-              <br />
-              <input
-                type="file"
-                className="file-upload-default inputFotosHotel"
-                multiple
-                onChange={handleFileInputChange}
-              />
-            </div> */}
+
               <div className="form-group">
                 <label className="estilosLabels">Añadir Fotos</label>
                 <br />
-                {/* <label htmlFor="file-upload" className="custom-file-upload">
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageUpload}
-                />
-                Seleccionar archivos
-              </label> */}
+
                 <div className="custom-file-upload">
                   <input
                     type="file"
@@ -230,25 +202,7 @@ export default function FormularioHoteles() {
                     </div>
                   ))}
               </div>
-              {/* Área para mostrar archivos seleccionados */}
-              {/* Área para mostrar archivos seleccionados */}
-              {/* <div className="selected-files">
-              <h4>Fotos Seleccionados:</h4>
-              <ul className="renderizadoElegidas">
-                {fotos.map((file, index) => (
-                  <li className="listadoRenderizadas" key={index}>
-                    {file.name}
-                    <button
-                      type="button"
-                      className="btn btn-danger btn-sm ml-2"
-                      onClick={() => handleRemoveFile(index)}
-                    >
-                      Eliminar
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div> */}
+
               <div className="form-group">
                 <label className="estilosLabels">Añadir enlace de Video</label>
                 <input

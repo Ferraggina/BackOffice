@@ -31,48 +31,6 @@ export function Login() {
     return true;
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (!validateUsername(username)) {
-  //     return;
-  //   }
-
-  //   // Valida los datos
-  //   if (username === "") {
-  //     setError("El nombre de usuario no puede estar vacío.");
-  //     return;
-  //   }
-
-  //   if (password === "") {
-  //     setError("La contraseña no puede estar vacía.");
-  //     return;
-  //   }
-
-  //   // Envia la solicitud de login al backend
-  //   // ...
-
-  //   dispatch(login(username, password))
-  //     .then((res) => {
-  //       // Redirige al usuario a otra página
-  //       // console.log('SOY LO Q HAY', res.payload.status)
-  //       if (res.payload.status === 200) {
-  //         navigate("/home");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       // Manejo los errores que puedan ocurrir en la acción loginAuth
-  //       alert("Error, datos Incorrectos");
-  //       console.error("Error, datos Incorrectos", error);
-  //     });
-  //   // Verifica si el login es correcto
-
-  //   if (!user) {
-  //     setError("El login no es correcto.");
-  //     console.log("aca no  fue");
-  //     alert("no se encontro el usuario");
-  //     return;
-  //   }
-  // };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateUsername(username)) {
