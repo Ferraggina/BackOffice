@@ -1,7 +1,7 @@
 import "../login/login.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/actions";
 import validator from "validator";
@@ -57,7 +57,10 @@ export function Login() {
         if (res.payload.status === 200) {
           // No es necesario verificar el estado del usuario aquí
           navigate("/home");
+
           window.location.reload();
+        } else {
+          <Navigate to="/AccesoDenegado" />;
         }
       })
       .catch((error) => {
