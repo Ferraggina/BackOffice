@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "../../app.scss";
 import { useState, useEffect } from "react"; // Importa useState y useEffect
 import { useSelector } from "react-redux";
@@ -8,14 +7,13 @@ import { AdminViaje } from "../admin_viaje/AdminViaje";
 import { reuleaux } from "ldrs";
 
 export function Home() {
-  const [isLoading, setIsLoading] = useState(false); // Estado para controlar carga
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar carga
   const currentUser = useSelector((state) => state.currentUser.usuario);
-  console.log(currentUser);
 
   useEffect(() => {
     // Simulación de tiempo de carga (puedes reemplazarlo por tu lógica de carga real)
     const timeout = setTimeout(() => {
-      setIsLoading(true); // Cambia el estado a false después de un tiempo (simulación de carga)
+      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
     }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
 
     return () => clearTimeout(timeout); // Limpia el timeout en caso de que el componente se desmonte antes de que termine la carga simulada
@@ -24,7 +22,7 @@ export function Home() {
   return (
     <div className="home">
       {/* Mostrar spinner si isLoading es true */}
-      {!isLoading ? (
+      {isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">
             {/* Contenido del spinner */}

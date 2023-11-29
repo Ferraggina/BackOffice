@@ -23,7 +23,7 @@ export function AdminPantallaInicio() {
               </th>
               <th>
                 <h2 className="text-center">
-                  <a href="/textoLanding" className="decoracionTexto">
+                  <a href="/textosLanding" className="decoracionTexto">
                     TEXTO DE INICIO
                     <lord-icon
                       src="https://cdn.lordicon.com/ncdtrewm.json"

@@ -60,12 +60,7 @@ function App() {
         <Route path="/RecuperarPass/" Component={RecuperarPass} />
         <Route path="/AccesoDenegado" Component={AccesoDenegado} />
         {/* Aca van las que necesitan autorizacion */}
-        <Route
-          path="/home"
-          element={
-            loggedUserJSON ? <Home /> : <Navigate to="/AccesoDenegado" />
-          }
-        />
+        <Route path="/home" element={loggedUserJSON ? <Home /> : <Login />} />
         <Route
           path="/FormularioViaje"
           element={
@@ -133,7 +128,7 @@ function App() {
           }
         />
         <Route
-          path="/textoLanding"
+          path="/textosLanding"
           element={
             loggedUserJSON ? <AbmTexto /> : <Navigate to="/AccesoDenegado" />
           }
