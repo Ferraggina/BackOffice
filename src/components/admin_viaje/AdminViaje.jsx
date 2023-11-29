@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import "../../sass/_adminViaje.scss";
+import { Link } from "react-router-dom";
 export function AdminViaje() {
   return (
     <div>
@@ -10,7 +11,7 @@ export function AdminViaje() {
             <tr>
               <th>
                 <h2 className="text-center">
-                  <a className="enlacesAdmin" href="/ViajesEdicion">
+                  <Link className="enlacesAdmin" to="/ViajesEdicion">
                     VIAJES
                     <lord-icon
                       src="https://cdn.lordicon.com/rdfmytjv.json"
@@ -21,13 +22,13 @@ export function AdminViaje() {
                         cursor: "pointer",
                       }}
                     ></lord-icon>
-                  </a>
+                  </Link>
                 </h2>
               </th>
 
               <th>
                 <h2 className="text-center">
-                  <a className="enlacesAdmin" href="/CrearItinerario/">
+                  <Link className="enlacesAdmin" to="/CrearItinerario/">
                     CREAR ITINERARIO
                     <lord-icon
                       src="https://cdn.lordicon.com/qvyppzqz.json"
@@ -38,12 +39,12 @@ export function AdminViaje() {
                         cursor: "pointer",
                       }}
                     ></lord-icon>
-                  </a>
+                  </Link>
                 </h2>
               </th>
               <th>
                 <h2 className="text-center">
-                  <a className="enlacesAdmin" href="/AgregarHoteles">
+                  <Link className="enlacesAdmin" to="/AgregarHoteles">
                     AGREGAR HOTEL
                     <lord-icon
                       src="https://cdn.lordicon.com/fzoffrbp.json"
@@ -54,12 +55,12 @@ export function AdminViaje() {
                         cursor: "pointer",
                       }}
                     ></lord-icon>
-                  </a>
+                  </Link>
                 </h2>
               </th>
               <th>
                 <h2 className="text-center">
-                  <a className="enlacesAdmin" href="/ListadoHoteles">
+                  <Link className="enlacesAdmin" to="/ListadoHoteles">
                     LISTADO HOTELES
                     <lord-icon
                       src="https://cdn.lordicon.com/lenjvibx.json"
@@ -70,7 +71,7 @@ export function AdminViaje() {
                         cursor: "pointer",
                       }}
                     ></lord-icon>
-                  </a>
+                  </Link>
                 </h2>
               </th>
             </tr>
