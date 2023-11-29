@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function AdminPantallaInicio() {
   return (
@@ -11,51 +12,51 @@ export function AdminPantallaInicio() {
             <tr>
               <th>
                 <h2 className="text-center">
-                  <a href="/ImagenesLanding" className="decoracionTexto">
+                  <Link to="/ImagenesLanding" className="decoracionTexto">
                     IMAGENES DE INICIO
                     <lord-icon
                       src="https://cdn.lordicon.com/dhbjyxqp.json"
                       trigger="hover"
                       style={{ width: "230px", height: "230px" }}
                     />
-                  </a>
+                  </Link>
                 </h2>
               </th>
               <th>
                 <h2 className="text-center">
-                  <a href="/textosLanding" className="decoracionTexto">
+                  <Link to="/textosLanding" className="decoracionTexto">
                     TEXTO DE INICIO
                     <lord-icon
                       src="https://cdn.lordicon.com/ncdtrewm.json"
                       trigger="hover"
                       style={{ width: "230px", height: "230px" }}
                     ></lord-icon>
-                  </a>
+                  </Link>
                 </h2>
               </th>
 
               <th>
                 <h2 className="text-center">
-                  <a href="/Contactos" className="decoracionTexto">
+                  <Link to="/Contactos" className="decoracionTexto">
                     CONTACTOS
                     <lord-icon
                       src="https://cdn.lordicon.com/aycieyht.json"
                       trigger="hover"
                       style={{ width: "230px", height: "230px" }}
                     ></lord-icon>
-                  </a>
+                  </Link>
                 </h2>
               </th>
               <th>
                 <h2 className="text-center">
-                  <a href="/editUsuarios" className="decoracionTexto">
+                  <Link to="/editUsuarios" className="decoracionTexto">
                     USUARIOS
                     <lord-icon
                       src="https://cdn.lordicon.com/bgebyztw.json"
                       trigger="hover"
                       style={{ width: "230px", height: "230px" }}
                     ></lord-icon>
-                  </a>
+                  </Link>
                 </h2>
               </th>
             </tr>
