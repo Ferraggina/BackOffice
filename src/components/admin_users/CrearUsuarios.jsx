@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { crearUsuario, obtenerContratos } from "../../redux/actions/actions";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function CrearUsuarios() {
   const [nombre, setNombre] = useState("");
@@ -54,7 +55,33 @@ export default function CrearUsuarios() {
       : "Nombre de Contrato Desconocido";
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   const nuevoUsuario = {
+  //     nombre,
+  //     apellido,
+  //     usuario,
+  //     email,
+  //     telefono,
+  //     contrato: contratosSeleccionados.map((contract) => contract.toString()),
+  //     password,
+  //     rol,
+  //     estado: estado,
+  //   };
+
+  //   dispatch(crearUsuario(nuevoUsuario))
+  //     .then(() => {
+  //       setUsuarioCreado(true);
+  //       setTimeout(() => {
+  //         window.location.reload();
+  //       }, 3000);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error al crear el usuario: ", err);
+  //     });
+  // };
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const nuevoUsuario = {
@@ -69,16 +96,46 @@ export default function CrearUsuarios() {
       estado: estado,
     };
 
-    dispatch(crearUsuario(nuevoUsuario))
-      .then(() => {
+    // Verificar si el rol es "Coordinador" para proceder con Firebase
+    if (rol === "Coordinador") {
+      try {
+        // Lógica para crear el usuario en el backend
+        await dispatch(crearUsuario(nuevoUsuario));
         setUsuarioCreado(true);
+
+        // Lógica para crear el usuario en Firebase Authentication
+        const auth = getAuth();
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+        console.log("Usuario creado en Firebase:", user);
+
+        // Redirigir o realizar otras acciones después de crear el usuario en Firebase y en el backend
         setTimeout(() => {
           window.location.reload();
         }, 3000);
-      })
-      .catch((err) => {
-        console.error("Error al crear el usuario: ", err);
-      });
+      } catch (error) {
+        console.error("Error al crear el usuario: ", error);
+        // Manejar el error, mostrar mensajes, etc.
+      }
+    } else {
+      // Si el rol no es "Coordinador", simplemente crea el usuario en el backend
+      try {
+        await dispatch(crearUsuario(nuevoUsuario));
+        setUsuarioCreado(true);
+
+        // Redirigir o realizar otras acciones después de crear el usuario en el backend
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } catch (error) {
+        console.error("Error al crear el usuario: ", error);
+        // Manejar el error, mostrar mensajes, etc.
+      }
+    }
   };
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;

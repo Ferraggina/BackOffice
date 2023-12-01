@@ -5,6 +5,10 @@ import { AdminPantallaInicio } from "../admin_pantalla_inicio/AdminPantallaInici
 import { AdminViaje } from "../admin_viaje/AdminViaje";
 // import Navbar from "./Navbar";
 import { reuleaux } from "ldrs";
+import {
+  readDataFromFirebase,
+  writeDataToFirebase,
+} from "../../../firebaseUtils";
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar carga
