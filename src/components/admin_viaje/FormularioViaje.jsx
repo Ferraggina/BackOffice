@@ -7,7 +7,7 @@ import {
 } from "../../redux/actions/actions";
 import "../../sass/_formularioViaje.scss";
 import { crearViaje } from "../../redux/actions/actions";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function FormularioViaje() {
   const [nuevoContratoData, setNuevoContratoData] = useState([]);
@@ -120,7 +120,67 @@ export default function FormularioViaje() {
         <br />
         <h1 className="text-center tituloForm">Formulario para crear viaje</h1>
         <div className="row justify-content-center formularioViajeContenedor">
+          <div className="botonCrear">
+            <Link
+              to="/AgregarHoteles"
+              className="btn btn-primary botonCrearLink"
+            >
+              Agregar Hotel
+            </Link>
+            <Link
+              to="/CrearItinerario"
+              className="btn btn-primary botonCrearLink"
+              style={{ marginLeft: "10px" }}
+            >
+              Agregar Itinerario
+            </Link>
+          </div>
+
           <div className="col-md-6">
+            <div className="form-group">
+              <label htmlFor="opciones" className="estilosLabels">
+                Selecciona un Hotel:
+              </label>
+              <select
+                className="form-control"
+                id="hotel"
+                name="hotel"
+                value={nuevoHotelIdData}
+                // onChange={(e) => setNuevoHotelIdData(e.target.value)}
+                onChange={(e) => {
+                  setNuevoHotelIdData(e.target.value);
+                }}
+                required
+              >
+                <option value="">-- Selecciona una opción --</option>
+
+                {hoteles.map((hotel) => (
+                  <option key={hotel.id} value={hotel.id}>
+                    {hotel.nombre} {hotel.direccion}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="estilosLabels">Selecciona un Itinerario</label>
+              <select
+                className="form-control"
+                id="itinerario"
+                name="itinerario"
+                value={nuevoScheduleIdData}
+                onChange={(e) => setNuevoScheduleIdData(e.target.value)}
+                required
+              >
+                <option value="">-- Selecciona una opción --</option>
+
+                {itinerarios.map((itinerario) => (
+                  <option key={itinerario.id} value={itinerario.id}>
+                    {itinerario.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="form-group">
               <label className="estilosLabels">Destino</label>
               <input
@@ -159,54 +219,6 @@ export default function FormularioViaje() {
             </div>
 
             <div className="form-group">
-              <br />
-
-              <div className="form-group">
-                <label htmlFor="opciones" className="estilosLabels">
-                  Selecciona un Hotel:
-                </label>
-                <select
-                  className="form-control"
-                  id="hotel"
-                  name="hotel"
-                  value={nuevoHotelIdData}
-                  // onChange={(e) => setNuevoHotelIdData(e.target.value)}
-                  onChange={(e) => {
-                    setNuevoHotelIdData(e.target.value);
-                  }}
-                  required
-                >
-                  <option value="">-- Selecciona una opción --</option>
-
-                  {hoteles.map((hotel) => (
-                    <option key={hotel.id} value={hotel.id}>
-                      {hotel.nombre} {hotel.direccion}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <br />
-              <div>
-                <label className="estilosLabels">
-                  Selecciona un Itinerario
-                </label>
-                <select
-                  className="form-control"
-                  id="itinerario"
-                  name="itinerario"
-                  value={nuevoScheduleIdData}
-                  onChange={(e) => setNuevoScheduleIdData(e.target.value)}
-                  required
-                >
-                  <option value="">-- Selecciona una opción --</option>
-
-                  {itinerarios.map((itinerario) => (
-                    <option key={itinerario.id} value={itinerario.id}>
-                      {itinerario.nombre}
-                    </option>
-                  ))}
-                </select>
-              </div>
               <br />
               <div className="form-group">
                 <label className="estilosLabels">Buscar Contratos</label>
@@ -368,9 +380,9 @@ export default function FormularioViaje() {
             <button
               type="button"
               className="btn btn-primary ml-2 estiloBotones"
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/ViajesEdicion")}
             >
-              Volver a administracion
+              Volver a viajes
             </button>
           </div>
           {nuevoViaje && (
