@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { crearHotel, uploadImage } from "../../redux/actions/actions";
 import "../../sass/_formularioHoteles.scss";
 import { reuleaux } from "ldrs";
+
 export default function FormularioHoteles() {
   const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
@@ -229,6 +230,12 @@ export default function FormularioHoteles() {
                   Volver a administracion
                 </button>
               )}
+              <Link
+                to="/FormularioViaje"
+                className="btn btn-primary estiloBotones"
+              >
+                Creacion de Viaje
+              </Link>
             </div>
           </div>
         </form>

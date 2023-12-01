@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { crearUsuario, obtenerContratos } from "../../redux/actions/actions";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 export default function CrearUsuarios() {
   const [nombre, setNombre] = useState("");
@@ -408,6 +409,9 @@ export default function CrearUsuarios() {
             <button type="submit" className="btn btn-primary estiloBotones">
               Crear Usuario
             </button>
+            <Link to="/editUsuarios" className="btn btn-primary estiloBotones">
+              Volver a lista de usuarios
+            </Link>
             {usuarioCreado && (
               <div className="alert alert-success" role="alert">
                 Usuario creado con éxito.

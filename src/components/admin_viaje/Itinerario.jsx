@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import "../../sass/_itinerario.scss";
 import { crearItinerario } from "../../redux/actions/actions";
 import { reuleaux } from "ldrs";
+import { Link } from "react-router-dom";
 
 export default function Itinerario() {
   const [nombre, setNombre] = useState("");
@@ -165,6 +166,7 @@ export default function Itinerario() {
                       <br />
                     </div>
                   ))}
+
                   <button
                     type="button"
                     onClick={handleAgregarCampoExtra}
@@ -172,15 +174,20 @@ export default function Itinerario() {
                   >
                     Agregar Campo Extra
                   </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary estiloBotones"
+                    onClick={handleSubmit}
+                  >
+                    Agregar Itinerario
+                  </button>
+                  <Link
+                    to="/FormularioViaje"
+                    className="btn btn-primary estiloBotones"
+                  >
+                    Creacion de Viaje
+                  </Link>
                 </div>
-                {/* ...otros campos */}
-                <button
-                  type="submit"
-                  className="btn btn-primary estiloBotones"
-                  onClick={handleSubmit}
-                >
-                  Agregar Itinerario
-                </button>
               </div>
             </div>
           </form>
