@@ -11,6 +11,7 @@ import {
 } from "../../redux/actions/actions";
 import Pagination from "../../components/home/Pagination.jsx";
 import { reuleaux } from "ldrs";
+import "../../sass/_abmHotel.scss";
 export default function AbmHotel() {
   const dispatch = useDispatch();
   const hoteles = useSelector((state) => state.hoteles);
@@ -31,12 +32,12 @@ export default function AbmHotel() {
   const [hotelToDelete, setHotelToDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(obtenerHoteles());
     const timeout = setTimeout(() => {
-      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+      setIsLoading(true); // Cambia el estado a false después de un tiempo (simulación de carga)
     }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
 
     return () => clearTimeout(timeout);
@@ -185,7 +186,7 @@ export default function AbmHotel() {
       <br />
       <br />
 
-      {isLoading ? (
+      {!isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">
             {/* Contenido del spinner */}
@@ -355,12 +356,16 @@ export default function AbmHotel() {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        dialogClassName="modal-lg"
+      >
+        <Modal.Header closeButton className="headerModal">
           <Modal.Title>Editar Hotel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Nombre:
+          <label style={{ fontWeight: "bold" }}>Nombre:</label>
           <input
             className="form-control mb-3"
             type="text"
@@ -369,7 +374,7 @@ export default function AbmHotel() {
             value={editingHotel ? editingHotel.nombre : ""}
             onChange={handleInputChange}
           />
-          Dirección:
+          <label style={{ fontWeight: "bold" }}>Dirección:</label>
           <input
             className="form-control mb-3"
             type="text"
@@ -416,6 +421,7 @@ export default function AbmHotel() {
               {editingHotel.fotos ? (
                 JSON.parse(editingHotel.fotos).map((foto, index) => (
                   <div key={index} className="selected-image-item">
+                    <br />
                     <img
                       src={foto}
                       alt={`Selected ${index}`}
@@ -446,17 +452,24 @@ export default function AbmHotel() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showViewModal} onHide={() => setShowViewModal(false)}>
-        <Modal.Header closeButton>
+      <Modal
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        dialogClassName="modal-lg"
+      >
+        <Modal.Header closeButton className="headerModal">
           <Modal.Title>Detalles del Hotel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {viewingHotel && (
             <div>
-              <h5>Nombre: {viewingHotel.nombre}</h5>
-              <h5>Direccion: {viewingHotel.direccion}</h5>
-              <h5>Telefono: {viewingHotel.telefono}</h5>
-              <h5>Fotos:</h5>
+              <h3>Nombre:</h3>
+              <h5>{viewingHotel.nombre}</h5>
+              <h3>Direccion: </h3>
+              <h5>{viewingHotel.direccion}</h5>
+              <h3>Telefono: </h3>
+              <h5>{viewingHotel.telefono}</h5>
+              <h3>Fotos:</h3>
               <div className="text-center">
                 {viewingHotel.fotos ? (
                   <div className="row">
@@ -467,7 +480,7 @@ export default function AbmHotel() {
                           src={foto}
                           alt={`Selected ${index}`}
                           className="selected-image img-fluid"
-                          style={{ width: "450px", height: "250px" }}
+                          style={{ width: "550px", height: "350px" }}
                         />
                       </div>
                     ))}
