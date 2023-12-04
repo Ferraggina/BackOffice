@@ -370,13 +370,17 @@ export default function AbmViaje() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        dialogClassName="modal-xl"
+      >
+        <Modal.Header closeButton className="modealHeaderViaje">
           <Modal.Title>Editar Viaje</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
-            Destino:
+            <h5>Destino:</h5>
             <input
               className="form-control mb-3"
               type="text"
@@ -387,7 +391,7 @@ export default function AbmViaje() {
             />
           </div>
           <div>
-            Salida:
+            <h5>Salida:</h5>
             <input
               className="form-control mb-3"
               type="date"
@@ -398,7 +402,7 @@ export default function AbmViaje() {
             />
           </div>
           <div>
-            Regreso:
+            <h5>Regreso:</h5>
             <input
               className="form-control mb-3"
               type="date"
@@ -409,7 +413,7 @@ export default function AbmViaje() {
             />
           </div>
           <div>
-            <label>Selecciona un Hotel:</label>
+            <h5>Selecciona un Hotel:</h5>
             <select
               className="form-select mb-3"
               name="hotelId"
@@ -425,7 +429,7 @@ export default function AbmViaje() {
             </select>
           </div>
           <div>
-            <label>Selecciona un Itinerario:</label>
+            <h5>Selecciona un Itinerario:</h5>
             <select
               className="form-select mb-3"
               name="scheduleId"
@@ -441,7 +445,7 @@ export default function AbmViaje() {
             </select>
           </div>
           <div>
-            <label>Selecciona Contratos:</label>
+            <h5>Selecciona Contratos:</h5>
             <select
               className="form-control"
               id="contrato"
@@ -473,7 +477,7 @@ export default function AbmViaje() {
             </select>
           </div>
           <div>
-            <label>Contratos Seleccionados</label>
+            <h5>Contratos Seleccionados</h5>
             <ul>
               {contratosSeleccionados.map((contractNum) => (
                 <li key={contractNum}>{getContractNameById(contractNum)}</li>
@@ -490,23 +494,31 @@ export default function AbmViaje() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showViewModal} onHide={() => setShowViewModal(false)}>
-        <Modal.Header closeButton>
+      <Modal
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        dialogClassName="modal-xl"
+      >
+        <Modal.Header closeButton className="modealHeaderViaje">
           <Modal.Title>Detalles del Viaje</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {viewingViaje && (
             <div>
-              <p>Destino: {viewingViaje.destino}</p>
-              <p>Salida: {viewingViaje.salida}</p>
-              <p>Regreso: {viewingViaje.regreso}</p>
-              <p>
-                Hotel:{" "}
+              <h3>Destino: </h3>
+              <h5>{viewingViaje.destino}</h5>
+              <h3>Salida: </h3>
+              <h5>{viewingViaje.salida}</h5>
+              <h3>Regreso: </h3>
+              <h5>{viewingViaje.regreso}</h5>
+              <h3>Hotel: </h3>
+              <h5>
+                {" "}
                 {hoteles.find((hotel) => hotel.id === viewingViaje.hotelId)
                   ?.nombre || "Hotel Desconocido"}
-              </p>
-              <p>
-                Itinerario: <br />
+              </h5>
+              <h3> Itinerario:</h3>
+              <h6>
                 {itinerarios.find(
                   (itinerario) => itinerario.id === viewingViaje.scheduleId
                 )?.nombre || "Itinerario Desconocido"}{" "}
@@ -530,9 +542,10 @@ export default function AbmViaje() {
                 ) : (
                   "Itinerario Desconocido"
                 )}
-              </p>
+              </h6>
 
-              <p>Contratos: {formatContratos(viewingViaje.contratos)}</p>
+              <h3>Contratos: </h3>
+              <h5>{formatContratos(viewingViaje.contratos)}</h5>
             </div>
           )}
         </Modal.Body>

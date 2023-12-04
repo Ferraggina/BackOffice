@@ -347,7 +347,7 @@ export default function Abmusuario() {
         </Modal.Footer>
       </Modal>
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="modealHeaderViaje">
           <Modal.Title>Crear/Editar Usuario</Modal.Title>
         </Modal.Header>
         <Modal.Body>

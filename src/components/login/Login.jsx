@@ -112,16 +112,15 @@ export function Login() {
             value="Ingresar"
             className="btn btn-outline-warning "
           />
-        </div>
-        <br />
-        <div className="container-btn">
           <button
             onClick={() => navigate("/ForgotPass")}
             className="btn-style btn btn-secondary"
+            style={{ marginLeft: "10px" }}
           >
             Olvidé mi contraseña
           </button>
         </div>
+        <br />
       </form>
     </div>
   );
