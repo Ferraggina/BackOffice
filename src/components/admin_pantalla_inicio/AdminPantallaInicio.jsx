@@ -5,6 +5,8 @@ export function AdminPantallaInicio() {
   return (
     <div>
       <br />
+      <br />
+      <br />
 
       <div className="container mt-4 table-responsive esiloTablaAdViaje">
         <table className="table table-bordered  tablaContainer ">
@@ -17,7 +19,7 @@ export function AdminPantallaInicio() {
                     <lord-icon
                       src="https://cdn.lordicon.com/dhbjyxqp.json"
                       trigger="hover"
-                      style={{ width: "230px", height: "230px" }}
+                      style={{ width: "150px", height: "150px" }}
                     />
                   </Link>
                 </h2>
@@ -29,7 +31,7 @@ export function AdminPantallaInicio() {
                     <lord-icon
                       src="https://cdn.lordicon.com/ncdtrewm.json"
                       trigger="hover"
-                      style={{ width: "230px", height: "230px" }}
+                      style={{ width: "150px", height: "150px" }}
                     ></lord-icon>
                   </Link>
                 </h2>
@@ -42,7 +44,7 @@ export function AdminPantallaInicio() {
                     <lord-icon
                       src="https://cdn.lordicon.com/aycieyht.json"
                       trigger="hover"
-                      style={{ width: "230px", height: "230px" }}
+                      style={{ width: "150px", height: "150px" }}
                     ></lord-icon>
                   </Link>
                 </h2>
@@ -54,7 +56,7 @@ export function AdminPantallaInicio() {
                     <lord-icon
                       src="https://cdn.lordicon.com/bgebyztw.json"
                       trigger="hover"
-                      style={{ width: "230px", height: "230px" }}
+                      style={{ width: "150px", height: "150px" }}
                     ></lord-icon>
                   </Link>
                 </h2>
