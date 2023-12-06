@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 export function AdminViaje() {
   return (
     <div>
+      <br />
+      <br />
       <div className="container mt-4 table-responsive esiloTablaAdViaje">
         <table className="table table-bordered  tablaContainer ">
           <thead>
@@ -17,8 +19,8 @@ export function AdminViaje() {
                       src="https://cdn.lordicon.com/rdfmytjv.json"
                       trigger="hover"
                       style={{
-                        width: "250px",
-                        height: "250px",
+                        width: "150px",
+                        height: "150px",
                         cursor: "pointer",
                       }}
                     ></lord-icon>
@@ -34,8 +36,8 @@ export function AdminViaje() {
                       src="https://cdn.lordicon.com/qvyppzqz.json"
                       trigger="hover"
                       style={{
-                        width: "250px",
-                        height: "250px",
+                        width: "150px",
+                        height: "150px",
                         cursor: "pointer",
                       }}
                     ></lord-icon>
@@ -50,8 +52,8 @@ export function AdminViaje() {
                       src="https://cdn.lordicon.com/fzoffrbp.json"
                       trigger="hover"
                       style={{
-                        width: "250px",
-                        height: "250px",
+                        width: "150px",
+                        height: "150px",
                         cursor: "pointer",
                       }}
                     ></lord-icon>
@@ -66,8 +68,8 @@ export function AdminViaje() {
                       src="https://cdn.lordicon.com/lenjvibx.json"
                       trigger="hover"
                       style={{
-                        width: "250px",
-                        height: "250px",
+                        width: "150px",
+                        height: "150px",
                         cursor: "pointer",
                       }}
                     ></lord-icon>

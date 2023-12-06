@@ -295,7 +295,7 @@ export default function AbmTexto() {
                   setFormData({ ...formData, texto: e.target.value })
                 }
                 required
-                maxLength={50}
+                maxLength={250}
               />
             </div>
             <div className="mb-3">
