@@ -71,7 +71,7 @@ export default function ContactosRecibidos() {
                   <th>Correo Electrónico</th>
                   <th>Teléfono</th>
                   <th>Comentario</th>
-                  <th>Horario de Contacto</th>
+                  {/* <th>Horario de Contacto</th> */}
                 </tr>
               </thead>
               <tbody className="text-center cuerpoTabla">
@@ -81,7 +81,7 @@ export default function ContactosRecibidos() {
                     <td>{contact.mail}</td>
                     <td>{contact.telefono}</td>
                     <td>{contact.comentario}</td>
-                    <td>{contact.horario}</td>
+                    {/* <td>{contact.horario}</td> */}
                   </tr>
                 ))}
               </tbody>
