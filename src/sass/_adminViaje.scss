@@ -13,8 +13,10 @@
 }
 .tablaTransparente {
     background-color: transparent;
-    border-collapse: collapse;
+    border-collapse: separate;
     border: none;
+    display: flex;
+    justify-content:space-evenly;
   }
   
   /* Si también quieres hacer transparentes las celdas */
@@ -35,6 +37,8 @@
   width: 12rem; /* Ajusta el ancho según tus necesidades */
   height: 12rem;
   padding: 0.9rem;
+  margin-left: 2.3rem;
+  margin-right: 2.3rem;
   
 
    
