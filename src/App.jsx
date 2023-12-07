@@ -128,7 +128,7 @@ function App() {
           }
         />
         <Route
-          path="/textosLanding"
+          path="/promocionLanding"
           element={
             loggedUserJSON ? <AbmTexto /> : <Navigate to="/AccesoDenegado" />
           }

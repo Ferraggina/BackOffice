@@ -28,7 +28,7 @@ export function AdminPantallaInicio() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link to="/textosLanding" className="enlacesAdmin">
+                    <Link to="/promocionLanding" className="enlacesAdmin">
                       TEXTO DE INICIO
                       <lord-icon
                         src="https://cdn.lordicon.com/ncdtrewm.json"
