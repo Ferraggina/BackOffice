@@ -23,6 +23,7 @@
     background-color: transparent;
     border: none;
     
+    
   }
 
   .bordeBotonHome{
@@ -32,7 +33,9 @@
   justify-content: center;
   align-items: center;
   width: 15rem; /* Ajusta el ancho según tus necesidades */
-  height: 20rem;
+  height: 15rem;
+  padding: 0.9rem;
+  
 
    
   }
@@ -43,6 +46,7 @@
 
   }
   .bordeBotonHome h2 {
-    margin: 0;
-    padding: 20px; /* Ajusta el espacio alrededor del texto */
+    margin: 1.2rem;
+    padding-top: 0.5rem; /* Ajusta el espacio alrededor del texto */
+    padding-bottom: 0.5rem;
   }
