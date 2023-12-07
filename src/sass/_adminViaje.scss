@@ -1,5 +1,6 @@
 .enlacesAdmin{
     text-decoration: none;
+    color: blanchedalmond;
 }
 .tituloViajeAdm{
     font-size: 300%;
@@ -10,3 +11,38 @@
 .decoracionTexto{
     text-decoration: none;
 }
+.tablaTransparente {
+    background-color: transparent;
+    border-collapse: collapse;
+    border: none;
+  }
+  
+  /* Si también quieres hacer transparentes las celdas */
+  .tablaTransparente td,
+  .tablaTransparente th {
+    background-color: transparent;
+    border: none;
+    
+  }
+
+  .bordeBotonHome{
+    border: 0.5rem solid whitesmoke;
+    border-radius: 1rem;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15rem; /* Ajusta el ancho según tus necesidades */
+  height: 20rem;
+
+   
+  }
+  .bordeBotonHome:hover{
+    border: 0.5rem solid rgb(173, 171, 171);
+    border-radius: 1.2rem;
+    background-color: rgba(187, 187, 187, 0.492);
+
+  }
+  .bordeBotonHome h2 {
+    margin: 0;
+    padding: 20px; /* Ajusta el espacio alrededor del texto */
+  }

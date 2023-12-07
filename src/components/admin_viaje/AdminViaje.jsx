@@ -7,74 +7,86 @@ export function AdminViaje() {
     <div>
       <br />
       <br />
-      <div className="container mt-4 table-responsive esiloTablaAdViaje">
-        <table className="table table-bordered  tablaContainer ">
+      <div className="container mt-4 table-responsive ">
+        <table className="table   tablaTransparente ">
           <thead>
             <tr>
               <th>
-                <h2 className="text-center">
-                  <Link className="enlacesAdmin" to="/ViajesEdicion">
-                    VIAJES
-                    <lord-icon
-                      src="https://cdn.lordicon.com/rdfmytjv.json"
-                      trigger="hover"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        cursor: "pointer",
-                      }}
-                    ></lord-icon>
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center">
+                    <Link className="enlacesAdmin" to="/ViajesEdicion">
+                      VIAJES
+                      <lord-icon
+                        src="https://cdn.lordicon.com/rdfmytjv.json"
+                        trigger="hover"
+                        colors="primary:#ffffff,secondary:#1b1091"
+                        style={{
+                          width: "150px",
+                          height: "150px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </Link>
+                  </h2>
+                </div>
               </th>
 
               <th>
-                <h2 className="text-center">
-                  <Link className="enlacesAdmin" to="/CrearItinerario/">
-                    CREAR ITINERARIO
-                    <lord-icon
-                      src="https://cdn.lordicon.com/qvyppzqz.json"
-                      trigger="hover"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        cursor: "pointer",
-                      }}
-                    ></lord-icon>
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center ">
+                    <Link className="enlacesAdmin" to="/CrearItinerario/">
+                      CREAR ITINERARIO
+                      <lord-icon
+                        src="https://cdn.lordicon.com/qvyppzqz.json"
+                        trigger="hover"
+                        colors="primary:#ffffff,secondary:#1b1091"
+                        style={{
+                          width: "150px",
+                          height: "150px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </Link>
+                  </h2>
+                </div>
               </th>
               <th>
-                <h2 className="text-center">
-                  <Link className="enlacesAdmin" to="/AgregarHoteles">
-                    AGREGAR HOTEL
-                    <lord-icon
-                      src="https://cdn.lordicon.com/fzoffrbp.json"
-                      trigger="hover"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        cursor: "pointer",
-                      }}
-                    ></lord-icon>
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center">
+                    <Link className="enlacesAdmin" to="/AgregarHoteles">
+                      AGREGAR HOTEL
+                      <lord-icon
+                        src="https://cdn.lordicon.com/fzoffrbp.json"
+                        trigger="hover"
+                        colors="primary:#ffffff,secondary:#1b1091"
+                        style={{
+                          width: "150px",
+                          height: "150px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </Link>
+                  </h2>
+                </div>
               </th>
               <th>
-                <h2 className="text-center">
-                  <Link className="enlacesAdmin" to="/ListadoHoteles">
-                    LISTADO HOTELES
-                    <lord-icon
-                      src="https://cdn.lordicon.com/lenjvibx.json"
-                      trigger="hover"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        cursor: "pointer",
-                      }}
-                    ></lord-icon>
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center">
+                    <Link className="enlacesAdmin" to="/ListadoHoteles">
+                      LISTADO HOTELES
+                      <lord-icon
+                        src="https://cdn.lordicon.com/lenjvibx.json"
+                        trigger="hover"
+                        colors="primary:#ffffff,secondary:#1b1091"
+                        style={{
+                          width: "150px",
+                          height: "150px",
+                          cursor: "pointer",
+                        }}
+                      ></lord-icon>
+                    </Link>
+                  </h2>
+                </div>
               </th>
             </tr>
           </thead>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import "../../sass/_adminViaje.scss";
 export function AdminPantallaInicio() {
   return (
     <div>
@@ -8,58 +8,70 @@ export function AdminPantallaInicio() {
       <br />
       <br />
 
-      <div className="container mt-4 table-responsive esiloTablaAdViaje">
-        <table className="table table-bordered  tablaContainer ">
+      <div className="container mt-4 table-responsive ">
+        <table className="table   tablaTransparente">
           <thead>
             <tr>
               <th>
-                <h2 className="text-center">
-                  <Link to="/ImagenesLanding" className="decoracionTexto">
-                    IMAGENES DE INICIO
-                    <lord-icon
-                      src="https://cdn.lordicon.com/dhbjyxqp.json"
-                      trigger="hover"
-                      style={{ width: "150px", height: "150px" }}
-                    />
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center">
+                    <Link to="/ImagenesLanding" className="enlacesAdmin">
+                      IMAGENES DE INICIO
+                      <lord-icon
+                        src="https://cdn.lordicon.com/dhbjyxqp.json"
+                        trigger="hover"
+                        style={{ width: "150px", height: "150px" }}
+                        colors="primary:#ffffff,secondary:#1b1091"
+                      />
+                    </Link>
+                  </h2>
+                </div>
               </th>
               <th>
-                <h2 className="text-center">
-                  <Link to="/textosLanding" className="decoracionTexto">
-                    TEXTO DE INICIO
-                    <lord-icon
-                      src="https://cdn.lordicon.com/ncdtrewm.json"
-                      trigger="hover"
-                      style={{ width: "150px", height: "150px" }}
-                    ></lord-icon>
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center">
+                    <Link to="/textosLanding" className="enlacesAdmin">
+                      TEXTO DE INICIO
+                      <lord-icon
+                        src="https://cdn.lordicon.com/ncdtrewm.json"
+                        trigger="hover"
+                        style={{ width: "150px", height: "150px" }}
+                        colors="primary:#ffffff,secondary:#1b1091"
+                      ></lord-icon>
+                    </Link>
+                  </h2>
+                </div>
               </th>
 
               <th>
-                <h2 className="text-center">
-                  <Link to="/Contactos" className="decoracionTexto">
-                    CONTACTOS
-                    <lord-icon
-                      src="https://cdn.lordicon.com/aycieyht.json"
-                      trigger="hover"
-                      style={{ width: "150px", height: "150px" }}
-                    ></lord-icon>
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center">
+                    <Link to="/Contactos" className="enlacesAdmin">
+                      CONTACTOS
+                      <lord-icon
+                        src="https://cdn.lordicon.com/aycieyht.json"
+                        trigger="hover"
+                        style={{ width: "150px", height: "150px" }}
+                        colors="primary:#ffffff,secondary:#1b1091"
+                      ></lord-icon>
+                    </Link>
+                  </h2>
+                </div>
               </th>
               <th>
-                <h2 className="text-center">
-                  <Link to="/editUsuarios" className="decoracionTexto">
-                    USUARIOS
-                    <lord-icon
-                      src="https://cdn.lordicon.com/bgebyztw.json"
-                      trigger="hover"
-                      style={{ width: "150px", height: "150px" }}
-                    ></lord-icon>
-                  </Link>
-                </h2>
+                <div className="bordeBotonHome">
+                  <h2 className="text-center">
+                    <Link to="/editUsuarios" className="enlacesAdmin">
+                      USUARIOS
+                      <lord-icon
+                        src="https://cdn.lordicon.com/bgebyztw.json"
+                        trigger="hover"
+                        style={{ width: "150px", height: "150px" }}
+                        colors="primary:#ffffff,secondary:#1b1091"
+                      ></lord-icon>
+                    </Link>
+                  </h2>
+                </div>
               </th>
             </tr>
           </thead>
