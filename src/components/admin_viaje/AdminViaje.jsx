@@ -21,8 +21,8 @@ export function AdminViaje() {
                         trigger="hover"
                         colors="primary:#ffffff,secondary:#1b1091"
                         style={{
-                          width: "150px",
-                          height: "150px",
+                          width: "120px",
+                          height: "120px",
                           cursor: "pointer",
                         }}
                       ></lord-icon>
@@ -41,8 +41,8 @@ export function AdminViaje() {
                         trigger="hover"
                         colors="primary:#ffffff,secondary:#1b1091"
                         style={{
-                          width: "150px",
-                          height: "150px",
+                          width: "120px",
+                          height: "120px",
                           cursor: "pointer",
                         }}
                       ></lord-icon>
@@ -60,8 +60,8 @@ export function AdminViaje() {
                         trigger="hover"
                         colors="primary:#ffffff,secondary:#1b1091"
                         style={{
-                          width: "150px",
-                          height: "150px",
+                          width: "120px",
+                          height: "120px",
                           cursor: "pointer",
                         }}
                       ></lord-icon>
@@ -79,8 +79,8 @@ export function AdminViaje() {
                         trigger="hover"
                         colors="primary:#ffffff,secondary:#1b1091"
                         style={{
-                          width: "150px",
-                          height: "150px",
+                          width: "120px",
+                          height: "120px",
                           cursor: "pointer",
                         }}
                       ></lord-icon>
