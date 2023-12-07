@@ -5,8 +5,6 @@ export function AdminPantallaInicio() {
   return (
     <div>
       <br />
-      <br />
-      <br />
 
       <div className="container mt-4 table-responsive ">
         <table className="table   tablaTransparente">

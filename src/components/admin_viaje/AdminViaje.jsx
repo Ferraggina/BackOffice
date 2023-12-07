@@ -6,7 +6,7 @@ export function AdminViaje() {
   return (
     <div>
       <br />
-      <br />
+
       <div className="container mt-4 table-responsive ">
         <table className="table   tablaTransparente ">
           <thead>
