@@ -32,8 +32,8 @@
     display: flex;
   justify-content: center;
   align-items: center;
-  width: 15rem; /* Ajusta el ancho según tus necesidades */
-  height: 15rem;
+  width: 12rem; /* Ajusta el ancho según tus necesidades */
+  height: 12rem;
   padding: 0.9rem;
   
 
@@ -46,6 +46,7 @@
 
   }
   .bordeBotonHome h2 {
+    font-size:large;
     margin: 1.2rem;
     padding-top: 0.5rem; /* Ajusta el espacio alrededor del texto */
     padding-bottom: 0.5rem;

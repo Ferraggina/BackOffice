@@ -20,7 +20,7 @@ export function AdminPantallaInicio() {
                       <lord-icon
                         src="https://cdn.lordicon.com/dhbjyxqp.json"
                         trigger="hover"
-                        style={{ width: "150px", height: "150px" }}
+                        style={{ width: "120px", height: "120px" }}
                         colors="primary:#ffffff,secondary:#1b1091"
                       />
                     </Link>
@@ -35,7 +35,7 @@ export function AdminPantallaInicio() {
                       <lord-icon
                         src="https://cdn.lordicon.com/ncdtrewm.json"
                         trigger="hover"
-                        style={{ width: "150px", height: "150px" }}
+                        style={{ width: "120px", height: "120px" }}
                         colors="primary:#ffffff,secondary:#1b1091"
                       ></lord-icon>
                     </Link>
@@ -51,7 +51,7 @@ export function AdminPantallaInicio() {
                       <lord-icon
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="hover"
-                        style={{ width: "150px", height: "150px" }}
+                        style={{ width: "120px", height: "120px" }}
                         colors="primary:#ffffff,secondary:#1b1091"
                       ></lord-icon>
                     </Link>
@@ -66,7 +66,7 @@ export function AdminPantallaInicio() {
                       <lord-icon
                         src="https://cdn.lordicon.com/bgebyztw.json"
                         trigger="hover"
-                        style={{ width: "150px", height: "150px" }}
+                        style={{ width: "120px", height: "120px" }}
                         colors="primary:#ffffff,secondary:#1b1091"
                       ></lord-icon>
                     </Link>
