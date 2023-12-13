@@ -463,13 +463,27 @@ export default function AbmImagenesLandin() {
               onChange={handleFolletoUpload}
             />
           </div>
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <p>Seleccionar estado:</p>
             <input
               type="checkbox"
               checked={formData.activo}
               onChange={handleCheckChange}
             />
+          </div> */}
+          <p className="me-3 seleccionestado">Seleccionar estado:</p>
+          <div className="mb-3 d-flex align-items-center">
+            <p className="me-5">Desactivado</p>
+            <div className="form-check form-switch mb-4">
+              <input
+                className="form-check-input switchEstado "
+                type="checkbox"
+                id="flexSwitchCheckChecked"
+                checked={formData.activo}
+                onChange={handleCheckChange}
+              />
+            </div>
+            <p className="me-2 activadoClase">Activado</p>
           </div>
           <div className="mb-3">
             <p>Posición:</p>
