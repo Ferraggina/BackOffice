@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { crearUsuario, obtenerContratos } from "../../redux/actions/actions";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import "../../sass/_abmUsuarios.scss";
 
 export default function CrearUsuarios() {
   const [nombre, setNombre] = useState("");
@@ -56,32 +57,6 @@ export default function CrearUsuarios() {
       : "Nombre de Contrato Desconocido";
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const nuevoUsuario = {
-  //     nombre,
-  //     apellido,
-  //     usuario,
-  //     email,
-  //     telefono,
-  //     contrato: contratosSeleccionados.map((contract) => contract.toString()),
-  //     password,
-  //     rol,
-  //     estado: estado,
-  //   };
-
-  //   dispatch(crearUsuario(nuevoUsuario))
-  //     .then(() => {
-  //       setUsuarioCreado(true);
-  //       setTimeout(() => {
-  //         window.location.reload();
-  //       }, 3000);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Error al crear el usuario: ", err);
-  //     });
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -98,7 +73,7 @@ export default function CrearUsuarios() {
     };
 
     // Verificar si el rol es "Coordinador" para proceder con Firebase
-    if (rol === "Coordinador") {
+    if (rol === "Coordinador" || rol === "Administrador" || rol === "Padre") {
       try {
         // Lógica para crear el usuario en el backend
         await dispatch(crearUsuario(nuevoUsuario));
@@ -241,7 +216,7 @@ export default function CrearUsuarios() {
               <input
                 type="password"
                 className="form-control"
-                placeholder="Contraseña"
+                placeholder="La contraseña debe ser mayor a los 6 caracteres"
                 value={password}
                 onChange={handlePasswordChange}
                 required
@@ -281,13 +256,20 @@ export default function CrearUsuarios() {
                 ))}
               </select>
             </div>
-            <div className="mb-3">
-              <p>Seleccionar estado:</p>
-              <input
-                type="checkbox"
-                checked={estado}
-                onChange={(e) => setEstado(e.target.checked)}
-              />
+            <br />
+            <p className="me-3 seleccionestado">Seleccionar estado:</p>
+            <div className="mb-3 d-flex align-items-center">
+              <p className="me-5">Desactivado</p>
+              <div className="form-check form-switch mb-4">
+                <input
+                  className="form-check-input switchEstado "
+                  type="checkbox"
+                  id="flexSwitchCheckChecked"
+                  checked={estado}
+                  onChange={(e) => setEstado(e.target.checked)}
+                />
+              </div>
+              <p className="me-2 activadoClase">Activado</p>
             </div>
             <div className="form-group">
               <label className="estilosLabels">Buscar Contratos</label>
@@ -325,21 +307,39 @@ export default function CrearUsuarios() {
                 multiple // Permite múltiples selecciones
               >
                 <option value="">Elije los contratos:</option>
-                {contratosFiltrados.map((contrato) => (
-                  <option
-                    key={contrato.id}
-                    value={contrato.num}
-                    onClick={() => toggleContractSelection(contrato.num)}
-                    className={
-                      contratosSeleccionados.includes(contrato.num)
-                        ? "selected"
-                        : ""
-                    }
-                  >
-                    - Contrato {contrato.num} -Colegio: {contrato.colegio}{" "}
-                    -Curso: {contrato.curso}
-                  </option>
-                ))}
+
+                {contratosFiltrados.length > 0
+                  ? contratosFiltrados.map((contrato) => (
+                      <option
+                        key={contrato.id}
+                        value={contrato.num}
+                        onChange={obtenerContratos()}
+                        onClick={() => toggleContractSelection(contrato.num)}
+                        className={
+                          contratosSeleccionados.includes(contrato.num)
+                            ? "selected"
+                            : ""
+                        }
+                      >
+                        - Contrato {contrato.num} -Colegio: {contrato.colegio}{" "}
+                        -Curso: {contrato.curso}
+                      </option>
+                    ))
+                  : contratos.map((contrato) => (
+                      <option
+                        key={contrato.id}
+                        value={contrato.num}
+                        onClick={() => toggleContractSelection(contrato.num)}
+                        className={
+                          contratosSeleccionados.includes(contrato.num)
+                            ? "selected"
+                            : ""
+                        }
+                      >
+                        - Contrato {contrato.num} - Colegio: {contrato.colegio}{" "}
+                        - Curso: {contrato.curso}
+                      </option>
+                    ))}
               </select>
             </div>
 

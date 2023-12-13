@@ -256,20 +256,38 @@ export default function FormularioViaje() {
                   multiple // Permite múltiples selecciones
                 >
                   <option value="">Elije los contratos:</option>
-                  {contratosFiltrados.map((contrato) => (
-                    <option
-                      key={contrato.id}
-                      value={contrato.num}
-                      onClick={() => toggleContractSelection(contrato.num)}
-                      className={
-                        contratosSeleccionados.includes(contrato.num)
-                          ? "selected"
-                          : ""
-                      }
-                    >
-                      - Contrato {contrato.num} - Colegio {contrato.colegio}
-                    </option>
-                  ))}
+                  {contratosFiltrados.length > 0
+                    ? contratosFiltrados.map((contrato) => (
+                        <option
+                          key={contrato.id}
+                          value={contrato.num}
+                          onChange={obtenerContratos()}
+                          onClick={() => toggleContractSelection(contrato.num)}
+                          className={
+                            contratosSeleccionados.includes(contrato.num)
+                              ? "selected"
+                              : ""
+                          }
+                        >
+                          - Contrato {contrato.num} -Colegio: {contrato.colegio}{" "}
+                          -Curso: {contrato.curso}
+                        </option>
+                      ))
+                    : contratos.map((contrato) => (
+                        <option
+                          key={contrato.id}
+                          value={contrato.num}
+                          onClick={() => toggleContractSelection(contrato.num)}
+                          className={
+                            contratosSeleccionados.includes(contrato.num)
+                              ? "selected"
+                              : ""
+                          }
+                        >
+                          - Contrato {contrato.num} - Colegio:{" "}
+                          {contrato.colegio} - Curso: {contrato.curso}
+                        </option>
+                      ))}
                 </select>
               </div>
               <br />
