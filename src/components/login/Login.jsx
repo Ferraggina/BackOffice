@@ -36,6 +36,7 @@ export function Login() {
     if (!validateUsername(username)) {
       return;
     }
+    console.log(username);
 
     // Valida los datos
     if (username === "") {
@@ -54,19 +55,29 @@ export function Login() {
     dispatch(login(username, password))
       .then((res) => {
         // Redirige al usuario a la página de inicio si el inicio de sesión es exitoso
-        if (res.payload.status === 200) {
+        if (
+          res.payload.status === 200 &&
+          res.payload.data.usuario.rol === "Administrador"
+        ) {
           // No es necesario verificar el estado del usuario aquí
+          console.log(res.payload);
           navigate("/home");
 
           window.location.reload();
         } else {
           <Navigate to="/AccesoDenegado" />;
+          alert(
+            "Error, datos Incorrectos. Por favor verificar Rol,contraseña y DNI"
+          );
         }
       })
       .catch((error) => {
         // Manejo de errores para el inicio de sesión
         alert("Error, datos Incorrectos");
-        console.error("Error, datos Incorrectos", error);
+        console.error(
+          "Error, datos Incorrectos.Por favor verificar Rol,contraseña y DNI",
+          error
+        );
       });
   };
 

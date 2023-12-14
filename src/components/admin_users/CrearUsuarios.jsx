@@ -275,9 +275,13 @@ export default function CrearUsuarios() {
                 onChange={handleConfirmPasswordChange}
                 required
               />
-              {!passwordMatch && (
-                <div className="text-danger">Las contraseñas no coinciden.</div>
-              )}
+              <span className="password-messages">
+                {!passwordMatch && (
+                  <div className="text-danger">
+                    Las contraseñas no coinciden.
+                  </div>
+                )}
+              </span>
               <span
                 className="password-toggle-icon ocultarPass2"
                 onClick={togglePasswordVisibilityVerification}
