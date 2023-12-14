@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { crearUsuario, obtenerContratos } from "../../redux/actions/actions";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../sass/_abmUsuarios.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export default function CrearUsuarios() {
   const [nombre, setNombre] = useState("");
@@ -22,7 +24,12 @@ export default function CrearUsuarios() {
   const [contratosFiltrados, setContratosFiltrados] = useState([]);
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [usuarioCreado, setUsuarioCreado] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPasswordVerification, setShowPasswordVerification] =
+    useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const rolesOptions = ["Padre", "Coordinador", "Administrador"];
 
@@ -91,8 +98,8 @@ export default function CrearUsuarios() {
 
         // Redirigir o realizar otras acciones después de crear el usuario en Firebase y en el backend
         setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+          navigate("/editUsuarios");
+        }, 1000);
       } catch (error) {
         console.error("Error al crear el usuario: ", error);
         // Manejar el error, mostrar mensajes, etc.
@@ -105,8 +112,8 @@ export default function CrearUsuarios() {
 
         // Redirigir o realizar otras acciones después de crear el usuario en el backend
         setTimeout(() => {
-          window.location.reload();
-        }, 3000);
+          navigate("/editUsuarios");
+        }, 1000);
       } catch (error) {
         console.error("Error al crear el usuario: ", error);
         // Manejar el error, mostrar mensajes, etc.
@@ -116,7 +123,7 @@ export default function CrearUsuarios() {
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
-
+    setClicked(false);
     // Verificar si la contraseña coincide con la confirmación
     if (newPassword === confirmPassword) {
       setPasswordMatch(true);
@@ -124,7 +131,12 @@ export default function CrearUsuarios() {
       setPasswordMatch(false);
     }
   };
-
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const togglePasswordVisibilityVerification = () => {
+    setShowPasswordVerification(!showPasswordVerification);
+  };
   const handleConfirmPasswordChange = (e) => {
     const newConfirmPassword = e.target.value;
     setConfirmPassword(newConfirmPassword);
@@ -135,6 +147,14 @@ export default function CrearUsuarios() {
     } else {
       setPasswordMatch(false);
     }
+  };
+  const validatePassword = (password) => {
+    const regex =
+      /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[0-9a-zA-Z!@#$%^&*()_+]{6,}$/;
+    return regex.test(password);
+  };
+  const handleClick = () => {
+    setClicked(true);
   };
 
   return (
@@ -214,32 +234,60 @@ export default function CrearUsuarios() {
             <div className="form-group">
               <label className="estilosLabels">Contraseña (obligatorio)</label>
               <input
-                type="password"
+                type={showPassword ? "password" : "text"}
                 className="form-control"
                 placeholder="La contraseña debe ser mayor a los 6 caracteres"
                 value={password}
                 onChange={handlePasswordChange}
+                onClick={handleClick}
                 required
               />
+              <span className="password-messages">
+                {!validatePassword(password) && (
+                  <p className="text-danger">
+                    Minimo 6 caracteres, un caracter especial !@#$%^&*()_+ y una
+                    mayuscula.
+                  </p>
+                )}
+                {validatePassword() && (
+                  <p className="text-success">
+                    ¡La contraseña cumple con los requisitos!
+                  </p>
+                )}
+              </span>
+              <span
+                className="password-toggle-icon ocultarPass"
+                onClick={togglePasswordVisibility}
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </span>
             </div>
+
             <div className="form-group">
               <label className="estilosLabels">
                 Confirmar Contraseña (obligatorio)
               </label>
               <input
-                type="password"
-                className={`form-control ${!passwordMatch && "is-invalid"}`}
+                type={showPasswordVerification ? "password" : "text"}
+                className="form-control "
                 placeholder="Confirmar Contraseña"
                 value={confirmPassword}
                 onChange={handleConfirmPasswordChange}
                 required
               />
               {!passwordMatch && (
-                <div className="invalid-feedback">
-                  Las contraseñas no coinciden.
-                </div>
+                <div className="text-danger">Las contraseñas no coinciden.</div>
               )}
+              <span
+                className="password-toggle-icon ocultarPass2"
+                onClick={togglePasswordVisibilityVerification}
+              >
+                <FontAwesomeIcon
+                  icon={showPasswordVerification ? faEyeSlash : faEye}
+                />
+              </span>
             </div>
+            <br />
             <div className="form-group">
               <label className="estilosLabels">Rol (obligatorio)</label>
               <select

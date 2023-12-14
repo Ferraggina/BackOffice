@@ -9,3 +9,28 @@
 .activadoClase{
     padding-left: 1rem;
 }
+
+.ocultarPass{
+    position: relative;
+    top: -4rem;
+    transform: translateY(-50%);
+    left: 96%; /* Porcentaje en lugar de valor fijo en píxeles */
+    cursor: pointer;
+}
+.ocultarPass2{
+    position: relative;
+   top:-2rem;
+    transform: translateY(-50%);
+    left: 96%; /* Porcentaje en lugar de valor fijo en píxeles */
+    cursor: pointer;
+}
+.password-messages {
+    display: block;
+    height: 2rem; /* Ajusta la altura para dejar espacio para los mensajes */
+  }
+  
+  .password-messages p {
+    margin: 0;
+    padding: 0;
+  }
+  
