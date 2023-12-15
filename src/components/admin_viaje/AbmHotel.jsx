@@ -12,6 +12,8 @@ import {
 import Pagination from "../../components/home/Pagination.jsx";
 import { reuleaux } from "ldrs";
 import "../../sass/_abmHotel.scss";
+import { Link } from "react-router-dom";
+
 export default function AbmHotel() {
   const dispatch = useDispatch();
   const hoteles = useSelector((state) => state.hoteles);
@@ -230,6 +232,14 @@ export default function AbmHotel() {
           <br />
           <div className="text-center encabezadoLista">Lista de Hoteles</div>
           <br />
+          <div className="botonCrear">
+            <Link
+              to="/AgregarHoteles"
+              className="btn btn-primary botonCrearLink"
+            >
+              Agregar Hotel
+            </Link>
+          </div>
           <div className="table-responsive">
             <table className="table table-bordered tablaViaje">
               <thead className="text-center cabecerasDeTabla">
@@ -245,7 +255,7 @@ export default function AbmHotel() {
                 {hoteles.length ? (
                   filterHoteles(hoteles).map((hotel) => (
                     <tr key={hotel.id}>
-                      <td>{hotel.nombre}</td>
+                      <td>{hotel.nombre.toUpperCase()}</td>
                       <td>{hotel.direccion}</td>
                       <td>{hotel.telefono}</td>
                       <td>

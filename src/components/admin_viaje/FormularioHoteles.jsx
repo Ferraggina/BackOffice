@@ -236,6 +236,12 @@ export default function FormularioHoteles() {
               >
                 Creacion de Viaje
               </Link>
+              <Link
+                to="/ListadoHoteles"
+                className="btn btn-primary estiloBotones"
+              >
+                Volver al listado Hoteles
+              </Link>
             </div>
           </div>
         </form>
