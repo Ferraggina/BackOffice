@@ -50,7 +50,7 @@ export function AdminViaje() {
                   </h2>
                 </div>
               </th>
-              <th>
+              {/* <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
                     <Link className="enlacesAdmin" to="/AgregarHoteles">
@@ -68,7 +68,7 @@ export function AdminViaje() {
                     </Link>
                   </h2>
                 </div>
-              </th>
+              </th> */}
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">

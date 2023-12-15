@@ -29,11 +29,12 @@ import AbmViaje from "./components/admin_viaje/AbmViaje";
 import Abmusuario from "./components/admin_users/Abmusuarios";
 
 function App() {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
   useEffect(() => {
     // dispatch(getUsers());
   }, []);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Recupera la información del usuario del Local Storage
     const user = JSON.parse(localStorage.getItem("user"));
@@ -45,6 +46,7 @@ function App() {
         type: "LOGIN_SUCCESS",
         payload: user,
       });
+      setUserLoggedIn(true);
     }
   }, [dispatch]);
 
@@ -55,7 +57,9 @@ function App() {
       {loggedUserJSON && <Navbar />}
 
       <Routes>
-        <Route exact path="/" Component={Login} />
+        {/* <Route exact path="/" Component={Login} /> */}
+        {!userLoggedIn && <Route path="/" element={<Login />} />}
+        {userLoggedIn && <Route path="/" element={<Navigate to="/home" />} />}
         <Route path="/ForgotPass" Component={OlvidoPass} />
         <Route path="/RecuperarPass/" Component={RecuperarPass} />
         <Route path="/AccesoDenegado" Component={AccesoDenegado} />
