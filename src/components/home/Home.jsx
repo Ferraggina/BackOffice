@@ -9,6 +9,7 @@ import {
   readDataFromFirebase,
   writeDataToFirebase,
 } from "../../../firebaseUtils";
+import "../../sass/_home.scss";
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true); // Estado para controlar carga

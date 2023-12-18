@@ -156,7 +156,11 @@ export default function CrearUsuarios() {
   const handleClick = () => {
     setClicked(true);
   };
-
+  const handleRemoveContract = (contractNumToRemove) => {
+    setContratosSeleccionados((prevSelected) =>
+      prevSelected.filter((num) => num !== contractNumToRemove)
+    );
+  };
   return (
     <div className="card-tittle">
       <form className="form-sample" onSubmit={handleSubmit}>
@@ -447,7 +451,17 @@ export default function CrearUsuarios() {
                           <ul className="estiloListaContratosSeleccionados">
                             {contratosSeleccionados.map((contractNum) => (
                               <li key={contractNum}>
+                                <br />
                                 {getContractNameById(contractNum)}
+
+                                <span
+                                  className="eliminarContrato"
+                                  onClick={() =>
+                                    handleRemoveContract(contractNum)
+                                  }
+                                >
+                                  X
+                                </span>
                               </li>
                             ))}
                           </ul>
