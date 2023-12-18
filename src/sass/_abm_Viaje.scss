@@ -11,7 +11,7 @@
 .encabezadoLista{
     color: rgba(211, 211, 247, 0.918);
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 2rem;
     
 }
 .cardViajes{
@@ -91,3 +91,27 @@
 .modealHeaderViaje{
   background-color: orange;
 }
+
+// @media (min-width: 768px) {
+  
+
+//   .encabezadoLista {
+//     font-size: 1rem;
+//     color: #9a55ff;
+//   }
+
+  
+// }
+// @media (max-width: 1024px) {
+  
+
+//   .encabezadoLista {
+//     color: rgba(211, 211, 247, 0.918);
+//     font-weight: bold;
+//     font-size: 2rem;
+    
+//   }
+
+  
+// }
+
