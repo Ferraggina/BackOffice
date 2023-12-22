@@ -191,8 +191,7 @@ export default function AbmViaje() {
   return (
     <div className="custom-container mt-8">
       <br />
-      <br />
-      <br />
+
       {isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">
