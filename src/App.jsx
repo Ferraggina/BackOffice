@@ -27,6 +27,7 @@ import { AdminViaje } from "./components/admin_viaje/AdminViaje";
 import { AdminPantallaInicio } from "./components/admin_pantalla_inicio/AdminPantallaInicio";
 import AbmViaje from "./components/admin_viaje/AbmViaje";
 import Abmusuario from "./components/admin_users/Abmusuarios";
+import AbmItinerario from "./components/admin_viaje/AbmItinerario";
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -159,6 +160,16 @@ function App() {
           element={
             loggedUserJSON ? (
               <CrearUsuarios />
+            ) : (
+              <Navigate to="/AccesoDenegado" />
+            )
+          }
+        />
+        <Route
+          path="/listaItinerarios"
+          element={
+            loggedUserJSON ? (
+              <AbmItinerario />
             ) : (
               <Navigate to="/AccesoDenegado" />
             )

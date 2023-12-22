@@ -111,6 +111,11 @@ export default function FormularioViaje() {
       setNuevoContratoData([]);
     });
   };
+  const handleRemoveContract = (contractNumToRemove) => {
+    setContratosSeleccionados((prevSelected) =>
+      prevSelected.filter((num) => num !== contractNumToRemove)
+    );
+  };
 
   return (
     <div className="card-tittle">
@@ -138,6 +143,42 @@ export default function FormularioViaje() {
 
           <div className="col-md-6">
             <div className="form-group">
+              <div className="form-group">
+                <label className="estilosLabels">Destino</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputEmail1"
+                  placeholder="Destino"
+                  value={nuevoDestinoData}
+                  onChange={(e) => setNuevoDestinoData(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="estilosLabels">Fecha de salida</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="fechaSalida"
+                  placeholder="Fecha de salida"
+                  value={fechaSalida} // Asigna el valor del estado a este campo
+                  onChange={(e) => setFechaSalida(e.target.value)} // Actualiza el estado cuando cambia el valor
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="estilosLabels">Fecha de Regreso</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  id="fechaRegreso"
+                  placeholder="Fecha de regreso"
+                  value={fechaRegreso} // Asigna el valor del estado a este campo
+                  onChange={(e) => setFechaRegreso(e.target.value)} // Actualiza el estado cuando cambia el valor
+                  required
+                />
+              </div>
               <label htmlFor="opciones" className="estilosLabels">
                 Selecciona un Hotel:
               </label>
@@ -179,43 +220,6 @@ export default function FormularioViaje() {
                   </option>
                 ))}
               </select>
-            </div>
-
-            <div className="form-group">
-              <label className="estilosLabels">Destino</label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputEmail1"
-                placeholder="Destino"
-                value={nuevoDestinoData}
-                onChange={(e) => setNuevoDestinoData(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label className="estilosLabels">Fecha de salida</label>
-              <input
-                type="date"
-                className="form-control"
-                id="fechaSalida"
-                placeholder="Fecha de salida"
-                value={fechaSalida} // Asigna el valor del estado a este campo
-                onChange={(e) => setFechaSalida(e.target.value)} // Actualiza el estado cuando cambia el valor
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label className="estilosLabels">Fecha de Regreso</label>
-              <input
-                type="date"
-                className="form-control"
-                id="fechaRegreso"
-                placeholder="Fecha de regreso"
-                value={fechaRegreso} // Asigna el valor del estado a este campo
-                onChange={(e) => setFechaRegreso(e.target.value)} // Actualiza el estado cuando cambia el valor
-                required
-              />
             </div>
 
             <div className="form-group">
@@ -305,7 +309,16 @@ export default function FormularioViaje() {
                           <ul className="estiloListaContratosSeleccionados">
                             {contratosSeleccionados.map((contractNum) => (
                               <li key={contractNum}>
+                                <br />
                                 {getContractNameById(contractNum)}
+                                <span
+                                  className="eliminarContrato"
+                                  onClick={() =>
+                                    handleRemoveContract(contractNum)
+                                  }
+                                >
+                                  X
+                                </span>
                               </li>
                             ))}
                           </ul>

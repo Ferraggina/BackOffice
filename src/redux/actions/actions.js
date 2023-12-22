@@ -48,6 +48,10 @@ export const CREAR_USUARIO_SUCCESS = "CREAR_USUARIO_SUCCESS";
 export const CREAR_USUARIO_FAILURE = "CREAR_USUARIO_FAILURE";
 export const ELIMINAR_USUARIO_SUCCESS = "ELIMINAR_USUARIO_SUCCESS";
 export const ELIMINAR_USUARIO_FAILURE = "ELIMINAR_USUARIO_FAILURE";
+export const EDITAR_ITINERARIO_EXITO = "EDITAR_ITINERARIO_EXITO";
+export const EDITAR_ITINERARIO_ERROR = "EDITAR_ITINERARIO_ERROR";
+export const ELIMINAR_ITINERARIO_EXITO = "ELIMINAR_ITINERARIO_EXITO";
+export const ELIMINAR_ITINERARIO_ERROR = "ELIMINAR_ITINERARIO_ERROR";
 const TOKEN = import.meta.env.VITE_Access_token;
 const getUserUrl = import.meta.env.VITE_TRAERUSUARIOSURL;
 const editUserUrl = import.meta.env.VITE_EDITARUSUARIOS;
@@ -398,7 +402,60 @@ export const crearItinerario = (nuevoItinerario) => {
     }
   };
 };
+export function editItinerario(ItinerarioId, updatedItinerario) {
+  const getSchedulleUrl = import.meta.env.VITE_TRAERITINERARIO;
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(
+        `${getSchedulleUrl}${ItinerarioId}`,
+        updatedItinerario,
+        {
+          headers: {
+            "x-access-token": TOKEN,
 
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      dispatch({
+        type: EDITAR_ITINERARIO_EXITO,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: EDITAR_ITINERARIO_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+}
+export const eliminarItinerario = (itinerarioId) => {
+  const getSchedulleUrl = import.meta.env.VITE_TRAERITINERARIO;
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud DELETE al backend para eliminar el viaje
+      await axios.delete(`${getSchedulleUrl}${itinerarioId}`, {
+        headers: {
+          "x-access-token": TOKEN,
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Despacha una acción de éxito si se elimina el viaje
+      dispatch({
+        type: ELIMINAR_ITINERARIO_EXITO,
+        payload: itinerarioId,
+      });
+    } catch (error) {
+      // Despacha una acción de error si falla la eliminación del viaje
+      dispatch({
+        type: ELIMINAR_ITINERARIO_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
 export const obtenerViajes = () => async (dispatch) => {
   const getTravelUrl = import.meta.env.VITE_OBTENERVIAJES;
   try {

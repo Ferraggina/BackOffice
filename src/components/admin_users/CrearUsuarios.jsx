@@ -149,8 +149,7 @@ export default function CrearUsuarios() {
     }
   };
   const validatePassword = (password) => {
-    const regex =
-      /^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[0-9a-zA-Z!@#$%^&*()_+]{6,}$/;
+    const regex = /^.{6,}$/;
     return regex.test(password);
   };
   const handleClick = () => {
@@ -181,6 +180,7 @@ export default function CrearUsuarios() {
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 required
+                maxLength={30}
               />
             </div>
             <div className="form-group">
@@ -192,6 +192,7 @@ export default function CrearUsuarios() {
                 value={apellido}
                 onChange={(e) => setApellido(e.target.value)}
                 required
+                maxLength={30}
               />
             </div>
             <div className="form-group">
@@ -222,17 +223,19 @@ export default function CrearUsuarios() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                maxLength={50}
               />
             </div>
             <div className="form-group">
               <label className="estilosLabels">Telefono </label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 placeholder="+54 11-1111-1111"
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
                 required
+                maxLength="8"
               />
             </div>
             <div className="form-group">
@@ -248,12 +251,9 @@ export default function CrearUsuarios() {
               />
               <span className="password-messages">
                 {!validatePassword(password) && (
-                  <p className="text-danger">
-                    Minimo 6 caracteres, un caracter especial !@#$%^&*()_+ y una
-                    mayuscula.
-                  </p>
+                  <p className="text-danger">Minimo 6 caracteres</p>
                 )}
-                {validatePassword() && (
+                {validatePassword(password) && (
                   <p className="text-success">
                     ¡La contraseña cumple con los requisitos!
                   </p>
@@ -295,7 +295,7 @@ export default function CrearUsuarios() {
                 />
               </span>
             </div>
-            <br />
+
             <div className="form-group">
               <label className="estilosLabels">Rol (obligatorio)</label>
               <select
@@ -403,14 +403,14 @@ export default function CrearUsuarios() {
 
             <div>
               <h4>Corroboración de Datos:</h4>
-              <div>
-                <table className="table">
+              <div className="texto-largo ">
+                <table className="table ">
                   <tbody>
                     <tr>
                       <td>
                         <div className="form-group">
                           <label className="estilosLabels">Nombre:</label>
-                          <p className="form-control-static">{nombre}</p>
+                          <p className="form-control-static ">{nombre}</p>
                         </div>
                       </td>
                       <td>
@@ -419,6 +419,8 @@ export default function CrearUsuarios() {
                           <p className="form-control-static">{apellido}</p>
                         </div>
                       </td>
+                    </tr>
+                    <tr>
                       <td>
                         <div className="form-group">
                           <label className="estilosLabels">Usuario:</label>
@@ -431,6 +433,8 @@ export default function CrearUsuarios() {
                           <p className="form-control-static">{telefono}</p>
                         </div>
                       </td>
+                    </tr>
+                    <tr>
                       <td>
                         <div className="form-group">
                           <label className="estilosLabels">Email:</label>
@@ -443,29 +447,36 @@ export default function CrearUsuarios() {
                           <p className="form-control-static">{rol}</p>
                         </div>
                       </td>
+                    </tr>
+                    <tr>
+                      {" "}
                       <td>
                         <div className="form-group">
+                          <br />
                           <label className="estilosLabels">
                             Contratos Seleccionados:
                           </label>
-                          <ul className="estiloListaContratosSeleccionados">
-                            {contratosSeleccionados.map((contractNum) => (
-                              <li key={contractNum}>
-                                <br />
-                                {getContractNameById(contractNum)}
-
-                                <span
-                                  className="eliminarContrato"
-                                  onClick={() =>
-                                    handleRemoveContract(contractNum)
-                                  }
-                                >
-                                  X
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
                         </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <ul className="estiloListaContratosSeleccionados">
+                          {contratosSeleccionados.map((contractNum) => (
+                            <li key={contractNum}>
+                              <br />
+                              {getContractNameById(contractNum)}
+
+                              <span
+                                className="eliminarContrato"
+                                onClick={() =>
+                                  handleRemoveContract(contractNum)
+                                }
+                              >
+                                X
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
                       </td>
                     </tr>
                   </tbody>
