@@ -379,7 +379,7 @@ export default function AbmImagenesLandin() {
                         <lord-icon
                           src="https://cdn.lordicon.com/zfzufhzk.json"
                           trigger="hover"
-                          style={{ width: "25px", height: "25px" }}
+                          style={{ width: "15px", height: "15px" }}
                         ></lord-icon>
                       </button>
                       <button
@@ -389,7 +389,7 @@ export default function AbmImagenesLandin() {
                         <lord-icon
                           src="https://cdn.lordicon.com/xekbkxul.json"
                           trigger="hover"
-                          style={{ width: "25px", height: "25px" }}
+                          style={{ width: "15px", height: "15px" }}
                         ></lord-icon>
                       </button>
                       <button
@@ -399,7 +399,7 @@ export default function AbmImagenesLandin() {
                         <lord-icon
                           src="https://cdn.lordicon.com/ascijbjj.json"
                           trigger="hover"
-                          style={{ width: "25px", height: "25px" }}
+                          style={{ width: "15px", height: "15px" }}
                         ></lord-icon>
                       </button>
                     </td>
