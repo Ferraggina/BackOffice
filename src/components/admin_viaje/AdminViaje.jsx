@@ -34,8 +34,8 @@ export function AdminViaje() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center ">
-                    <Link className="enlacesAdmin" to="/CrearItinerario/">
-                      CREAR ITINERARIO
+                    <Link className="enlacesAdmin" to="/listaItinerarios/">
+                      ITINERARIOS
                       <lord-icon
                         src="https://cdn.lordicon.com/qvyppzqz.json"
                         trigger="hover"

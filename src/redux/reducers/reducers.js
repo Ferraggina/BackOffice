@@ -48,6 +48,10 @@ import {
   CREAR_USUARIO_FAILURE,
   ELIMINAR_USUARIO_SUCCESS,
   ELIMINAR_USUARIO_FAILURE,
+  EDITAR_ITINERARIO_ERROR,
+  EDITAR_ITINERARIO_EXITO,
+  ELIMINAR_ITINERARIO_EXITO,
+  ELIMINAR_ITINERARIO_ERROR,
 } from "../actions/actions";
 
 const initialState = {
@@ -193,6 +197,38 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         nuevoItenerario: null,
+        error: action.payload,
+      };
+    case EDITAR_ITINERARIO_EXITO:
+      return {
+        ...state,
+        error: null,
+        itinerarios: state.itinerarios.map((itinerario) => {
+          if (itinerario.id === action.payload.id) {
+            return {
+              ...itinerario,
+              nombre: action.payload,
+              texto_gral: action.payload,
+            };
+          }
+          return itinerario;
+        }),
+      };
+    case EDITAR_ITINERARIO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case ELIMINAR_ITINERARIO_EXITO:
+      return {
+        ...state,
+        itinerarios: state.landingDataText.filter(
+          (itinerario) => itinerario.id !== action.payload
+        ),
+      };
+    case ELIMINAR_ITINERARIO_ERROR:
+      return {
+        ...state,
         error: action.payload,
       };
     case OBTENER_VIAJES_EXITO:

@@ -187,6 +187,12 @@ export default function Itinerario() {
                   >
                     Creacion de Viaje
                   </Link>
+                  <Link
+                    to="/listaItinerarios"
+                    className="btn btn-primary estiloBotones"
+                  >
+                    Lista de itinerarios
+                  </Link>
                 </div>
               </div>
             </div>
