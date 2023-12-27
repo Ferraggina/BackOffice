@@ -225,19 +225,19 @@ export default function FormularioHoteles() {
                 <button
                   type="button"
                   className="btn btn-primary ml-2 estiloBotones"
-                  onClick={() => navigate("/home")}
+                  onClick={() => navigate("/gestion/home")}
                 >
                   Volver a administracion
                 </button>
               )}
               <Link
-                to="/FormularioViaje"
+                to="/gestion/FormularioViaje"
                 className="btn btn-primary estiloBotones"
               >
                 Creacion de Viaje
               </Link>
               <Link
-                to="/ListadoHoteles"
+                to="/gestion/ListadoHoteles"
                 className="btn btn-primary estiloBotones"
               >
                 Volver al listado Hoteles

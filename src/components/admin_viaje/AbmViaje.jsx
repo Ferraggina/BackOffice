@@ -237,7 +237,7 @@ export default function AbmViaje() {
           <h2 className="text-center encabezadoLista">Lista de Viajes</h2>
           <div className="botonCrear">
             <Link
-              to="/FormularioViaje"
+              to="/gestion/FormularioViaje"
               className="btn btn-primary botonCrearLink"
             >
               Agregar Viaje

@@ -246,7 +246,10 @@ export default function Abmusuario() {
           <br />
           <h2 className="text-center encabezadoLista">Lista de Usuarios</h2>
           <div className="botonCrear">
-            <Link to="/postUsuarios" className="btn btn-primary botonCrearLink">
+            <Link
+              to="/gestion/postUsuarios"
+              className="btn btn-primary botonCrearLink"
+            >
               Agregar Usuario
             </Link>
           </div>

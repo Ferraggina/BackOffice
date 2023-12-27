@@ -14,7 +14,7 @@ export function AdminViaje() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link className="enlacesAdmin" to="/ViajesEdicion">
+                    <Link className="enlacesAdmin" to="/gestion/ViajesEdicion">
                       VIAJES
                       <lord-icon
                         src="https://cdn.lordicon.com/rdfmytjv.json"
@@ -34,7 +34,10 @@ export function AdminViaje() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center ">
-                    <Link className="enlacesAdmin" to="/listaItinerarios/">
+                    <Link
+                      className="enlacesAdmin"
+                      to="/gestion/listaItinerarios/"
+                    >
                       ITINERARIOS
                       <lord-icon
                         src="https://cdn.lordicon.com/qvyppzqz.json"
@@ -72,7 +75,7 @@ export function AdminViaje() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link className="enlacesAdmin" to="/ListadoHoteles">
+                    <Link className="enlacesAdmin" to="/gestion/ListadoHoteles">
                       LISTADO HOTELES
                       <lord-icon
                         src="https://cdn.lordicon.com/lenjvibx.json"

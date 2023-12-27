@@ -127,13 +127,13 @@ export default function FormularioViaje() {
         <div className="row justify-content-center formularioViajeContenedor">
           <div className="botonCrear">
             <Link
-              to="/AgregarHoteles"
+              to="/gestion/AgregarHoteles"
               className="btn btn-primary botonCrearLink"
             >
               Agregar Hotel
             </Link>
             <Link
-              to="/CrearItinerario"
+              to="/gestion/CrearItinerario"
               className="btn btn-primary botonCrearLink"
               style={{ marginLeft: "10px" }}
             >

@@ -13,7 +13,10 @@ export function AdminPantallaInicio() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link to="/ImagenesLanding" className="enlacesAdmin">
+                    <Link
+                      to="/gestion/ImagenesLanding"
+                      className="enlacesAdmin"
+                    >
                       IMAGENES DE INICIO
                       <lord-icon
                         src="https://cdn.lordicon.com/dhbjyxqp.json"
@@ -28,7 +31,10 @@ export function AdminPantallaInicio() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link to="/promocionLanding" className="enlacesAdmin">
+                    <Link
+                      to="/gestion/promocionLanding"
+                      className="enlacesAdmin"
+                    >
                       TEXTO DE INICIO
                       <lord-icon
                         src="https://cdn.lordicon.com/ncdtrewm.json"
@@ -44,7 +50,7 @@ export function AdminPantallaInicio() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link to="/Contactos" className="enlacesAdmin">
+                    <Link to="/gestion/Contactos" className="enlacesAdmin">
                       CONTACTOS
                       <lord-icon
                         src="https://cdn.lordicon.com/aycieyht.json"
@@ -59,7 +65,7 @@ export function AdminPantallaInicio() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link to="/editUsuarios" className="enlacesAdmin">
+                    <Link to="/gestion/editUsuarios" className="enlacesAdmin">
                       USUARIOS
                       <lord-icon
                         src="https://cdn.lordicon.com/bgebyztw.json"

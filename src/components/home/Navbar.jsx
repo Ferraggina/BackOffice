@@ -21,7 +21,7 @@ export default function Navbar() {
       <nav className="navbar default-layout-navbar col-lg-12 col-12 p-0 d-flex flex-row fixed-top estiloNav">
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           {/* Utilizar Link en lugar de <a> */}
-          <Link to="/home" className="navbar-brand brand-logo">
+          <Link to="/gestion/home" className="navbar-brand brand-logo">
             <img src="\src\assets\logo-cuyen-turismo.png" alt="logo" />
           </Link>
         </div>

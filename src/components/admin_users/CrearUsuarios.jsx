@@ -486,7 +486,10 @@ export default function CrearUsuarios() {
             <button type="submit" className="btn btn-primary estiloBotones">
               Crear Usuario
             </button>
-            <Link to="/editUsuarios" className="btn btn-primary estiloBotones">
+            <Link
+              to="/gestion/editUsuarios"
+              className="btn btn-primary estiloBotones"
+            >
               Volver a lista de usuarios
             </Link>
             {usuarioCreado && (

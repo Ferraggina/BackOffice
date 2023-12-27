@@ -182,7 +182,7 @@ export default function ItinerarioVisualizacion() {
           </h1>
           <div className="botonCrear">
             <Link
-              to="/CrearItinerario"
+              to="/gestion/CrearItinerario"
               className="btn btn-primary botonCrearLink"
             >
               Crear Itinerario
