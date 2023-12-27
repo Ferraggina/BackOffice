@@ -210,23 +210,24 @@ export default function AbmTexto() {
                   </td>
                   <td>
                     <button
-                      className="btn btn-primary botonEditar"
+                      className="btn btn-info botonEditar"
                       onClick={() => handleEditText(text.id)}
                     >
                       <lord-icon
                         src="https://cdn.lordicon.com/zfzufhzk.json"
                         trigger="hover"
-                        style={{ width: "25px", height: "25px" }}
+                        style={{ width: "15px", height: "15px" }}
                       ></lord-icon>
                     </button>
                     <button
                       className="btn btn-danger botonEliminar"
                       onClick={() => handleDeleteText(text.id)}
+                      style={{ marginLeft: "3px" }}
                     >
                       <lord-icon
                         src="https://cdn.lordicon.com/xekbkxul.json"
                         trigger="hover"
-                        style={{ width: "25px", height: "25px" }}
+                        style={{ width: "15px", height: "15px" }}
                       ></lord-icon>
                     </button>
                   </td>
