@@ -182,13 +182,13 @@ export default function Itinerario() {
                     Agregar Itinerario
                   </button>
                   <Link
-                    to="/FormularioViaje"
+                    to="/gestion/FormularioViaje"
                     className="btn btn-primary estiloBotones"
                   >
                     Creacion de Viaje
                   </Link>
                   <Link
-                    to="/listaItinerarios"
+                    to="/gestion/listaItinerarios"
                     className="btn btn-primary estiloBotones"
                   >
                     Lista de itinerarios

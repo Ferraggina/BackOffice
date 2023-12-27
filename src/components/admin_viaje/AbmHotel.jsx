@@ -232,7 +232,7 @@ export default function AbmHotel() {
           <br />
           <div className="botonCrear">
             <Link
-              to="/AgregarHoteles"
+              to="/gestion/AgregarHoteles"
               className="btn btn-primary botonCrearLink"
             >
               Agregar Hotel

@@ -61,7 +61,7 @@ export function Login() {
         ) {
           // No es necesario verificar el estado del usuario aquí
           console.log(res.payload);
-          navigate("/home");
+          navigate("/gestion/home");
 
           window.location.reload();
         } else {

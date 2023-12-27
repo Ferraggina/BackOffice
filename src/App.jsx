@@ -59,15 +59,20 @@ function App() {
 
       <Routes>
         {/* <Route exact path="/" Component={Login} /> */}
-        {!userLoggedIn && <Route path="/" element={<Login />} />}
-        {userLoggedIn && <Route path="/" element={<Navigate to="/home" />} />}
-        <Route path="/ForgotPass" Component={OlvidoPass} />
-        <Route path="/RecuperarPass/" Component={RecuperarPass} />
+        {!userLoggedIn && <Route path="/gestion" element={<Login />} />}
+        {userLoggedIn && (
+          <Route path="/gestion" element={<Navigate to="/home" />} />
+        )}
+        <Route path="/gestion/ForgotPass" Component={OlvidoPass} />
+        <Route path="/gestion/RecuperarPass/" Component={RecuperarPass} />
         <Route path="/AccesoDenegado" Component={AccesoDenegado} />
         {/* Aca van las que necesitan autorizacion */}
-        <Route path="/home" element={loggedUserJSON ? <Home /> : <Login />} />
         <Route
-          path="/FormularioViaje"
+          path="/gestion/home"
+          element={loggedUserJSON ? <Home /> : <Login />}
+        />
+        <Route
+          path="/gestion/FormularioViaje"
           element={
             loggedUserJSON ? (
               <FormularioViaje />
@@ -77,26 +82,26 @@ function App() {
           }
         />
         <Route
-          path="/CrearItinerario"
+          path="/gestion/CrearItinerario"
           element={
             loggedUserJSON ? <Itinerario /> : <Navigate to="/AccesoDenegado" />
           }
         />
         {/* <Route path="/FormularioViaje/" Component={FormularioViaje} /> */}
         <Route
-          path="/ViajesEdicion"
+          path="/gestion/ViajesEdicion"
           element={
             loggedUserJSON ? <AbmViaje /> : <Navigate to="/AccesoDenegado" />
           }
         />
         <Route
-          path="/ViajesEdicion"
+          path="/gestion/ViajesEdicion"
           element={
             loggedUserJSON ? <AdminViaje /> : <Navigate to="/AccesoDenegado" />
           }
         />
         <Route
-          path="/AgregarHoteles"
+          path="/gestion/AgregarHoteles"
           element={
             loggedUserJSON ? (
               <FormularioHoteles />
@@ -106,14 +111,14 @@ function App() {
           }
         />
         <Route
-          path="/ListadoHoteles"
+          path="/gestion/ListadoHoteles"
           element={
             loggedUserJSON ? <AbmHotel /> : <Navigate to="/AccesoDenegado" />
           }
         />
 
         <Route
-          path="/AdminViaje"
+          path="/gestion/AdminViaje"
           element={
             loggedUserJSON ? (
               <AdminPantallaInicio />
@@ -123,7 +128,7 @@ function App() {
           }
         />
         <Route
-          path="/ImagenesLanding"
+          path="/gestion/ImagenesLanding"
           element={
             loggedUserJSON ? (
               <AbmImagenesLandin />
@@ -133,13 +138,13 @@ function App() {
           }
         />
         <Route
-          path="/promocionLanding"
+          path="/gestion/promocionLanding"
           element={
             loggedUserJSON ? <AbmTexto /> : <Navigate to="/AccesoDenegado" />
           }
         />
         <Route
-          path="/Contactos"
+          path="/gestion/Contactos"
           element={
             loggedUserJSON ? (
               <ContactosRecibidos />
@@ -150,13 +155,13 @@ function App() {
         />
 
         <Route
-          path="/editUsuarios"
+          path="/gestion/editUsuarios"
           element={
             loggedUserJSON ? <Abmusuario /> : <Navigate to="/AccesoDenegado" />
           }
         />
         <Route
-          path="/postUsuarios"
+          path="/gestion/postUsuarios"
           element={
             loggedUserJSON ? (
               <CrearUsuarios />
@@ -166,7 +171,7 @@ function App() {
           }
         />
         <Route
-          path="/listaItinerarios"
+          path="/gestion/listaItinerarios"
           element={
             loggedUserJSON ? (
               <AbmItinerario />
