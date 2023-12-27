@@ -13,6 +13,7 @@ export default function CrearUsuarios() {
   const [usuario, setUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [telefono, setTelefono] = useState("");
+  const [emailError, setEmailError] = useState(false);
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -98,7 +99,7 @@ export default function CrearUsuarios() {
 
         // Redirigir o realizar otras acciones después de crear el usuario en Firebase y en el backend
         setTimeout(() => {
-          navigate("/editUsuarios");
+          navigate("/gestion/editUsuarios");
         }, 1000);
       } catch (error) {
         console.error("Error al crear el usuario: ", error);
@@ -124,6 +125,7 @@ export default function CrearUsuarios() {
     const newPassword = e.target.value;
     setPassword(newPassword);
     setClicked(false);
+
     // Verificar si la contraseña coincide con la confirmación
     if (newPassword === confirmPassword) {
       setPasswordMatch(true);
@@ -149,7 +151,7 @@ export default function CrearUsuarios() {
     }
   };
   const validatePassword = (password) => {
-    const regex = /^.{6,}$/;
+    const regex = /^\d{6,}$/;
     return regex.test(password);
   };
   const handleClick = () => {
@@ -159,6 +161,33 @@ export default function CrearUsuarios() {
     setContratosSeleccionados((prevSelected) =>
       prevSelected.filter((num) => num !== contractNumToRemove)
     );
+  };
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+
+    // Expresión regular para validar el formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Verificar si el correo electrónico cumple con el formato
+    const isValidEmail = emailRegex.test(newEmail);
+
+    if (!isValidEmail && newEmail !== "") {
+      // Si el correo no cumple con el formato, puedes mostrar un mensaje al usuario o realizar alguna acción
+      // Por ejemplo, puedes setear un estado para mostrar un mensaje de error
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  };
+  const handleContractSelection = (contractNum) => {
+    if (contractNum === "0") {
+      // Si se selecciona el contrato falso, haz algo específico (puede ser ignorarlo o agregarlo a la lista de seleccionados)
+      setContratosSeleccionados([...contratosSeleccionados, contractNum]);
+    } else {
+      // Resto de la lógica para los contratos de la base de datos
+      toggleContractSelection(contractNum);
+    }
   };
   return (
     <div className="card-tittle">
@@ -214,7 +243,7 @@ export default function CrearUsuarios() {
                 maxLength="8"
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label className="estilosLabels">Email (obligatorio)</label>
               <input
                 type="email"
@@ -225,6 +254,23 @@ export default function CrearUsuarios() {
                 required
                 maxLength={50}
               />
+            </div> */}
+            <div className="form-group">
+              <label className="estilosLabels">Email (obligatorio)</label>
+              <input
+                type="email"
+                className={`form-control ${emailError ? "error" : ""}`}
+                placeholder="Email"
+                value={email}
+                onChange={handleEmailChange}
+                required
+                maxLength={50}
+              />
+              {emailError && (
+                <p className="text-danger">
+                  Por favor ingresa un correo electrónico válido.
+                </p>
+              )}
             </div>
             <div className="form-group">
               <label className="estilosLabels">Telefono </label>
@@ -251,7 +297,9 @@ export default function CrearUsuarios() {
               />
               <span className="password-messages">
                 {!validatePassword(password) && (
-                  <p className="text-danger">Minimo 6 caracteres</p>
+                  <p className="text-danger">
+                    Minimo 6 caracteres numerales | 0-9 |
+                  </p>
                 )}
                 {validatePassword(password) && (
                   <p className="text-success">
@@ -363,7 +411,9 @@ export default function CrearUsuarios() {
                 multiple // Permite múltiples selecciones
               >
                 <option value="">Elije los contratos:</option>
-
+                <option value="0" onClick={() => handleContractSelection("0")}>
+                  Contrato de Administrador
+                </option>
                 {contratosFiltrados.length > 0
                   ? contratosFiltrados.map((contrato) => (
                       <option
@@ -464,8 +514,10 @@ export default function CrearUsuarios() {
                           {contratosSeleccionados.map((contractNum) => (
                             <li key={contractNum}>
                               <br />
-                              {getContractNameById(contractNum)}
-
+                              {/* {getContractNameById(contractNum)} */}
+                              {contractNum === "0"
+                                ? "Contrato de Administrador"
+                                : getContractNameById(contractNum)}
                               <span
                                 className="eliminarContrato"
                                 onClick={() =>
