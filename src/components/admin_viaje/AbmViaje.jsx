@@ -239,8 +239,14 @@ export default function AbmViaje() {
             <Link
               to="/gestion/FormularioViaje"
               className="btn btn-primary botonCrearLink"
+              title="Agregar Viaje"
             >
-              Agregar Viaje
+              <lord-icon
+                src="https://cdn.lordicon.com/ftndcppj.json"
+                trigger="hover"
+                colors="primary:#1b1091,secondary:#e4e4e4"
+                style={{ width: "40px", height: "40px" }}
+              ></lord-icon>
             </Link>
           </div>
           <div className="table-responsive">

@@ -58,6 +58,9 @@ export default function FormularioHoteles() {
         message: "Hubo un error al crear el Itinerario.",
       });
     }
+    setTimeout(() => {
+      navigate("/gestion/ListadoHoteles");
+    }, 2000);
   };
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -156,12 +159,13 @@ export default function FormularioHoteles() {
               <div className="form-group">
                 <label className="estilosLabels">Telefono</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
                   placeholder="+54 1111-1111"
                   value={telefono}
                   required
                   onChange={(e) => setTelefono(e.target.value)}
+                  maxLength={30}
                 />
               </div>
 
@@ -216,8 +220,17 @@ export default function FormularioHoteles() {
 
               <div className="form-group"></div>
               <br />
-              <button type="submit" className="btn btn-primary estiloBotones">
-                Añadir Hotel
+              <button
+                type="submit"
+                className="btn btn-primary estiloBotones"
+                title="Añadir Hotel"
+              >
+                <lord-icon
+                  src="https://cdn.lordicon.com/smwmetfi.json"
+                  trigger="hover"
+                  style={{ width: "45px", height: "45px" }}
+                  colors="primary:#ffffff,secondary:#1b1091"
+                ></lord-icon>
               </button>
 
               {/* Botón de redirección */}
@@ -233,14 +246,33 @@ export default function FormularioHoteles() {
               <Link
                 to="/gestion/FormularioViaje"
                 className="btn btn-primary estiloBotones"
+                title="Creacion de Viaje"
               >
-                Creacion de Viaje
+                <lord-icon
+                  src="https://cdn.lordicon.com/ppyvfomi.json"
+                  trigger="hover"
+                  style={{ width: "45px", height: "45px" }}
+                  colors="primary:#ffffff,secondary:#1b1091"
+                ></lord-icon>
               </Link>
-              <Link
+              {/* <Link
                 to="/gestion/ListadoHoteles"
                 className="btn btn-primary estiloBotones"
               >
                 Volver al listado Hoteles
+              </Link> */}
+
+              <Link
+                to="/gestion/ListadoHoteles"
+                className="btn btn-primary estiloBotones"
+                title="Listado de hoteles"
+              >
+                <lord-icon
+                  src="https://cdn.lordicon.com/zyzoecaw.json"
+                  trigger="hover"
+                  style={{ width: "45px", height: "45px" }}
+                  colors="primary:#ffffff,secondary:#1b1091"
+                ></lord-icon>
               </Link>
             </div>
           </div>

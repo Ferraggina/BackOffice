@@ -52,6 +52,8 @@ export const EDITAR_ITINERARIO_EXITO = "EDITAR_ITINERARIO_EXITO";
 export const EDITAR_ITINERARIO_ERROR = "EDITAR_ITINERARIO_ERROR";
 export const ELIMINAR_ITINERARIO_EXITO = "ELIMINAR_ITINERARIO_EXITO";
 export const ELIMINAR_ITINERARIO_ERROR = "ELIMINAR_ITINERARIO_ERROR";
+export const OBTENER_PASAJERO_EXITO = "OBTENER_PASAJERO_EXITO";
+export const OBTENER_PASAJERO_ERROR = "OBTENER_PASAJERO_ERROR";
 const TOKEN = import.meta.env.VITE_Access_token;
 const getUserUrl = import.meta.env.VITE_TRAERUSUARIOSURL;
 const editUserUrl = import.meta.env.VITE_EDITARUSUARIOS;
@@ -323,6 +325,7 @@ export const obtenerContratos = () => async (dispatch) => {
       },
     }); // Reemplaza con la ruta correcta
     const contratos = response.data;
+    contratos.sort((a, b) => b.num - a.num);
 
     // Supongamos que la respuesta es un array de contratos
 
@@ -854,5 +857,23 @@ export const getLandingForm = () => async (dispatch) => {
     });
   } catch (error) {
     console.error("Error al obtener datos de la landing", error);
+  }
+};
+
+export const obtenerPasajero = () => async (dispatch) => {
+  const getPasajero = import.meta.env.VITE_TRAERPASAJEROS;
+  try {
+    const response = await axios.get(getPasajero, {
+      headers: {
+        "x-access-token": TOKEN,
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con la ruta correcta
+    console.log("ACA RESPONS", response);
+    const pasajeros = response.data; // Supongamos que la respuesta es un array de contratos
+
+    dispatch({ type: OBTENER_PASAJERO_EXITO, payload: pasajeros });
+  } catch (error) {
+    dispatch({ type: OBTENER_PASAJERO_ERROR, payload: error.message });
   }
 };
