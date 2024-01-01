@@ -62,6 +62,11 @@ export default function FormularioViaje() {
       setItinerarioSeleccionado(null);
     }
   }, [nuevoScheduleIdData, itinerarios]);
+  useEffect(() => {
+    {
+      contratos.sort((a, b) => b.num - a.num);
+    }
+  });
 
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
@@ -110,6 +115,9 @@ export default function FormularioViaje() {
       // Restablece el valor de nuevoContratoData después de enviar la solicitud
       setNuevoContratoData([]);
     });
+    setTimeout(() => {
+      navigate("/gestion/ViajesEdicion");
+    }, 2000);
   };
   const handleRemoveContract = (contractNumToRemove) => {
     setContratosSeleccionados((prevSelected) =>
@@ -129,15 +137,27 @@ export default function FormularioViaje() {
             <Link
               to="/gestion/AgregarHoteles"
               className="btn btn-primary botonCrearLink"
+              title="Agregar Hotel"
             >
-              Agregar Hotel
+              <lord-icon
+                src="https://cdn.lordicon.com/fzoffrbp.json"
+                trigger="hover"
+                style={{ width: "40px", height: "40px" }}
+                colors="primary:#ffffff,secondary:#1b1091"
+              ></lord-icon>
             </Link>
             <Link
               to="/gestion/CrearItinerario"
               className="btn btn-primary botonCrearLink"
               style={{ marginLeft: "10px" }}
+              title="Crear Itinerario"
             >
-              Agregar Itinerario
+              <lord-icon
+                src="https://cdn.lordicon.com/kgdqzapd.json"
+                trigger="hover"
+                style={{ width: "40px", height: "40px" }}
+                colors="primary:#ffffff,secondary:#1b1091"
+              ></lord-icon>
             </Link>
           </div>
 
@@ -403,17 +423,31 @@ export default function FormularioViaje() {
               </div>
             </div>
 
-            <div className="form-group"></div>
             <br />
-            <button type="submit" className="btn btn-primary estiloBotones">
-              Agregar Viaje
+            <button
+              type="submit"
+              className="btn btn-primary estiloBotones"
+              title="Agregar Viaje"
+            >
+              <lord-icon
+                src="https://cdn.lordicon.com/smwmetfi.json"
+                trigger="hover"
+                style={{ width: "45px", height: "45px" }}
+                colors="primary:#ffffff,secondary:#1b1091"
+              ></lord-icon>
             </button>
             <button
               type="button"
               className="btn btn-primary ml-2 estiloBotones"
-              onClick={() => navigate("/ViajesEdicion")}
+              onClick={() => navigate("/gestion/ViajesEdicion")}
+              title="Lista de viajes"
             >
-              Volver a viajes
+              <lord-icon
+                src="https://cdn.lordicon.com/depeqmsz.json"
+                trigger="hover"
+                style={{ width: "45px", height: "45px" }}
+                colors="primary:#ffffff,secondary:#1b1091"
+              ></lord-icon>
             </button>
           </div>
           {nuevoViaje && (

@@ -52,6 +52,8 @@ import {
   EDITAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_ERROR,
+  OBTENER_PASAJERO_EXITO,
+  OBTENER_PASAJERO_ERROR,
 } from "../actions/actions";
 
 const initialState = {
@@ -79,6 +81,7 @@ const initialState = {
   imageUrl: "",
   landingDataText: [],
   landingDataForm: [],
+  pasajeros: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -173,6 +176,19 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         hoteles: [],
+        error: action.payload,
+      };
+    case OBTENER_PASAJERO_EXITO:
+      return {
+        ...state,
+        pasajeros: action.payload,
+        error: null,
+      };
+
+    case OBTENER_PASAJERO_ERROR:
+      return {
+        ...state,
+        pasajeros: [],
         error: action.payload,
       };
     case OBTENER_ITINERARIOS_EXITO:

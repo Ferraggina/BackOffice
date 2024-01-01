@@ -3,17 +3,18 @@ import { useDispatch } from "react-redux";
 import "../../sass/_itinerario.scss";
 import { crearItinerario } from "../../redux/actions/actions";
 import { reuleaux } from "ldrs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Itinerario() {
   const [nombre, setNombre] = useState("");
   const [textoGral, setTextoGral] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [camposExtras, setCamposExtras] = useState([
-    { titulo: "", descripcion: "" },
+    { titulo: "", descripcion: [""] },
   ]);
   const [alert, setAlert] = useState(null); // Estado para la alerta
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
@@ -21,14 +22,34 @@ export default function Itinerario() {
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
+  // const handleCampoExtraChange = (index, field, value) => {
+  //   const newCamposExtras = [...camposExtras];
+  //   newCamposExtras[index][field] = value;
+  //   setCamposExtras(newCamposExtras);
+  // };
   const handleCampoExtraChange = (index, field, value) => {
     const newCamposExtras = [...camposExtras];
-    newCamposExtras[index][field] = value;
+    if (field === "titulo") {
+      newCamposExtras[index][field] = value;
+    } else if (field === "descripcion") {
+      // Verifica si ya existe la descripción o si es un nuevo campo de descripción
+      const descripcionIndex = parseInt(value.split("_")[1], 10);
+      if (isNaN(descripcionIndex)) {
+        newCamposExtras[index].descripcion.push(value);
+      } else {
+        newCamposExtras[index].descripcion[descripcionIndex] =
+          value.split("_")[0];
+      }
+    }
     setCamposExtras(newCamposExtras);
   };
-
+  const handleAgregarDescripcion = (index) => {
+    const newCamposExtras = [...camposExtras];
+    newCamposExtras[index].descripcion.push(""); // Agrega una nueva descripción vacía al campo extra seleccionado
+    setCamposExtras(newCamposExtras);
+  };
   const handleAgregarCampoExtra = () => {
-    setCamposExtras([...camposExtras, { titulo: "", descripcion: "" }]);
+    setCamposExtras([...camposExtras, { titulo: "", descripcion: [""] }]);
   };
 
   const handleSubmit = async (e) => {
@@ -82,6 +103,9 @@ export default function Itinerario() {
         });
       }
     }
+    setTimeout(() => {
+      navigate("/gestion/listaItinerarios/");
+    }, 2000);
   };
 
   return (
@@ -149,7 +173,7 @@ export default function Itinerario() {
                         }
                       />
                       <br />
-                      <label>Descripcion de la actividad {index + 1}</label>
+                      {/* <label>Descripcion de la actividad {index + 1}</label>
                       <input
                         type="text"
                         className="form-control"
@@ -162,8 +186,44 @@ export default function Itinerario() {
                             e.target.value
                           )
                         }
-                      />
-                      <br />
+                      /> */}
+                      {campo.descripcion &&
+                        Array.isArray(campo.descripcion) &&
+                        campo.descripcion.map((descripcion, i) => (
+                          <div key={i}>
+                            <label>
+                              Descripcion {i + 1} del campo extra {index + 1}
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder={`Descripción ${i + 1}`}
+                              value={descripcion}
+                              maxLength={150}
+                              onChange={(e) =>
+                                handleCampoExtraChange(
+                                  index,
+                                  "descripcion",
+                                  e.target.value + `_${i}`
+                                )
+                              }
+                            />
+                            <br />
+                          </div>
+                        ))}
+                      <button
+                        type="button"
+                        onClick={() => handleAgregarDescripcion(index)}
+                        className="btn btn-secondary"
+                        title="Agrega una descripcion"
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/ghhwiltn.json"
+                          trigger="hover"
+                          colors="primary:#1b1091,secondary:#e4e4e4"
+                          style={{ width: "40px", height: "40px" }}
+                        ></lord-icon>
+                      </button>
                     </div>
                   ))}
 
@@ -171,27 +231,51 @@ export default function Itinerario() {
                     type="button"
                     onClick={handleAgregarCampoExtra}
                     className="btn btn-primary estiloBotones"
+                    title="Agregar Campo "
                   >
-                    Agregar Campo Extra
+                    <lord-icon
+                      src="https://cdn.lordicon.com/xljvqlng.json"
+                      trigger="hover"
+                      colors="primary:#e4e4e4"
+                      style={{ width: "40px", height: "40px" }}
+                    ></lord-icon>
                   </button>
                   <button
                     type="submit"
                     className="btn btn-primary estiloBotones"
                     onClick={handleSubmit}
+                    title="Aagregar Itinerario"
                   >
-                    Agregar Itinerario
+                    <lord-icon
+                      src="https://cdn.lordicon.com/smwmetfi.json"
+                      trigger="hover"
+                      style={{ width: "40px", height: "40px" }}
+                      colors="primary:#ffffff,secondary:#1b1091"
+                    ></lord-icon>
                   </button>
                   <Link
                     to="/gestion/FormularioViaje"
                     className="btn btn-primary estiloBotones"
+                    title="Formulario Viaje"
                   >
-                    Creacion de Viaje
+                    <lord-icon
+                      src="https://cdn.lordicon.com/ppyvfomi.json"
+                      trigger="hover"
+                      style={{ width: "40px", height: "40px" }}
+                      colors="primary:#ffffff,secondary:#1b1091"
+                    ></lord-icon>
                   </Link>
                   <Link
                     to="/gestion/listaItinerarios"
                     className="btn btn-primary estiloBotones"
+                    title="Lista de Itinerarios"
                   >
-                    Lista de itinerarios
+                    <lord-icon
+                      src="https://cdn.lordicon.com/zyzoecaw.json"
+                      trigger="hover"
+                      style={{ width: "40px", height: "40px" }}
+                      colors="primary:#ffffff,secondary:#1b1091"
+                    ></lord-icon>
                   </Link>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import {
   obtenerItinerario,
   editItinerario,
   eliminarItinerario,
+  obtenerPasajero,
 } from "../../redux/actions/actions";
 import { Link } from "react-router-dom";
 import "../../sass/_itinerario.scss";
@@ -184,8 +185,14 @@ export default function ItinerarioVisualizacion() {
             <Link
               to="/gestion/CrearItinerario"
               className="btn btn-primary botonCrearLink"
+              title="Agregar Itinerario"
             >
-              Crear Itinerario
+              <lord-icon
+                src="https://cdn.lordicon.com/ftndcppj.json"
+                trigger="hover"
+                colors="primary:#1b1091,secondary:#e4e4e4"
+                style={{ width: "40px", height: "40px" }}
+              ></lord-icon>
             </Link>
           </div>
 

@@ -170,15 +170,21 @@ export default function AbmTexto() {
           <h2 className="text-center encabezadoLista">Administrar Textos</h2>
 
           <br />
-          <div className="d-flex justify-content-end mb-3">
+          <div className="d-flex justify-content-start mb-3">
             <button
               className="btn btn-primary botonEditar"
               onClick={() => {
                 setFormData({ texto: "", activo: true });
                 setShowModal(true);
               }}
+              title="Agregar Texto"
             >
-              <FontAwesomeIcon icon={faPlus} /> Agregar Texto
+              <lord-icon
+                src="https://cdn.lordicon.com/ftndcppj.json"
+                trigger="hover"
+                colors="primary:#1b1091,secondary:#e4e4e4"
+                style={{ width: "40px", height: "40px" }}
+              ></lord-icon>
             </button>
           </div>
           <table className="table table-bordered tablaViaje">

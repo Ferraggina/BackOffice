@@ -189,6 +189,7 @@ export default function CrearUsuarios() {
       toggleContractSelection(contractNum);
     }
   };
+
   return (
     <div className="card-tittle">
       <form className="form-sample" onSubmit={handleSubmit}>
@@ -394,6 +395,7 @@ export default function CrearUsuarios() {
             </div>
             <div className="form-group">
               <label className="estilosLabels">Contratos</label>
+
               <select
                 className="form-control"
                 id="contrato"
@@ -414,6 +416,7 @@ export default function CrearUsuarios() {
                 <option value="0" onClick={() => handleContractSelection("0")}>
                   Contrato de Administrador
                 </option>
+
                 {contratosFiltrados.length > 0
                   ? contratosFiltrados.map((contrato) => (
                       <option
@@ -535,14 +538,29 @@ export default function CrearUsuarios() {
                 </table>
               </div>
             </div>
-            <button type="submit" className="btn btn-primary estiloBotones">
-              Crear Usuario
+            <button
+              type="submit"
+              className="btn btn-primary estiloBotones"
+              title="Agregar usuarios "
+            >
+              <lord-icon
+                src="https://cdn.lordicon.com/hrjifpbq.json"
+                trigger="hover"
+                style={{ width: "40px", height: "40px" }}
+                colors="primary:#ffffff,secondary:#1b1091"
+              ></lord-icon>
             </button>
             <Link
               to="/gestion/editUsuarios"
               className="btn btn-primary estiloBotones"
+              title="Lista de Usuarios"
             >
-              Volver a lista de usuarios
+              <lord-icon
+                src="https://cdn.lordicon.com/depeqmsz.json"
+                trigger="hover"
+                style={{ width: "45px", height: "45px" }}
+                colors="primary:#ffffff,secondary:#1b1091"
+              ></lord-icon>
             </Link>
             {usuarioCreado && (
               <div className="alert alert-success" role="alert">
