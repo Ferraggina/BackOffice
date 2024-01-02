@@ -221,7 +221,7 @@ export default function Itinerario() {
                           src="https://cdn.lordicon.com/ghhwiltn.json"
                           trigger="hover"
                           colors="primary:#1b1091,secondary:#e4e4e4"
-                          style={{ width: "40px", height: "40px" }}
+                          style={{ width: "30px", height: "30px" }}
                         ></lord-icon>
                       </button>
                     </div>
@@ -237,7 +237,7 @@ export default function Itinerario() {
                       src="https://cdn.lordicon.com/xljvqlng.json"
                       trigger="hover"
                       colors="primary:#e4e4e4"
-                      style={{ width: "40px", height: "40px" }}
+                      style={{ width: "30px", height: "30px" }}
                     ></lord-icon>
                   </button>
                   <button
@@ -249,7 +249,7 @@ export default function Itinerario() {
                     <lord-icon
                       src="https://cdn.lordicon.com/smwmetfi.json"
                       trigger="hover"
-                      style={{ width: "40px", height: "40px" }}
+                      style={{ width: "30px", height: "30px" }}
                       colors="primary:#ffffff,secondary:#1b1091"
                     ></lord-icon>
                   </button>
@@ -261,7 +261,7 @@ export default function Itinerario() {
                     <lord-icon
                       src="https://cdn.lordicon.com/ppyvfomi.json"
                       trigger="hover"
-                      style={{ width: "40px", height: "40px" }}
+                      style={{ width: "30px", height: "30px" }}
                       colors="primary:#ffffff,secondary:#1b1091"
                     ></lord-icon>
                   </Link>
@@ -273,7 +273,7 @@ export default function Itinerario() {
                     <lord-icon
                       src="https://cdn.lordicon.com/zyzoecaw.json"
                       trigger="hover"
-                      style={{ width: "40px", height: "40px" }}
+                      style={{ width: "30px", height: "30px" }}
                       colors="primary:#ffffff,secondary:#1b1091"
                     ></lord-icon>
                   </Link>

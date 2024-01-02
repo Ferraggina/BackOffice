@@ -142,7 +142,7 @@ export default function FormularioViaje() {
               <lord-icon
                 src="https://cdn.lordicon.com/fzoffrbp.json"
                 trigger="hover"
-                style={{ width: "40px", height: "40px" }}
+                style={{ width: "35px", height: "35px" }}
                 colors="primary:#ffffff,secondary:#1b1091"
               ></lord-icon>
             </Link>
@@ -155,7 +155,7 @@ export default function FormularioViaje() {
               <lord-icon
                 src="https://cdn.lordicon.com/kgdqzapd.json"
                 trigger="hover"
-                style={{ width: "40px", height: "40px" }}
+                style={{ width: "35px", height: "35px" }}
                 colors="primary:#ffffff,secondary:#1b1091"
               ></lord-icon>
             </Link>
@@ -432,7 +432,7 @@ export default function FormularioViaje() {
               <lord-icon
                 src="https://cdn.lordicon.com/smwmetfi.json"
                 trigger="hover"
-                style={{ width: "45px", height: "45px" }}
+                style={{ width: "30px", height: "30px" }}
                 colors="primary:#ffffff,secondary:#1b1091"
               ></lord-icon>
             </button>
@@ -445,7 +445,7 @@ export default function FormularioViaje() {
               <lord-icon
                 src="https://cdn.lordicon.com/depeqmsz.json"
                 trigger="hover"
-                style={{ width: "45px", height: "45px" }}
+                style={{ width: "30px", height: "30px" }}
                 colors="primary:#ffffff,secondary:#1b1091"
               ></lord-icon>
             </button>

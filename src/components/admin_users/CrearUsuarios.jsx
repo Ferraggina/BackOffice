@@ -546,7 +546,7 @@ export default function CrearUsuarios() {
               <lord-icon
                 src="https://cdn.lordicon.com/hrjifpbq.json"
                 trigger="hover"
-                style={{ width: "40px", height: "40px" }}
+                style={{ width: "30px", height: "30px" }}
                 colors="primary:#ffffff,secondary:#1b1091"
               ></lord-icon>
             </button>
@@ -558,7 +558,7 @@ export default function CrearUsuarios() {
               <lord-icon
                 src="https://cdn.lordicon.com/depeqmsz.json"
                 trigger="hover"
-                style={{ width: "45px", height: "45px" }}
+                style={{ width: "30px", height: "30px" }}
                 colors="primary:#ffffff,secondary:#1b1091"
               ></lord-icon>
             </Link>
