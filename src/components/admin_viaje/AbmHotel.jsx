@@ -240,7 +240,7 @@ export default function AbmHotel() {
                 src="https://cdn.lordicon.com/ftndcppj.json"
                 trigger="hover"
                 colors="primary:#1b1091,secondary:#e4e4e4"
-                style={{ width: "40px", height: "40px" }}
+                style={{ width: "1.5rem", height: "1.5rem" }}
               ></lord-icon>
             </Link>
           </div>

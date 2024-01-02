@@ -228,7 +228,7 @@ export default function FormularioHoteles() {
                 <lord-icon
                   src="https://cdn.lordicon.com/smwmetfi.json"
                   trigger="hover"
-                  style={{ width: "45px", height: "45px" }}
+                  style={{ width: "30px", height: "30px" }}
                   colors="primary:#ffffff,secondary:#1b1091"
                 ></lord-icon>
               </button>
@@ -251,7 +251,7 @@ export default function FormularioHoteles() {
                 <lord-icon
                   src="https://cdn.lordicon.com/ppyvfomi.json"
                   trigger="hover"
-                  style={{ width: "45px", height: "45px" }}
+                  style={{ width: "30px", height: "30px" }}
                   colors="primary:#ffffff,secondary:#1b1091"
                 ></lord-icon>
               </Link>
@@ -270,7 +270,7 @@ export default function FormularioHoteles() {
                 <lord-icon
                   src="https://cdn.lordicon.com/zyzoecaw.json"
                   trigger="hover"
-                  style={{ width: "45px", height: "45px" }}
+                  style={{ width: "30px", height: "30px" }}
                   colors="primary:#ffffff,secondary:#1b1091"
                 ></lord-icon>
               </Link>
