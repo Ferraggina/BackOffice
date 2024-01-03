@@ -74,21 +74,52 @@ export default function AbmImagenesLandin() {
   //     alert("Cambios guardados con éxito");
   //   }
   // };
+  // const handleImageUpload = async (e) => {
+  //   const selectedImage = e.target.files[0];
+
+  //   if (selectedImage) {
+  //     const formData = new FormData();
+  //     formData.append("image", selectedImage);
+
+  //     try {
+  //       const response = await dispatch(uploadImage(formData));
+
+  //       if (response) {
+  //         setSelectedImages(response);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error al cargar la imagen en el servidor:", error);
+  //     }
+  //   }
+  // };
+
   const handleImageUpload = async (e) => {
     const selectedImage = e.target.files[0];
 
     if (selectedImage) {
-      const formData = new FormData();
-      formData.append("image", selectedImage);
+      const fileExtension = selectedImage.name.split(".").pop().toLowerCase();
+      if (
+        fileExtension === "png" ||
+        fileExtension === "jpg" ||
+        fileExtension === "jpeg" ||
+        fileExtension === "webp"
+      ) {
+        const formData = new FormData();
+        formData.append("image", selectedImage);
 
-      try {
-        const response = await dispatch(uploadImage(formData));
+        try {
+          const response = await dispatch(uploadImage(formData));
 
-        if (response) {
-          setSelectedImages(response);
+          if (response) {
+            setSelectedImages(response);
+          }
+        } catch (error) {
+          console.error("Error al cargar la imagen en el servidor:", error);
         }
-      } catch (error) {
-        console.error("Error al cargar la imagen en el servidor:", error);
+      } else {
+        alert(
+          "Formato de imagen no válido. Por favor, seleccione un archivo PNG ,JPEG ,JPG o WEBP"
+        );
       }
     }
   };
@@ -122,21 +153,51 @@ export default function AbmImagenesLandin() {
     dispatch(deleteLanding(id));
   };
 
+  // const handleFolletoUpload = async (e) => {
+  //   const selectedFolleto = e.target.files[0];
+
+  //   if (selectedFolleto) {
+  //     const formData = new FormData();
+  //     formData.append("image", selectedFolleto);
+
+  //     try {
+  //       const response = await dispatch(uploadImage(formData));
+
+  //       if (response) {
+  //         setSelectedFolletos([...selectedFolletos, response]);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error al cargar el folleto en el servidor:", error);
+  //     }
+  //   }
+  // };
   const handleFolletoUpload = async (e) => {
     const selectedFolleto = e.target.files[0];
 
     if (selectedFolleto) {
-      const formData = new FormData();
-      formData.append("image", selectedFolleto);
+      const fileExtension = selectedFolleto.name.split(".").pop().toLowerCase();
+      if (
+        fileExtension === "png" ||
+        fileExtension === "jpg" ||
+        fileExtension === "jpeg" ||
+        fileExtension === "webp"
+      ) {
+        const formData = new FormData();
+        formData.append("image", selectedFolleto);
 
-      try {
-        const response = await dispatch(uploadImage(formData));
+        try {
+          const response = await dispatch(uploadImage(formData));
 
-        if (response) {
-          setSelectedFolletos([...selectedFolletos, response]);
+          if (response) {
+            setSelectedFolletos([...selectedFolletos, response]);
+          }
+        } catch (error) {
+          console.error("Error al cargar el folleto en el servidor:", error);
         }
-      } catch (error) {
-        console.error("Error al cargar el folleto en el servidor:", error);
+      } else {
+        alert(
+          "Formato de folleto no válido. Por favor, seleccione un archivo  PNG ,JPEG ,JPG o WEBP"
+        );
       }
     }
   };
@@ -443,7 +504,7 @@ export default function AbmImagenesLandin() {
       )}
 
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="modealHeaderViaje">
           <Modal.Title>
             {editingId ? "Editar Imagen" : "Crear Imagen"}
           </Modal.Title>
