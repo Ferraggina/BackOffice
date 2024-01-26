@@ -187,7 +187,14 @@ export default function AbmViaje() {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
   };
-
+  const formatDate = (dateString) => {
+    const options = { day: "numeric", month: "numeric", year: "numeric" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "es-ES",
+      options
+    );
+    return formattedDate;
+  };
   return (
     <div className="custom-container mt-8">
       <br />
@@ -267,13 +274,13 @@ export default function AbmViaje() {
                 {filterViajes(viajes).map((viaje) => (
                   <tr key={viaje.id}>
                     <td>{viaje.destino}</td>
-                    <td>{viaje.salida}</td>
-                    <td>{viaje.regreso}</td>
+                    <td>{formatDate(viaje.salida)}</td>
+                    <td>{formatDate(viaje.regreso)}</td>
                     <td>
                       {hoteles.map((hotel) =>
                         hotel.id === viaje.hotelId ? (
                           <div key={hotel.id}>
-                            <p>Nombre: {hotel.nombre}</p>
+                            <p>{hotel.nombre}</p>
                             {/* <p>Dirección: {hotel.direccion}</p> */}
                           </div>
                         ) : null
@@ -284,7 +291,7 @@ export default function AbmViaje() {
                       {itinerarios.map((itinerario) =>
                         itinerario.id === viaje.scheduleId ? (
                           <div key={itinerario.id}>
-                            <p>Nombre: {itinerario.nombre}</p>
+                            <p> {itinerario.nombre}</p>
                           </div>
                         ) : null
                       )}

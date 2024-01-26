@@ -13,6 +13,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Pagination from "../home/Pagination.jsx";
 import { reuleaux } from "ldrs";
+
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 export default function Abmusuario() {
   const dispatch = useDispatch();
   const usuarios = useSelector((state) => state.users); // Asegúrate de que el estado de usuarios esté definido
@@ -31,7 +33,8 @@ export default function Abmusuario() {
   const [searchTermContratos, setSearchTermContratos] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
+  const [estado, setEstado] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -51,6 +54,7 @@ export default function Abmusuario() {
     setEditingUsuario(usuario);
     setShowModal(true);
     setContratosSeleccionados(usuario.contrato);
+    setEstado(usuario.estado === "true");
   };
 
   const toggleContractSelection = (contractNum) => {
@@ -197,6 +201,9 @@ export default function Abmusuario() {
     }
     // Si los contratos no son ni un array ni una cadena con corchetes, muestra un mensaje genérico
     return "Contratos Desconocidos";
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
   return (
     <div className="custom-container mt-8">
@@ -437,14 +444,20 @@ export default function Abmusuario() {
             Password:
             <input
               className="form-control mb-3"
-              type="text"
+              type={showPassword ? "password" : "text"}
               name="password"
               placeholder="Indique rol"
               value={editingUsuario ? editingUsuario.password : ""}
               onChange={handleInputChange}
             />
+            <span
+              className="password-toggle-icon ocultarPass3"
+              onClick={togglePasswordVisibility}
+            >
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            </span>
           </div>
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <p>Seleccionar estado:</p>
             <input
               type="checkbox"
@@ -456,6 +469,26 @@ export default function Abmusuario() {
                 })
               }
             />
+          </div> */}
+          <p className="me-3 seleccionestado">Seleccionar estado:</p>
+          <div className="mb-3 d-flex align-items-center">
+            <p className="me-5">Desactivado</p>
+            <div className="form-check form-switch mb-4">
+              <input
+                className="form-check-input switchEstado "
+                type="checkbox"
+                id="flexSwitchCheckChecked"
+                checked={estado}
+                onChange={(e) => {
+                  setEstado(e.target.checked);
+                  setEditingUsuario({
+                    ...editingUsuario,
+                    estado: e.target.checked ? "true" : "false",
+                  });
+                }}
+              />
+            </div>
+            <p className="me-2 activadoClase">Activado</p>
           </div>
           <div>
             <label>Buscar Contratos:</label>

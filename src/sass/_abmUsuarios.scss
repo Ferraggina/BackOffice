@@ -45,3 +45,10 @@
     font-weight: bold;
   }
   
+  .ocultarPass3{
+    position: relative;
+    top: -3rem;
+    transform: translateY(-50%);
+    left: 96%; /* Porcentaje en lugar de valor fijo en píxeles */
+    cursor: pointer;
+}

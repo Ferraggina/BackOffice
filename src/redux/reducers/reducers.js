@@ -54,9 +54,12 @@ import {
   ELIMINAR_ITINERARIO_ERROR,
   OBTENER_PASAJERO_EXITO,
   OBTENER_PASAJERO_ERROR,
+  ADD_NEW_CONTACT,
+  MARK_ALL_MESSAGES_AS_READ,
 } from "../actions/actions";
 
 const initialState = {
+  messages: [],
   users: [],
   isLoggedIn: true,
   user: [],
@@ -82,6 +85,7 @@ const initialState = {
   landingDataText: [],
   landingDataForm: [],
   pasajeros: [],
+  nuevosContactos: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -463,6 +467,22 @@ function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case MARK_ALL_MESSAGES_AS_READ:
+      // Marcar todos los mensajes como leídos
+      console.log("Mensajes", state.landingDataForm);
+      return {
+        ...state,
+        landingDataForm: state.landingDataForm.map((landingDataForm) => ({
+          ...landingDataForm,
+          leido: true, // Suponiendo que 'leido' es el campo que indica si un mensaje ha sido leído
+        })),
+      };
+    case ADD_NEW_CONTACT:
+      return {
+        ...state,
+        nuevosContactos: [...state.nuevosContactos, action.payload],
+      };
+    // ...otros cases de tu reducer
     default:
       return state;
   }

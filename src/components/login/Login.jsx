@@ -89,9 +89,16 @@ export function Login() {
   }, [username, password]);
 
   return (
-    <div className="container-fluid d-flex align-items-center justify-content-center vh-100 ">
+    <div className="container-fluid d-flex flex-column align-items-center justify-content-start mt-5  vh-100 ">
+      <div className="contenedorLogoLogin mb-3">
+        <img
+          src="/src/assets/logo-cuyen-turismo.png"
+          alt="CuyenLogo"
+          className="logoLogin"
+        />
+      </div>
       <form
-        className="form-container  col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto my-5 containerColorLogin"
+        className="form-container  col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mx-auto my-1 containerColorLogin"
         onSubmit={handleSubmit}
       >
         <div className="input-log">
@@ -124,7 +131,7 @@ export function Login() {
             className="btn btn-outline-warning "
           />
           <button
-            onClick={() => navigate("/ForgotPass")}
+            onClick={() => navigate("/gestion/ForgotPass")}
             className="btn-style btn btn-secondary"
             style={{ marginLeft: "10px" }}
           >
