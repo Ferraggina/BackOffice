@@ -24,9 +24,13 @@ export default function ItinerarioVisualizacion() {
     { titulo: "", descripcion: "" },
   ]);
   const [viewingItinerario, setViewingItinerario] = useState(null);
+  // const [editingItinerario, setEditingItinerario] = useState({
+  //   nombre: "",
+  //   texto_gral: JSON.stringify(camposExtras),
+  // });
   const [editingItinerario, setEditingItinerario] = useState({
     nombre: "",
-    texto_gral: JSON.stringify(camposExtras),
+    texto_gral: JSON.stringify([{ titulo: "", descripcion: [""] }]),
   });
   const [showModal, setShowModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -74,6 +78,7 @@ export default function ItinerarioVisualizacion() {
   const handleEditClick = (itinerario) => {
     setEditingItinerario(itinerario);
     setShowModal(true);
+    console.log("ACA EDIT", editingItinerario.texto_gral);
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,7 +86,6 @@ export default function ItinerarioVisualizacion() {
       ...editingItinerario,
       [name]: value,
     });
-    console.log("ACA EDIT", editingItinerario);
   };
   const handleCloseModal = () => {
     setShowModal(false);
@@ -118,6 +122,17 @@ export default function ItinerarioVisualizacion() {
     });
     console.log("edicion", editItinerario);
   };
+  // const handleEditCampoExtraChange = (index, field, value) => {
+  //   setEditingItinerario((prevEditingItinerario) => {
+  //     const newDescripciones = [...prevEditingItinerario.descripciones];
+  //     newDescripciones[index][field] = value;
+
+  //     return {
+  //       ...prevEditingItinerario,
+  //       descripciones: newDescripciones,
+  //     };
+  //   });
+  // };
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -204,6 +219,7 @@ export default function ItinerarioVisualizacion() {
                 <thead className="text-center cabecerasDeTabla">
                   <tr>
                     <th>Nombre</th>
+                    <th>Id Itinerario</th>
                     <th>Texto General</th>
                     <th>Acciones</th>
                   </tr>
@@ -214,6 +230,7 @@ export default function ItinerarioVisualizacion() {
                       {/* <td>{JSON.stringify(itinerario.nombre)}</td>
                       <td>{JSON.stringify(itinerario.texto_gral)}</td> */}
                       <td>{itinerario.nombre}</td>
+                      <td>{itinerario.id}</td>
                       <td>
                         {JSON.parse(itinerario.texto_gral)[0] && (
                           <div>
@@ -223,7 +240,12 @@ export default function ItinerarioVisualizacion() {
                             </p>
                             <p>
                               Descripción:{" "}
-                              {JSON.parse(itinerario.texto_gral)[0].descripcion}
+                              {JSON.parse(itinerario.texto_gral)[0]
+                                .descripcion &&
+                                JSON.parse(
+                                  itinerario.texto_gral
+                                )[0].descripcion.slice(0, 15)}
+                              ...
                             </p>
                           </div>
                         )}

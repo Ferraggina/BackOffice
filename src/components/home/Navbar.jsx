@@ -54,7 +54,7 @@ export default function Navbar() {
               >
                 {/* Utilizar Link en lugar de <a> */}
                 <Link
-                  to="/"
+                  to="/gestion"
                   className="dropdown-item logout-button"
                   onClick={handleLogout}
                 >

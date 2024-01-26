@@ -27,6 +27,7 @@ export default function Itinerario() {
   //   newCamposExtras[index][field] = value;
   //   setCamposExtras(newCamposExtras);
   // };
+
   const handleCampoExtraChange = (index, field, value) => {
     const newCamposExtras = [...camposExtras];
     if (field === "titulo") {
@@ -51,7 +52,72 @@ export default function Itinerario() {
   const handleAgregarCampoExtra = () => {
     setCamposExtras([...camposExtras, { titulo: "", descripcion: [""] }]);
   };
+  const handleEliminarCampoExtra = (index) => {
+    const newCamposExtras = [...camposExtras];
+    newCamposExtras.splice(index, 1);
+    setCamposExtras(newCamposExtras);
+  };
+  const handleEliminarDescripcion = (campoIndex, descripcionIndex) => {
+    const newCamposExtras = [...camposExtras];
+    newCamposExtras[campoIndex].descripcion.splice(descripcionIndex, 1);
+    setCamposExtras(newCamposExtras);
+  };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // Verifica que al menos un campo extra tenga título o descripción
+  //   if (
+  //     camposExtras.every(
+  //       (campo) => campo.titulo === "" && campo.descripcion === ""
+  //     )
+  //   ) {
+  //     // Muestra una alerta de error si todos los campos están vacíos
+  //     setAlert({
+  //       type: "danger",
+  //       message:
+  //         "Debe agregar al menos un campo extra con título o descripción.",
+  //     });
+  //   } else {
+  //     // Mapea los camposExtras en un formato adecuado
+  //     const camposExtrasFormateados = camposExtras
+  //       .filter((campo) => campo.titulo !== "" || campo.descripcion !== "") // Filtra los campos no vacíos
+  //       .map((campo) => ({
+  //         titulo: campo.titulo,
+  //         descripcion: campo.descripcion,
+  //       }));
+
+  //     const nuevoItinerario = {
+  //       nombre: nombre,
+  //       texto_gral: JSON.stringify(camposExtrasFormateados), // Convierte a JSON
+  //     };
+
+  //     try {
+  //       // Llamar a la acción para crear el itinerario
+  //       await dispatch(crearItinerario(nuevoItinerario));
+  //       console.log("asi se envia el itinerario", nuevoItinerario);
+  //       // Limpiar los campos del formulario
+  //       setNombre("");
+  //       setTextoGral("");
+  //       setCamposExtras([{ titulo: "", descripcion: "" }]);
+
+  //       // Mostrar una alerta de éxito
+  //       setAlert({
+  //         type: "success",
+  //         message: "Su Itinerario se creó exitosamente.",
+  //       });
+  //     } catch (error) {
+  //       // Mostrar una alerta de error
+  //       setAlert({
+  //         type: "danger",
+  //         message: "Hubo un error al crear el Itinerario.",
+  //       });
+  //     }
+  //   }
+  //   setTimeout(() => {
+  //     navigate("/gestion/listaItinerarios/");
+  //   }, 2000);
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -73,7 +139,7 @@ export default function Itinerario() {
         .filter((campo) => campo.titulo !== "" || campo.descripcion !== "") // Filtra los campos no vacíos
         .map((campo) => ({
           titulo: campo.titulo,
-          descripcion: campo.descripcion,
+          descripcion: campo.descripcion.map((desc) => desc.trim() + "|"), // Agrega el caracter al final de cada descripción
         }));
 
       const nuevoItinerario = {
@@ -84,7 +150,7 @@ export default function Itinerario() {
       try {
         // Llamar a la acción para crear el itinerario
         await dispatch(crearItinerario(nuevoItinerario));
-
+        console.log("asi se envia el itinerario", nuevoItinerario);
         // Limpiar los campos del formulario
         setNombre("");
         setTextoGral("");
@@ -155,77 +221,87 @@ export default function Itinerario() {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="estilosLabels">Texto General</label>
-                  {camposExtras.map((campo, index) => (
-                    <div key={index}>
-                      <label>Titulo de la actividad {index + 1}</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Ejemplo:Desayuno buffet"
-                        value={campo.titulo}
-                        onChange={(e) =>
-                          handleCampoExtraChange(
-                            index,
-                            "titulo",
-                            e.target.value
-                          )
-                        }
-                      />
-                      <br />
-                      {/* <label>Descripcion de la actividad {index + 1}</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="De 9:45 hs a 12:00 hs"
-                        value={campo.descripcion}
-                        onChange={(e) =>
-                          handleCampoExtraChange(
-                            index,
-                            "descripcion",
-                            e.target.value
-                          )
-                        }
-                      /> */}
-                      {campo.descripcion &&
-                        Array.isArray(campo.descripcion) &&
-                        campo.descripcion.map((descripcion, i) => (
-                          <div key={i}>
-                            <label>
-                              Descripcion {i + 1} del campo extra {index + 1}
-                            </label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder={`Descripción ${i + 1}`}
-                              value={descripcion}
-                              maxLength={150}
-                              onChange={(e) =>
-                                handleCampoExtraChange(
-                                  index,
-                                  "descripcion",
-                                  e.target.value + `_${i}`
-                                )
-                              }
-                            />
-                            <br />
-                          </div>
-                        ))}
-                      <button
-                        type="button"
-                        onClick={() => handleAgregarDescripcion(index)}
-                        className="btn btn-secondary"
-                        title="Agrega una descripcion"
-                      >
-                        <lord-icon
-                          src="https://cdn.lordicon.com/ghhwiltn.json"
-                          trigger="hover"
-                          colors="primary:#1b1091,secondary:#e4e4e4"
-                          style={{ width: "30px", height: "30px" }}
-                        ></lord-icon>
-                      </button>
-                    </div>
-                  ))}
+                  <div className="estiloParaCampos">
+                    {camposExtras.map((campo, index) => (
+                      <div key={index} className="campo-extra-container">
+                        <button
+                          type="button"
+                          onClick={() => handleEliminarCampoExtra(index)}
+                          className="btn btn-danger eliminacampoextra"
+                          title="Eliminar Campo Extra"
+                        >
+                          X
+                        </button>
+                        <br />
+                        <label className="estilosLabels">Texto General</label>
+                        <br />
+                        <label>Titulo de la actividad {index + 1}</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Ejemplo:Desayuno buffet"
+                          value={campo.titulo}
+                          onChange={(e) =>
+                            handleCampoExtraChange(
+                              index,
+                              "titulo",
+                              e.target.value
+                            )
+                          }
+                          maxLength={100}
+                        />
+                        <br />
+
+                        {campo.descripcion &&
+                          Array.isArray(campo.descripcion) &&
+                          campo.descripcion.map((descripcion, i) => (
+                            <div key={i}>
+                              <label>
+                                Descripcion {i + 1} del campo extra {index + 1}
+                              </label>
+                              <textarea
+                                type="text"
+                                className="form-control "
+                                style={{ width: "100%" }}
+                                placeholder={`Descripción ${i + 1}`}
+                                value={descripcion}
+                                maxLength={150}
+                                onChange={(e) =>
+                                  handleCampoExtraChange(
+                                    index,
+                                    "descripcion",
+                                    e.target.value + `_${i}`
+                                  )
+                                }
+                              />
+                              <br />
+                            </div>
+                          ))}
+                        <button
+                          type="button"
+                          onClick={() => handleAgregarDescripcion(index)}
+                          className="btn btn-secondary"
+                          title="Agrega una descripcion"
+                        >
+                          <lord-icon
+                            src="https://cdn.lordicon.com/ghhwiltn.json"
+                            trigger="hover"
+                            colors="primary:#1b1091,secondary:#e4e4e4"
+                            style={{ width: "30px", height: "30px" }}
+                          ></lord-icon>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleEliminarDescripcion(index)}
+                          className="btn btn-danger eliminarDescripcion"
+                          title="Eliminar Descripción"
+                          style={{ width: "3rem", height: "3rem" }}
+                        >
+                          X
+                        </button>
+                      </div>
+                    ))}
+                  </div>
 
                   <button
                     type="button"

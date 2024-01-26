@@ -59,7 +59,7 @@ export function OlvidoPass() {
             Error: {error}
           </div>
         )}
-        <button onClick={() => navigate("/")} className="btn btn-link">
+        <button onClick={() => navigate("/gestion")} className="btn btn-link">
           Volver al inicio
         </button>
       </form>

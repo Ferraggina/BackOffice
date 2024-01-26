@@ -1,7 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../sass/_adminViaje.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getLandingForm,
+  markAllMessagesAsRead,
+} from "../../redux/actions/actions";
 export function AdminPantallaInicio() {
+  const dispatch = useDispatch();
+  const [newMessagesCount, setNewMessagesCount] = useState(0);
+  const nuevosContactos = useSelector((state) => state.nuevosContactos);
+  const landingDataForm = useSelector((state) => state.landingDataForm);
+  useEffect(() => {
+    dispatch(getLandingForm());
+    const unreadMessages = landingDataForm.filter(
+      (contact) => contact.leido === false
+    );
+    console.log("UNREADmESSAGGES", unreadMessages);
+    setNewMessagesCount(unreadMessages.length);
+  }, [dispatch]);
+
+  const handleContactosClick = () => {
+    dispatch(markAllMessagesAsRead()); // Esta acción debería marcar todos los mensajes como leídos
+
+    // Establecer el contador de nuevos mensajes en 0
+    setNewMessagesCount(0);
+  };
+  useEffect(() => {
+    // Actualizar el contador de notificaciones cuando llegue un nuevo contacto
+    if (nuevosContactos.length > 0) {
+      setNewMessagesCount((prevCount) => prevCount + 1);
+    }
+  }, [nuevosContactos]);
   return (
     <div>
       <br />
@@ -50,8 +80,13 @@ export function AdminPantallaInicio() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
-                    <Link to="/gestion/Contactos" className="enlacesAdmin">
+                    <Link
+                      to="/gestion/Contactos"
+                      className="enlacesAdmin"
+                      onClick={handleContactosClick}
+                    >
                       CONTACTOS
+                      <span className="notificacion">{newMessagesCount}</span>
                       <lord-icon
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="hover"

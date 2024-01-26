@@ -11,8 +11,10 @@ export default function ContactosRecibidos() {
   const dispatch = useDispatch();
   const landingDataForm = useSelector((state) => state.landingDataForm);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     dispatch(getLandingForm());
+
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
     }, 1500); // Cambia el número a la cantidad de tiempo que desees simular

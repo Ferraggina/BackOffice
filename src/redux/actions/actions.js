@@ -54,6 +54,10 @@ export const ELIMINAR_ITINERARIO_EXITO = "ELIMINAR_ITINERARIO_EXITO";
 export const ELIMINAR_ITINERARIO_ERROR = "ELIMINAR_ITINERARIO_ERROR";
 export const OBTENER_PASAJERO_EXITO = "OBTENER_PASAJERO_EXITO";
 export const OBTENER_PASAJERO_ERROR = "OBTENER_PASAJERO_ERROR";
+export const MARK_MESSAGE_AS_READ = "MARK_MESSAGE_AS_READ";
+export const MARK_ALL_MESSAGES_AS_READ = "MARK_ALL_MESSAGES_AS_READ";
+export const ADD_NEW_CONTACT = "ADD_NEW_CONTACT";
+
 const TOKEN = import.meta.env.VITE_Access_token;
 const getUserUrl = import.meta.env.VITE_TRAERUSUARIOSURL;
 const editUserUrl = import.meta.env.VITE_EDITARUSUARIOS;
@@ -877,3 +881,14 @@ export const obtenerPasajero = () => async (dispatch) => {
     dispatch({ type: OBTENER_PASAJERO_ERROR, payload: error.message });
   }
 };
+
+export const markAllMessagesAsRead = () => {
+  return {
+    type: MARK_ALL_MESSAGES_AS_READ,
+  };
+};
+
+export const addNewContact = (contact) => ({
+  type: ADD_NEW_CONTACT,
+  payload: contact,
+});
