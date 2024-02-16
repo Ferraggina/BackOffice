@@ -92,7 +92,7 @@ export function Login() {
     <div className="container-fluid d-flex flex-column align-items-center justify-content-start mt-5  vh-100 ">
       <div className="contenedorLogoLogin mb-3">
         <img
-          src="/src/assets/logo-cuyen-turismo.png"
+          src="/src/assets/logo-cuyen-turismo-curvas.png"
           alt="CuyenLogo"
           className="logoLogin"
         />

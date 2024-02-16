@@ -62,7 +62,7 @@ function App() {
         {/* <Route exact path="/" Component={Login} /> */}
         {!userLoggedIn && <Route path="/gestion" element={<Login />} />}
         {userLoggedIn && (
-          <Route path="/gestion" element={<Navigate to="/home" />} />
+          <Route path="/gestion" element={<Navigate to="/gestion/home" />} />
         )}
         <Route path="/gestion/ForgotPass" Component={OlvidoPass} />
         <Route path="/gestion/RecuperarPass/" Component={RecuperarPass} />
