@@ -57,6 +57,12 @@ export const OBTENER_PASAJERO_ERROR = "OBTENER_PASAJERO_ERROR";
 export const MARK_MESSAGE_AS_READ = "MARK_MESSAGE_AS_READ";
 export const MARK_ALL_MESSAGES_AS_READ = "MARK_ALL_MESSAGES_AS_READ";
 export const ADD_NEW_CONTACT = "ADD_NEW_CONTACT";
+export const MARK_ALL_MESSAGES_AS_READ_REQUEST =
+  "MARK_ALL_MESSAGES_AS_READ_REQUEST";
+export const MARK_ALL_MESSAGES_AS_READ_SUCCESS =
+  "MARK_ALL_MESSAGES_AS_READ_SUCCESS";
+export const MARK_ALL_MESSAGES_AS_READ_FAILURE =
+  "MARK_ALL_MESSAGES_AS_READ_FAILURE";
 
 const TOKEN = import.meta.env.VITE_Access_token;
 const getUserUrl = import.meta.env.VITE_TRAERUSUARIOSURL;
@@ -882,10 +888,27 @@ export const obtenerPasajero = () => async (dispatch) => {
   }
 };
 
-export const markAllMessagesAsRead = () => {
-  return {
-    type: MARK_ALL_MESSAGES_AS_READ,
-  };
+export const markAllMessagesAsRead = () => async (dispatch, getState) => {
+  const landingDataForm = getState().landingDataForm;
+  console.log("landingform", landingDataForm);
+  const unreadMessages = landingDataForm.filter((contacto) => !contacto.leido);
+  console.log("unreadmessagges", unreadMessages);
+  const getLandingFormUrlId = import.meta.env.VITE_CONTACTOS;
+
+  unreadMessages.map(async (contacto) => {
+    await axios.put(
+      `${getLandingFormUrlId}/${contacto.id}`,
+      {},
+      {
+        headers: {
+          "x-access-token": TOKEN,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  });
+
+  dispatch({ type: MARK_ALL_MESSAGES_AS_READ_SUCCESS });
 };
 
 export const addNewContact = (contact) => ({

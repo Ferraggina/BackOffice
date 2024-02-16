@@ -263,6 +263,7 @@ export default function AbmViaje() {
                   <th>Destino</th>
                   <th>Salida</th>
                   <th>Regreso</th>
+                  <th>Estado del viaje</th>
                   <th>Hotel</th>
                   <th>Contratos</th>
                   <th>Itinerario</th>
@@ -276,6 +277,13 @@ export default function AbmViaje() {
                     <td>{viaje.destino}</td>
                     <td>{formatDate(viaje.salida)}</td>
                     <td>{formatDate(viaje.regreso)}</td>
+                    <td>
+                      {viaje.inicioViaje === false
+                        ? "No comenzo el viaje"
+                        : viaje.finViaje === false
+                        ? "En progreso"
+                        : "Viaje terminado"}
+                    </td>
                     <td>
                       {hoteles.map((hotel) =>
                         hotel.id === viaje.hotelId ? (

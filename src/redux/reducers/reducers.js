@@ -55,7 +55,7 @@ import {
   OBTENER_PASAJERO_EXITO,
   OBTENER_PASAJERO_ERROR,
   ADD_NEW_CONTACT,
-  MARK_ALL_MESSAGES_AS_READ,
+  MARK_ALL_MESSAGES_AS_READ_SUCCESS,
 } from "../actions/actions";
 
 const initialState = {
@@ -467,15 +467,15 @@ function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
-    case MARK_ALL_MESSAGES_AS_READ:
-      // Marcar todos los mensajes como leídos
-      console.log("Mensajes", state.landingDataForm);
+    case MARK_ALL_MESSAGES_AS_READ_SUCCESS:
       return {
         ...state,
-        landingDataForm: state.landingDataForm.map((landingDataForm) => ({
-          ...landingDataForm,
-          leido: true, // Suponiendo que 'leido' es el campo que indica si un mensaje ha sido leído
+        // Aquí deberías actualizar el estado landingDataForm para marcar todos los mensajes como leídos
+        landingDataForm: state.landingDataForm.map((contacto) => ({
+          ...contacto,
+          leido: true, // Marcar todos los mensajes como leídos
         })),
+        // Otros estados...
       };
     case ADD_NEW_CONTACT:
       return {

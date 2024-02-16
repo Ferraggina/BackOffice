@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLandingForm } from "../../redux/actions/actions"; // Asegúrate de importar la acción adecuada
+import {
+  getLandingForm,
+  markAllMessagesAsRead,
+} from "../../redux/actions/actions"; // Asegúrate de importar la acción adecuada
 import "../../sass/_abm_Viaje.scss";
 import Pagination from "../home/Pagination";
 import { reuleaux } from "ldrs";
@@ -20,6 +23,9 @@ export default function ContactosRecibidos() {
     }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
 
     return () => clearTimeout(timeout);
+  }, [dispatch]);
+  useEffect(() => {
+    // Al montar el componente o abrir la sección de contactos, marca todos los mensajes como leídos
   }, [dispatch]);
   const filterLanding = (landing) => {
     // Calcular el índice del primer elemento y del último elemento en la página actual
