@@ -63,7 +63,7 @@ export const MARK_ALL_MESSAGES_AS_READ_SUCCESS =
   "MARK_ALL_MESSAGES_AS_READ_SUCCESS";
 export const MARK_ALL_MESSAGES_AS_READ_FAILURE =
   "MARK_ALL_MESSAGES_AS_READ_FAILURE";
-
+export const GET_PADRES = "GET_PADRES";
 const TOKEN = import.meta.env.VITE_Access_token;
 const getUserUrl = import.meta.env.VITE_TRAERUSUARIOSURL;
 const editUserUrl = import.meta.env.VITE_EDITARUSUARIOS;
@@ -895,18 +895,31 @@ export const markAllMessagesAsRead = () => async (dispatch, getState) => {
   console.log("unreadmessagges", unreadMessages);
   const getLandingFormUrlId = import.meta.env.VITE_CONTACTOS;
 
-  unreadMessages.map(async (contacto) => {
-    await axios.put(
-      `${getLandingFormUrlId}/${contacto.id}`,
-      {},
-      {
-        headers: {
-          "x-access-token": TOKEN,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-  });
+  // unreadMessages.map(async (contacto) => {
+  //   await axios.put(
+  //     `${getLandingFormUrlId}/${contacto.id}`,
+
+  //     {
+  //       headers: {
+  //         "x-access-token":
+  //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.p5Uixc5mcFGxx8eRohkZI8ec8vR092iQb5GDsJVqffM",
+  //         "Content-Type": "application/json",
+  //       },
+  //     }
+  //   );
+  // });
+  await axios.put(
+    `${getLandingFormUrlId}/${unreadMessages[0].id}`,
+    {
+      leido: true,
+    },
+    {
+      headers: {
+        "x-access-token": TOKEN,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   dispatch({ type: MARK_ALL_MESSAGES_AS_READ_SUCCESS });
 };
@@ -915,3 +928,20 @@ export const addNewContact = (contact) => ({
   type: ADD_NEW_CONTACT,
   payload: contact,
 });
+
+export function getPadres(loginId) {
+  const getPadresUrl = import.meta.env.VITE_PADRES;
+  return async function (dispatch) {
+    let response = await axios.get(`${getPadresUrl}/${loginId}`, {
+      headers: {
+        "x-access-token": TOKEN,
+        "Content-Type": "application/json",
+      },
+    });
+
+    return dispatch({
+      type: GET_PADRES,
+      payload: response.data,
+    });
+  };
+}

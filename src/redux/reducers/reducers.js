@@ -56,6 +56,7 @@ import {
   OBTENER_PASAJERO_ERROR,
   ADD_NEW_CONTACT,
   MARK_ALL_MESSAGES_AS_READ_SUCCESS,
+  GET_PADRES,
 } from "../actions/actions";
 
 const initialState = {
@@ -86,6 +87,7 @@ const initialState = {
   landingDataForm: [],
   pasajeros: [],
   nuevosContactos: [],
+  padres: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -96,6 +98,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         users: action.payload,
       };
+
     case LOGIN_SUCCESS:
       return {
         ...state,
@@ -483,6 +486,11 @@ function rootReducer(state = initialState, action) {
         nuevosContactos: [...state.nuevosContactos, action.payload],
       };
     // ...otros cases de tu reducer
+    case GET_PADRES:
+      return {
+        ...state,
+        padres: action.payload,
+      };
     default:
       return state;
   }
