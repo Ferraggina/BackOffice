@@ -5,6 +5,7 @@ import {
   eliminarUsuario,
   editarUsuario,
   obtenerContratos,
+  getPadres,
 } from "../../redux/actions/actions.js"; // Asegúrate de tener las acciones adecuadas
 import { useDispatch, useSelector } from "react-redux";
 // import "../../sass/_abm_Usuario.scss";
@@ -18,6 +19,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 export default function Abmusuario() {
   const dispatch = useDispatch();
   const usuarios = useSelector((state) => state.users); // Asegúrate de que el estado de usuarios esté definido
+  const padre = useSelector((state) => state.padre);
   const [showModal, setShowModal] = useState(false);
   const [editingUsuario, setEditingUsuario] = useState({
     nombre: "",
@@ -41,12 +43,14 @@ export default function Abmusuario() {
   };
   const rolesOptions = ["Padre", "Coordinador", "Administrador"];
   useEffect(() => {
+    const padres = usuarios.filter((usuario) => usuario.rol === "Padre");
+    const loginIdsPadres = padres.map((padre) => padre.id);
     dispatch(getUsers());
     dispatch(obtenerContratos()); // Asegúrate de que la acción obtenerUsuarios esté definida
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
     }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
-
+    dispatch(getPadres(loginIdsPadres));
     return () => clearTimeout(timeout);
   }, [dispatch]);
 
@@ -273,6 +277,7 @@ export default function Abmusuario() {
                   <th>Usuario</th>
                   <th>Nombre</th>
                   <th>Apellido</th>
+                  <th>Hijos</th>
                   <th>Email</th>
                   <th>Telefono</th>
                   <th>Contratos</th>
@@ -287,6 +292,13 @@ export default function Abmusuario() {
                     <td>{usuario.usuario}</td>
                     <td>{usuario.nombre}</td>
                     <td>{usuario.apellido}</td>
+
+                    <td>
+                      {usuario.rol === "padre"
+                        ? `${padre.nombre} ${padre.apellido}`
+                        : "No tiene hijo"}
+                    </td>
+
                     <td>{usuario.email}</td>
                     <td>{usuario.telefono}</td>
                     <td>{formatContratos(usuario.contrato)}</td>

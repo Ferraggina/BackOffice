@@ -62,3 +62,20 @@
   .modalLetrasItinerario{
     font-weight:bold;
   }
+
+  .notificacion {
+    display: flex;
+    align-items: start;
+    margin-top: -1rem;
+    margin-left: 10rem;
+    color: #250f7e;
+    font-size: larger;
+    font-weight: bolder;
+    
+  }
+  
+  .notificacion svg {
+     /* Ajusta el margen del icono */
+    color: #250f7e; /* Cambia el color del icono */
+    font-size: 3rem;
+  }

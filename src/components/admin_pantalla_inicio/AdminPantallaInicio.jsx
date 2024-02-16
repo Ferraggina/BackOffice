@@ -4,41 +4,29 @@ import "../../sass/_adminViaje.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   markAllMessagesAsRead,
-  addNewContact,
+  getLandingForm,
 } from "../../redux/actions/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 export function AdminPantallaInicio() {
   const dispatch = useDispatch();
-  const [newMessagesCount, setNewMessagesCount] = useState(0);
-  const nuevosContactos = useSelector((state) => state.nuevosContactos);
+  const [newMessagesCount, setNewMessagesCount] = useState(false);
+
   const landingDataForm = useSelector((state) => state.landingDataForm);
   const unreadMessagesCount = landingDataForm.filter(
     (contacto) => !contacto.leido
   ).length;
-  // useEffect(() => {
-  //   // dispatch(getLandingForm());
-  //   const unreadMessages = landingDataForm.filter(
-  //     (contact) => contact.leido === false
-  //   );
-  //   console.log("UNREADmESSAGGES", unreadMessages);
-  //   setNewMessagesCount(unreadMessages.length);
-  // }, [dispatch]);
-  // useEffect(() => {
-  //   // Cuando llega un nuevo mensaje, despacha la acción para agregarlo al estado global de Redux
-  //   if (nuevoMensaje) {
-  //     dispatch(addNewContact(nuevoMensaje));
-  //   }
-  // }, [nuevoMensaje, dispatch]);
+  useEffect(() => {
+    dispatch(getLandingForm());
+    console.log("mensajes", newMessagesCount);
+  }, [newMessagesCount]);
   const handleContactosClick = () => {
     dispatch(markAllMessagesAsRead()); // Esta acción debería marcar todos los mensajes como leídos
 
     // Establecer el contador de nuevos mensajes en 0
+    setNewMessagesCount(true);
   };
-  useEffect(() => {
-    // Actualizar el contador de notificaciones cuando llegue un nuevo contacto
-    if (nuevosContactos.length > 0) {
-      setNewMessagesCount((prevCount) => prevCount + 1);
-    }
-  }, [nuevosContactos]);
+
   return (
     <div>
       <br />
@@ -87,15 +75,24 @@ export function AdminPantallaInicio() {
               <th>
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
+                    {/* <span className="notificacion">
+                      <FontAwesomeIcon icon={faBell} />
+                      
+                      {unreadMessagesCount}
+                    </span> */}
+                    {unreadMessagesCount !== 0 && (
+                      <span className="notificacion">
+                        <FontAwesomeIcon icon={faBell} />
+                        {unreadMessagesCount}
+                      </span>
+                    )}
+
                     <Link
                       to="/gestion/Contactos"
                       className="enlacesAdmin"
                       onClick={handleContactosClick}
                     >
                       CONTACTOS
-                      <span className="notificacion">
-                        {unreadMessagesCount}
-                      </span>
                       <lord-icon
                         src="https://cdn.lordicon.com/aycieyht.json"
                         trigger="hover"
