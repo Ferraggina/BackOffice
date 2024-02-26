@@ -331,6 +331,7 @@ export default function Abmusuario() {
                               >
                                 {hijo.nombre} {hijo.apellido} <br />
                                 DNI {hijo.dni} <br />
+                                Id Usuario {hijo.id} <br />
                                 {hijo.dieta
                                   ? Object.keys(hijo.dieta).map((key) => (
                                       <span key={key}>
