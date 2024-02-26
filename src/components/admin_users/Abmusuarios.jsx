@@ -19,7 +19,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 export default function Abmusuario() {
   const dispatch = useDispatch();
   const usuarios = useSelector((state) => state.users); // Asegúrate de que el estado de usuarios esté definido
-  const padre = useSelector((state) => state.padre);
+  const padre = useSelector((state) => state.padres);
+  const loginId = padre.map((hijo) => hijo.Passenger_Login.loginId);
   const [showModal, setShowModal] = useState(false);
   const [editingUsuario, setEditingUsuario] = useState({
     nombre: "",
@@ -42,15 +43,35 @@ export default function Abmusuario() {
     setSearchTerm(e.target.value);
   };
   const rolesOptions = ["Padre", "Coordinador", "Administrador"];
+  // useEffect(() => {
+  //   const padres = usuarios.filter((usuario) => usuario.rol === "Padre");
+  //   const loginIdsPadres = padres.map((padre) => padre.id);
+  //   dispatch(getUsers());
+  //   dispatch(obtenerContratos()); // Asegúrate de que la acción obtenerUsuarios esté definida
+  //   const timeout = setTimeout(() => {
+  //     setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
+  //   }, 4000); // Cambia el número a la cantidad de tiempo que desees simular
+
+  //   dispatch(getPadres(loginIdsPadres));
+  //   return () => clearTimeout(timeout);
+  // }, [dispatch]);
   useEffect(() => {
-    const padres = usuarios.filter((usuario) => usuario.rol === "Padre");
-    const loginIdsPadres = padres.map((padre) => padre.id);
-    dispatch(getUsers());
-    dispatch(obtenerContratos()); // Asegúrate de que la acción obtenerUsuarios esté definida
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
-    dispatch(getPadres(loginIdsPadres));
+    }, 4000); // Cambia el número a la cantidad de tiempo que desees simular
+    const padres = usuarios.filter((usuario) => usuario.rol === "Padre");
+    const loginIdsPadres = padres.map((padre) => padre.id);
+
+    dispatch(getPadres(loginIdsPadres)).then(() => {
+      // Llamada a obtener usuarios y contratos después de obtener padres
+
+      dispatch(getUsers());
+      dispatch(obtenerContratos());
+    });
+    {
+      console.log("hijo", padre);
+    }
+
     return () => clearTimeout(timeout);
   }, [dispatch]);
 
@@ -116,6 +137,7 @@ export default function Abmusuario() {
         usuario: editingUsuario.usuario,
         contrato: contratosSeleccionados.map((contract) => contract.toString()),
         estado: editingUsuario.estado,
+        id: editarUsuario.id,
 
         // Otros campos editados aquí...
       };
@@ -141,6 +163,7 @@ export default function Abmusuario() {
       const usuarioNombre = usuario.usuario
         ? usuario.usuario.toLowerCase()
         : "";
+
       return (
         nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -277,7 +300,7 @@ export default function Abmusuario() {
                   <th>Usuario</th>
                   <th>Nombre</th>
                   <th>Apellido</th>
-                  <th>Hijos</th>
+                  <th>Pasajeros</th>
                   <th>Email</th>
                   <th>Telefono</th>
                   <th>Contratos</th>
@@ -294,9 +317,34 @@ export default function Abmusuario() {
                     <td>{usuario.apellido}</td>
 
                     <td>
-                      {usuario.rol === "padre"
-                        ? `${padre.nombre} ${padre.apellido}`
-                        : "No tiene hijo"}
+                      {usuario.rol === "Padre" && padre.length > 0 ? (
+                        <div className="d-flex justify-content-center">
+                          {padre
+                            .filter(
+                              (hijo) =>
+                                hijo.Passenger_Login.loginId === usuario.id
+                            )
+                            .map((hijo) => (
+                              <div
+                                key={hijo.Passenger_Login.loginId}
+                                className="me-3"
+                              >
+                                {hijo.nombre} {hijo.apellido} <br />
+                                DNI {hijo.dni} <br />
+                                {hijo.dieta
+                                  ? Object.keys(hijo.dieta).map((key) => (
+                                      <span key={key}>
+                                        {key}: {hijo.dieta[key] ? "Sí" : "No"}{" "}
+                                        <br />
+                                      </span>
+                                    ))
+                                  : "---"}
+                              </div>
+                            ))}
+                        </div>
+                      ) : (
+                        "---"
+                      )}
                     </td>
 
                     <td>{usuario.email}</td>
@@ -393,6 +441,17 @@ export default function Abmusuario() {
             />
           </div>
           <div>
+            Identificador de Usuario:
+            <input
+              className="form-control mb-3"
+              type="text"
+              name="Identificador de usuario"
+              placeholder="ID"
+              value={editingUsuario ? editingUsuario.id : ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
             Nombre:
             <input
               className="form-control mb-3"
@@ -469,19 +528,7 @@ export default function Abmusuario() {
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </span>
           </div>
-          {/* <div className="mb-3">
-            <p>Seleccionar estado:</p>
-            <input
-              type="checkbox"
-              checked={editingUsuario.estado === "true"}
-              onChange={(e) =>
-                setEditingUsuario({
-                  ...editingUsuario,
-                  estado: e.target.checked ? "true" : "false",
-                })
-              }
-            />
-          </div> */}
+
           <p className="me-3 seleccionestado">Seleccionar estado:</p>
           <div className="mb-3 d-flex align-items-center">
             <p className="me-5">Desactivado</p>

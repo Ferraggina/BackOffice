@@ -76,6 +76,7 @@ export default function AbmTexto() {
         titulo: "",
       });
       alert("Cambios guardados con éxito");
+      window.location.reload();
     }
   };
 
