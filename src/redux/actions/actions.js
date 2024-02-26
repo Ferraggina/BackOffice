@@ -929,19 +929,60 @@ export const addNewContact = (contact) => ({
   payload: contact,
 });
 
-export function getPadres(loginId) {
+export function getPadres(loginIds) {
   const getPadresUrl = import.meta.env.VITE_PADRES;
-  return async function (dispatch) {
-    let response = await axios.get(`${getPadresUrl}/${loginId}`, {
-      headers: {
-        "x-access-token": TOKEN,
-        "Content-Type": "application/json",
-      },
-    });
+  console.log("LOGINIDPADRES", loginIds);
+  const arrayPasajeros = [];
 
-    return dispatch({
-      type: GET_PADRES,
-      payload: response.data,
-    });
+  return async function (dispatch) {
+    try {
+      for (const loginId of loginIds) {
+        const response = await axios.get(`${getPadresUrl}/${loginId}`, {
+          headers: {
+            "x-access-token": TOKEN,
+            "Content-Type": "application/json",
+          },
+        });
+        // console.log("padresHijos", response.data);
+        arrayPasajeros.push(response.data);
+      }
+      const flattenedData = arrayPasajeros.reduce((acc, curr) => {
+        return acc.concat(curr);
+      }, []);
+      dispatch({
+        type: GET_PADRES,
+        payload: flattenedData,
+      });
+    } catch (error) {
+      // Manejar errores de solicitud
+      console.error("Error al obtener padres:", error);
+    }
   };
 }
+// export function getPadres(loginIds) {
+//   const getPadresUrl = import.meta.env.VITE_PADRES;
+//   console.log("LOGINIDPADRES", loginIds);
+
+//   return async function (dispatch) {
+//     try {
+//       for (const loginId of loginIds) {
+//         const response = await axios.get(`${getPadresUrl}/${loginId}`, {
+//           headers: {
+//             "x-access-token": TOKEN,
+//             "Content-Type": "application/json",
+//           },
+//         });
+//         // Llamada a obtener usuarios aquí, después de obtener los padres
+//         dispatch(getUsers());
+//         // console.log("padresHijos", response.data);
+//         dispatch({
+//           type: GET_PADRES,
+//           payload: response.data,
+//         });
+//       }
+//     } catch (error) {
+//       // Manejar errores de solicitud
+//       console.error("Error al obtener padres:", error);
+//     }
+//   };
+// }

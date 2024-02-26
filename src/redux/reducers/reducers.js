@@ -487,6 +487,7 @@ function rootReducer(state = initialState, action) {
       };
     // ...otros cases de tu reducer
     case GET_PADRES:
+      console.log("Contenido de padres:", action.payload);
       return {
         ...state,
         padres: action.payload,
