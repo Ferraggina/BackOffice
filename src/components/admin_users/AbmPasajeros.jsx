@@ -237,6 +237,12 @@ export default function AbmPasajeros() {
                       (itinerario) => itinerario.id === viewingPasajero.id
                     )?.dni || "Itinerario Desconocido"}{" "}
                   </h6>
+                  <h5>Identificador de usuario:</h5>
+                  <h6>
+                    {pasajeros.find(
+                      (itinerario) => itinerario.id === viewingPasajero.id
+                    )?.id || "Itinerario Desconocido"}{" "}
+                  </h6>
                 </div>
                 <div className="d-flex flex-column col-md-4">
                   <h5>Contratos:</h5>
