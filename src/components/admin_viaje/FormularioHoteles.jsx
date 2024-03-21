@@ -5,6 +5,8 @@ import { crearHotel, uploadImage } from "../../redux/actions/actions";
 import "../../sass/_formularioHoteles.scss";
 import { reuleaux } from "ldrs";
 
+import GoogleMapReact from "google-map-react";
+
 export default function FormularioHoteles() {
   const [nombre, setNombre] = useState("");
   const [direccion, setDireccion] = useState("");
@@ -12,10 +14,19 @@ export default function FormularioHoteles() {
   const [fotos, setFotos] = useState([]);
   const [videos, setVideos] = useState("");
   const [telefono, setTelefono] = useState("");
+  const [otra_red, setOtra_red] = useState("");
+  const [map, setMap] = useState(null);
+  const [searchBox, setSearchBox] = useState(null);
+
   const [alert, setAlert] = useState(null); // Estado para la alerta
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Obtener la función de navegación
   const [isLoading, setIsLoading] = useState(true);
+  const [places, setPlaces] = useState([]);
+  const [mapApi, setMapApi] = useState(null);
+  const [mapsApi, setMapsApi] = useState(null);
+  const [latitud, setLatitud] = useState("");
+  const [longitud, setLongitud] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,6 +38,9 @@ export default function FormularioHoteles() {
       fotos: fotos,
       videos: videos,
       telefono: telefono,
+      otra_red: otra_red,
+      latitud: latitud,
+      longitud: longitud,
     };
 
     try {
@@ -40,6 +54,7 @@ export default function FormularioHoteles() {
       setVideos("");
       setSelectedImages([]);
       setTelefono("");
+      setOtra_red("");
 
       // Mostrar una alerta de éxito
       setAlert({
@@ -69,6 +84,74 @@ export default function FormularioHoteles() {
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   viewMaps( map,maps);
+  // }, []);
+  // const viewMaps = (map, maps) => {
+  //   setMapApi(map);
+  //   setMapsApi(maps);
+
+  //   const searchBox = new maps.places.SearchBox(
+  //     document.getElementById("search-box")
+  //   );
+  //   searchBox.addListener("places_changed", () => {
+  //     const places = searchBox.getPlaces();
+  //     setPlaces(places);
+  //     if (places.length === 0) {
+  //       return;
+  //     }
+  //     // Zoom in on searched place
+  //     map.fitBounds(places[0].geometry.viewport);
+  //     const locations = places.map((place) => ({
+  //       lat: place.geometry.location.lat(),
+  //       lng: place.geometry.location.lng(),
+  //     }));
+
+  //     console.log("Ubicaciones encontradas:", locations);
+  //   });
+  // };
+  const viewMaps = (map, maps) => {
+    setMapApi(map);
+    setMapsApi(maps);
+
+    const searchBox = new maps.places.SearchBox(
+      document.getElementById("search-box")
+    );
+    searchBox.addListener("places_changed", () => {
+      const places = searchBox.getPlaces();
+      if (places.length === 0) {
+        return;
+      }
+
+      // Obtener la ubicación del primer lugar encontrado
+      const location = places[0].geometry.location;
+
+      // Actualizar el estado con la nueva ubicación (latitud y longitud)
+      setLatitud(location.lat().toString());
+      setLongitud(location.lng().toString());
+
+      // También puedes hacer otras cosas con la ubicación si es necesario
+
+      if (places.length === 0) {
+        return;
+      }
+      // Zoom in on searched place
+      map.fitBounds(places[0].geometry.viewport);
+      const locations = places.map((place) => ({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      }));
+
+      console.log("Ubicaciones encontradas:", locations);
+    });
+  };
+
+  // const handleDireccionChange = (e) => {
+  //   setDireccion(e.target.value);
+  //   // Aquí deberías llamar a la API de geocodificación de Google Maps
+  //   // para actualizar el mapa y mostrar la ubicación correspondiente a la dirección ingresada
+  // };
 
   const handleImageUpload = async (e) => {
     const selectedImage = e.target.files[0];
@@ -133,7 +216,6 @@ export default function FormularioHoteles() {
                   {alert.message}
                 </div>
               )}
-
               <div className="form-group">
                 <label className="estilosLabels">Nombre</label>
                 <input
@@ -156,6 +238,35 @@ export default function FormularioHoteles() {
                   onChange={(e) => setDireccion(e.target.value)}
                 />
               </div>
+              <br />
+              <div
+                style={{ height: "400px", width: "100%" }}
+                className="map-container"
+              >
+                <input
+                  id="search-box"
+                  type="text"
+                  placeholder="Busca la direccion en el mapa"
+                  style={{ height: "10%", width: "50%" }}
+                />
+                <br />
+
+                <GoogleMapReact
+                  bootstrapURLKeys={{
+                    key: "AIzaSyDaRaAfkiPUT0U9oNnMHjbtnI-8zG5c0z4",
+                    libraries: ["places"],
+                  }}
+                  defaultCenter={{ lat: -34.61315, lng: -58.37723 }}
+                  defaultZoom={11}
+                  yesIWantToUseGoogleMapApiInternals
+                  onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
+                >
+                  {/* You can render markers for places here if needed */}
+                </GoogleMapReact>
+              </div>
+              <br />
+              <br />
+
               <div className="form-group">
                 <label className="estilosLabels">Telefono</label>
                 <input
@@ -168,7 +279,18 @@ export default function FormularioHoteles() {
                   maxLength={30}
                 />
               </div>
-
+              <div className="form-group">
+                <label className="estilosLabels">Pagina web del Hotel</label>
+                <input
+                  type="url"
+                  className="form-control"
+                  placeholder="www.hotel.com"
+                  value={otra_red}
+                  required
+                  onChange={(e) => setOtra_red(e.target.value)}
+                  maxLength={30}
+                />
+              </div>
               <div className="form-group">
                 <label className="estilosLabels">Añadir Fotos</label>
                 <br />
@@ -206,7 +328,6 @@ export default function FormularioHoteles() {
                     </div>
                   ))}
               </div>
-
               <div className="form-group">
                 <label className="estilosLabels">Añadir enlace de Video</label>
                 <input
@@ -217,7 +338,6 @@ export default function FormularioHoteles() {
                   onChange={(e) => setVideos(e.target.value)}
                 />
               </div>
-
               <div className="form-group"></div>
               <br />
               <button
@@ -232,7 +352,6 @@ export default function FormularioHoteles() {
                   colors="primary:#ffffff,secondary:#1b1091"
                 ></lord-icon>
               </button>
-
               {/* Botón de redirección */}
               {alert && alert.type === "success" && (
                 <button
@@ -261,7 +380,6 @@ export default function FormularioHoteles() {
               >
                 Volver al listado Hoteles
               </Link> */}
-
               <Link
                 to="/gestion/ListadoHoteles"
                 className="btn btn-primary estiloBotones"

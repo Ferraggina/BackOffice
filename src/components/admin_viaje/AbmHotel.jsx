@@ -13,6 +13,7 @@ import Pagination from "../../components/home/Pagination.jsx";
 import { reuleaux } from "ldrs";
 import "../../sass/_abmHotel.scss";
 import { Link } from "react-router-dom";
+import GoogleMapReact from "google-map-react";
 
 export default function AbmHotel() {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ export default function AbmHotel() {
     direccion: "",
     fotos: "",
     videos: "",
+    latitude: "",
+    longitude: "",
   });
   const [showViewModal, setShowViewModal] = useState(false);
   const [viewingHotel, setViewingHotel] = useState(null);
@@ -95,6 +98,8 @@ export default function AbmHotel() {
         direccion: editingHotel.direccion,
         fotos: JSON.stringify(fotosActualizadas), // Convertir a JSON antes de guardar
         videos: editingHotel.videos,
+        latitude: editingHotel.latitude,
+        longitude: editingHotel.longitude,
       };
 
       dispatch(editHotel(hotelId, hotelActualizado));
@@ -182,6 +187,56 @@ export default function AbmHotel() {
     setItemsPerPage(parseInt(e.target.value, 10));
     setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
   };
+  const viewMaps = (map, maps) => {
+    const searchBox = new maps.places.SearchBox(
+      document.getElementById("search-box")
+    );
+    searchBox.addListener("places_changed", () => {
+      const places = searchBox.getPlaces();
+      if (places.length === 0) {
+        return;
+      }
+
+      // Obtener la ubicación del primer lugar encontrado
+      const location = places[0].geometry.location;
+      console.log("location", location.lat().toString());
+      // Actualizar el estado con la nueva ubicación (latitud y longitud)
+      setEditingHotel({
+        ...editingHotel,
+        latitude: location.lat().toString(),
+        longitude: location.lng().toString(),
+      });
+      console.log("Nuevo editingHotel:", editingHotel);
+
+      // Zoom in on searched place
+      map.fitBounds(places[0].geometry.viewport);
+    });
+  };
+  console.log("Nuevo editingHotel:", editingHotel);
+  // const viewMaps = (map, maps) => {
+  //   const searchBox = new maps.places.SearchBox(
+  //     document.getElementById("search-box")
+  //   );
+  //   searchBox.addListener("places_changed", () => {
+  //     const places = searchBox.getPlaces();
+  //     if (places.length === 0) {
+  //       return;
+  //     }
+
+  //     // Obtener la ubicación del primer lugar encontrado
+  //     const location = places[0].geometry.location;
+
+  //     // Actualizar el estado con la nueva ubicación (latitud y longitud)
+  //     setEditingHotelLocation({
+  //       latitude: location.lat(),
+  //       longitude: location.lng(),
+  //     });
+
+  //     // Zoom in on searched place
+  //     map.fitBounds(places[0].geometry.viewport);
+  //   });
+  // };
+
   return (
     <div className="custom-container mt-8">
       <br />
@@ -251,6 +306,8 @@ export default function AbmHotel() {
                   <th>Nombre</th>
                   <th>Dirección</th>
                   <th>Telefono</th>
+                  <th>Pagina Web</th>
+
                   <th>Fotos</th>
                   <th>Acciones</th>
                 </tr>
@@ -262,6 +319,7 @@ export default function AbmHotel() {
                       <td>{hotel.nombre.toUpperCase()}</td>
                       <td>{hotel.direccion}</td>
                       <td>{hotel.telefono}</td>
+                      <td>{hotel.otra_red}</td>
                       <td>
                         <div className="images-container">
                           {hotel.fotos &&
@@ -397,6 +455,68 @@ export default function AbmHotel() {
             value={editingHotel ? editingHotel.direccion : ""}
             onChange={handleInputChange}
           />
+          <div>
+            {editingHotel.latitude !== null &&
+            editingHotel.longitude !== null ? (
+              // <GoogleMapReact
+              //   bootstrapURLKeys={{
+              //     key: "AIzaSyDaRaAfkiPUT0U9oNnMHjbtnI-8zG5c0z4",
+              //     libraries: ["places"],
+              //   }}
+              //   defaultCenter={{
+              //     lat: parseFloat(editingHotel.latitude),
+              //     lng: parseFloat(editingHotel.longitude),
+              //   }}
+              //   defaultZoom={18}
+              //   yesIWantToUseGoogleMapApiInternals
+              //   onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
+              // ></GoogleMapReact>
+              <div
+                style={{ height: "400px", width: "100%" }}
+                className="map-container"
+              >
+                <input
+                  id="search-box"
+                  type="text"
+                  placeholder="Busca la direccion en el mapa"
+                  style={{ height: "10%", width: "50%" }}
+                />
+                <br />
+
+                <GoogleMapReact
+                  bootstrapURLKeys={{
+                    key: "AIzaSyDaRaAfkiPUT0U9oNnMHjbtnI-8zG5c0z4",
+                    libraries: ["places"],
+                  }}
+                  defaultCenter={{
+                    lat: parseFloat(editingHotel.latitude),
+                    lng: parseFloat(editingHotel.longitude),
+                  }}
+                  defaultZoom={18}
+                  yesIWantToUseGoogleMapApiInternals
+                  onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
+                >
+                  {/* You can render markers for places here if needed */}
+                </GoogleMapReact>
+              </div>
+            ) : (
+              <GoogleMapReact
+                bootstrapURLKeys={{
+                  key: "AIzaSyDaRaAfkiPUT0U9oNnMHjbtnI-8zG5c0z4",
+                  libraries: ["places"],
+                }}
+                defaultCenter={{ lat: -34.61315, lng: -58.37723 }}
+                defaultZoom={11}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
+              >
+                {/* You can render markers for places here if needed */}
+              </GoogleMapReact>
+            )}
+          </div>
+          <br />
+          <br />
+          <br />
           <div className="form-group">
             <div className="custom-file-upload">
               <input

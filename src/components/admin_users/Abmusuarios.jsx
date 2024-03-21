@@ -160,6 +160,11 @@ export default function Abmusuario() {
     const filteredUsuarios = usuarios.filter((usuario) => {
       const nombre = usuario.nombre ? usuario.nombre.toLowerCase() : "";
       const apellido = usuario.apellido ? usuario.apellido.toLowerCase() : "";
+      const contrato = usuario.contrato
+        ? usuario.contrato.toString().toLowerCase()
+        : "";
+      console.log("contrato", contrato);
+
       const usuarioNombre = usuario.usuario
         ? usuario.usuario.toLowerCase()
         : "";
@@ -167,7 +172,8 @@ export default function Abmusuario() {
       return (
         nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        usuarioNombre.toLowerCase().includes(searchTerm.toLowerCase())
+        usuarioNombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        contrato.includes(searchTerm)
       );
     });
 

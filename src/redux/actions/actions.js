@@ -503,6 +503,9 @@ export const crearHotel = (nuevoHotel) => {
           fotos: nuevoHotel.fotos,
           videos: nuevoHotel.videos,
           telefono: nuevoHotel.telefono,
+          otra_red: nuevoHotel.otra_red,
+          latitude: nuevoHotel.latitud,
+          longitude: nuevoHotel.longitud,
         },
 
         {
