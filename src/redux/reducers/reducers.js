@@ -341,6 +341,8 @@ function rootReducer(state = initialState, action) {
               direccion: action.payload.direccion,
               fotos: action.payload.fotos,
               videos: action.payload.videos,
+              latitude: action.payload.latitude,
+              longitude: action.payload.latitude,
             };
           }
           return hotel;

@@ -92,7 +92,19 @@ export default function AbmViaje() {
     if (editingViaje) {
       const viajeId = editingViaje.id;
       const contratosFormateados = contratosSeleccionados.join(",");
-      const contratosFinal = `[${contratosFormateados}]`;
+      console.log("contratosFormateados", contratosSeleccionados.length);
+
+      let contratosFinal = `[${contratosFormateados}]`;
+      console.log("contratos", contratosFormateados.length);
+      if (contratosSeleccionados.length > 0) {
+        // Si hay contratos nuevos seleccionados, formatearlos
+        const contratosFormateados = contratosSeleccionados.join(",");
+        contratosFinal = `[${contratosFormateados}]`;
+      } else {
+        // Si no hay contratos nuevos seleccionados, enviar los contratos existentes del viaje
+        contratosFinal = editingViaje.contratos;
+      }
+
       const viajeActualizado = {
         destino: editingViaje.destino,
         contratos: contratosFinal,
@@ -102,8 +114,10 @@ export default function AbmViaje() {
         scheduleId: editingViaje.scheduleId,
       };
       dispatch(editarViaje(viajeId, viajeActualizado));
+
       setShowModal(false);
       alert("Cambios guardados con éxito");
+      window.location.reload();
     }
   };
 
@@ -503,6 +517,9 @@ export default function AbmViaje() {
                 <li key={contractNum}>{getContractNameById(contractNum)}</li>
               ))}
             </ul>
+
+            {/* <h5>{formatContratos(viewingViaje.contratos)}</h5> */}
+            <h5>{formatContratos(editingViaje.contratos)}</h5>
           </div>
         </Modal.Body>
         <Modal.Footer>
