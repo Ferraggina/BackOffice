@@ -171,33 +171,74 @@ export default function AbmImagenesLandin() {
   //     }
   //   }
   // };
+  // const handleFolletoUpload = async (e) => {
+  //   const selectedFolleto = e.target.files[0];
+
+  //   if (selectedFolleto) {
+  //     const fileExtension = selectedFolleto.name.split(".").pop().toLowerCase();
+  //     if (
+  //       fileExtension === "png" ||
+  //       fileExtension === "jpg" ||
+  //       fileExtension === "jpeg" ||
+  //       fileExtension === "webp"
+  //     ) {
+  //       const formData = new FormData();
+  //       formData.append("image", selectedFolleto);
+
+  //       try {
+  //         const response = await dispatch(uploadImage(formData));
+
+  //         if (response) {
+  //           setSelectedFolletos([...selectedFolletos, response]);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error al cargar el folleto en el servidor:", error);
+  //       }
+  //     } else {
+  //       alert(
+  //         "Formato de folleto no válido. Por favor, seleccione un archivo  PNG ,JPEG ,JPG o WEBP"
+  //       );
+  //     }
+  //   }
+  // };
   const handleFolletoUpload = async (e) => {
-    const selectedFolleto = e.target.files[0];
+    const selectedFolletosFiles = e.target.files;
 
-    if (selectedFolleto) {
-      const fileExtension = selectedFolleto.name.split(".").pop().toLowerCase();
-      if (
-        fileExtension === "png" ||
-        fileExtension === "jpg" ||
-        fileExtension === "jpeg" ||
-        fileExtension === "webp"
-      ) {
-        const formData = new FormData();
-        formData.append("image", selectedFolleto);
+    if (selectedFolletosFiles) {
+      const fileExtensions = ["png", "jpg", "jpeg", "webp"];
+      const formDataArray = [];
 
-        try {
-          const response = await dispatch(uploadImage(formData));
+      for (let i = 0; i < selectedFolletosFiles.length; i++) {
+        const selectedFolleto = selectedFolletosFiles[i];
+        const fileExtension = selectedFolleto.name
+          .split(".")
+          .pop()
+          .toLowerCase();
 
-          if (response) {
-            setSelectedFolletos([...selectedFolletos, response]);
-          }
-        } catch (error) {
-          console.error("Error al cargar el folleto en el servidor:", error);
+        if (fileExtensions.includes(fileExtension)) {
+          const formData = new FormData();
+          formData.append("image", selectedFolleto);
+          formDataArray.push(formData);
+        } else {
+          alert(
+            "Formato de folleto no válido. Por favor, seleccione archivos PNG, JPEG, JPG o WEBP."
+          );
+          return;
         }
-      } else {
-        alert(
-          "Formato de folleto no válido. Por favor, seleccione un archivo  PNG ,JPEG ,JPG o WEBP"
+      }
+
+      try {
+        const responses = await Promise.all(
+          formDataArray.map((formData) => dispatch(uploadImage(formData)))
         );
+
+        const newFolletos = responses.filter((response) => response !== null);
+
+        if (newFolletos.length > 0) {
+          setSelectedFolletos([...selectedFolletos, ...newFolletos]);
+        }
+      } catch (error) {
+        console.error("Error al cargar los folletos en el servidor:", error);
       }
     }
   };
