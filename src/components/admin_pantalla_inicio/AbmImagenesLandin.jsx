@@ -143,6 +143,7 @@ export default function AbmImagenesLandin() {
         setEditingId(null);
         setShowModal(false);
         alert("Cambios guardados con éxito");
+        window.location.reload();
       } else {
         alert("Solo puede tener 5 landings activas");
       }
