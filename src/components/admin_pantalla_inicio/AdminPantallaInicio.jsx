@@ -30,8 +30,8 @@ export function AdminPantallaInicio() {
   return (
     <div>
       <br />
-
-      <div className="container mt-4 table-responsive ">
+      {/* <div className="container mt-4 table-responsive "></div> */}
+      <div className="container mt-4 ">
         <table className="table   tablaTransparente">
           <thead>
             <tr>
