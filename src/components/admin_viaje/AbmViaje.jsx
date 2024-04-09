@@ -7,6 +7,7 @@ import {
   eliminarViaje,
   editarViaje,
   obtenerContratos,
+  obtenerCoordinador,
 } from "../../redux/actions/actions";
 import { useDispatch, useSelector } from "react-redux";
 import "../../sass/_abm_Viaje.scss";
@@ -21,6 +22,7 @@ export default function AbmViaje() {
   const hoteles = useSelector((state) => state.hoteles);
   const itinerarios = useSelector((state) => state.itinerarios);
   const contratos = useSelector((state) => state.contratos);
+  const coordinadores = useSelector((state) => state.coordinadores);
   const [showModal, setShowModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [viewingViaje, setViewingViaje] = useState(null);
@@ -50,6 +52,8 @@ export default function AbmViaje() {
     dispatch(obtenerHoteles());
     dispatch(obtenerItinerario());
     dispatch(obtenerContratos());
+    dispatch(obtenerCoordinador());
+    console.log("coordinador", coordinadores);
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
     }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
@@ -281,6 +285,8 @@ export default function AbmViaje() {
                   <th>Hotel</th>
                   <th>Contratos</th>
                   <th>Itinerario</th>
+                  <th>Coordinador</th>
+
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -317,6 +323,17 @@ export default function AbmViaje() {
                           </div>
                         ) : null
                       )}
+                    </td>
+                    <td>
+                      {/* {coordinadores?.map((cordinador) => cordinador.contrato)} */}
+                      {coordinadores
+                        .filter(
+                          (coordinador) =>
+                            formatContratos(coordinador.contrato) ===
+                            formatContratos(viaje.contratos)
+                        )
+                        ?.map((coordinador) => coordinador.nombre)
+                        .join(", ")}
                     </td>
                     <td>
                       <button

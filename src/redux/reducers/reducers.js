@@ -57,6 +57,8 @@ import {
   ADD_NEW_CONTACT,
   MARK_ALL_MESSAGES_AS_READ_SUCCESS,
   GET_PADRES,
+  OBTENER_COORDINADOR_EXITO,
+  OBTENER_COORDINADOR_ERROR,
 } from "../actions/actions";
 
 const initialState = {
@@ -88,6 +90,7 @@ const initialState = {
   pasajeros: [],
   nuevosContactos: [],
   padres: [],
+  coordinadores: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -493,6 +496,18 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         padres: action.payload,
+      };
+    case OBTENER_COORDINADOR_EXITO:
+      return {
+        ...state,
+        coordinadores: action.payload,
+        error: null,
+      };
+    case OBTENER_COORDINADOR_ERROR:
+      return {
+        ...state,
+        coordinadores: [],
+        error: action.payload,
       };
     default:
       return state;

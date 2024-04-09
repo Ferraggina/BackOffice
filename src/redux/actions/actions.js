@@ -57,6 +57,8 @@ export const OBTENER_PASAJERO_ERROR = "OBTENER_PASAJERO_ERROR";
 export const MARK_MESSAGE_AS_READ = "MARK_MESSAGE_AS_READ";
 export const MARK_ALL_MESSAGES_AS_READ = "MARK_ALL_MESSAGES_AS_READ";
 export const ADD_NEW_CONTACT = "ADD_NEW_CONTACT";
+export const OBTENER_COORDINADOR_EXITO = "OBTENER_COORDINADOR_EXITO";
+export const OBTENER_COORDINADOR_ERROR = "OBTENER_COORDINADOR_ERROR";
 export const MARK_ALL_MESSAGES_AS_READ_REQUEST =
   "MARK_ALL_MESSAGES_AS_READ_REQUEST";
 export const MARK_ALL_MESSAGES_AS_READ_SUCCESS =
@@ -962,30 +964,21 @@ export function getPadres(loginIds) {
     }
   };
 }
-// export function getPadres(loginIds) {
-//   const getPadresUrl = import.meta.env.VITE_PADRES;
-//   console.log("LOGINIDPADRES", loginIds);
 
-//   return async function (dispatch) {
-//     try {
-//       for (const loginId of loginIds) {
-//         const response = await axios.get(`${getPadresUrl}/${loginId}`, {
-//           headers: {
-//             "x-access-token": TOKEN,
-//             "Content-Type": "application/json",
-//           },
-//         });
-//         // Llamada a obtener usuarios aquí, después de obtener los padres
-//         dispatch(getUsers());
-//         // console.log("padresHijos", response.data);
-//         dispatch({
-//           type: GET_PADRES,
-//           payload: response.data,
-//         });
-//       }
-//     } catch (error) {
-//       // Manejar errores de solicitud
-//       console.error("Error al obtener padres:", error);
-//     }
-//   };
-// }
+export const obtenerCoordinador = () => async (dispatch) => {
+  const getCoordinadorUrl = import.meta.env.VITE_COORDINADORES;
+  try {
+    const response = await axios.get(getCoordinadorUrl, {
+      headers: {
+        "x-access-token": TOKEN,
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con la ruta correcta
+    console.log("ACA RESPONS", response);
+    const coordinadores = response.data; // Supongamos que la respuesta es un array de contratos
+
+    dispatch({ type: OBTENER_COORDINADOR_EXITO, payload: coordinadores });
+  } catch (error) {
+    dispatch({ type: OBTENER_COORDINADOR_ERROR, payload: error.message });
+  }
+};

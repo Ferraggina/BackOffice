@@ -6,9 +6,9 @@ export function AdminViaje() {
   return (
     <div>
       <br />
-
-      <div className="container mt-4 table-responsive ">
-        <table className="table   tablaTransparente ">
+      {/* <div className="container mt-4 table-responsive "></div> */}
+      <div className="container mt-4  ">
+        <table className="table  tablaTransparente ">
           <thead>
             <tr>
               <th>
