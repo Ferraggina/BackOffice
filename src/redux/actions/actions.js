@@ -582,6 +582,7 @@ export function editarViaje(idViaje, data) {
           type: EDITAR_VIAJE_EXITO,
           payload: response.data,
         });
+        console.log("edicion viajes", response);
       } else {
         // Si hubo un error en la edición, despachamos la acción de error
         dispatch({
@@ -974,7 +975,7 @@ export const obtenerCoordinador = () => async (dispatch) => {
         "Content-Type": "application/json",
       },
     }); // Reemplaza con la ruta correcta
-    console.log("ACA RESPONS", response);
+    console.log("ACA RESPONS", response.data);
     const coordinadores = response.data; // Supongamos que la respuesta es un array de contratos
 
     dispatch({ type: OBTENER_COORDINADOR_EXITO, payload: coordinadores });
