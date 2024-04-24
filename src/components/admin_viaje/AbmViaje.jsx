@@ -185,9 +185,37 @@ export default function AbmViaje() {
   //     return viaje.destino.toLowerCase().includes(searchTerm.toLowerCase());
   //   });
   // };
+  // const filterViajes = (viajes) => {
+  //   const filteredViajes = viajes.filter((viaje) => {
+  //     return viaje.destino.toLowerCase().includes(searchTerm.toLowerCase());
+  //   });
+
+  //   // Calcular el índice del primer elemento y del último elemento en la página actual
+  //   const indexOfLastItem = currentPage * itemsPerPage;
+  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  //   // Obtener los elementos de la página actual
+  //   const currentItems = filteredViajes.slice(
+  //     indexOfFirstItem,
+  //     indexOfLastItem
+  //   );
+
+  //   return currentItems;
+  // };
+
   const filterViajes = (viajes) => {
     const filteredViajes = viajes.filter((viaje) => {
-      return viaje.destino.toLowerCase().includes(searchTerm.toLowerCase());
+      const destino = viaje.destino ? viaje.destino.toLowerCase() : "";
+
+      const contrato = viaje.contratos
+        ? viaje.contratos.toString().toLowerCase()
+        : "";
+      console.log("contrato", contrato);
+
+      return (
+        destino.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        contrato.includes(searchTerm)
+      );
     });
 
     // Calcular el índice del primer elemento y del último elemento en la página actual
@@ -655,6 +683,14 @@ export default function AbmViaje() {
                   </option>
                 ))}
             </select>
+            <div>
+              <label>Contratos Actuales:</label>
+              {/* <ul>
+                {editingUsuario.contrato.map((contractNum) => (
+                  <li key={contractNum}>{getContractNameById(contractNum)}</li>
+                ))}
+              </ul> */}
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseUserModal}>

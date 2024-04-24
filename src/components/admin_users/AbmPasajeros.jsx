@@ -35,12 +35,43 @@ export default function AbmPasajeros() {
     return () => clearTimeout(timeout);
   }, []);
 
+  // const filterPasajeros = (pasajeros) => {
+  //   const filteredPasajero = pasajeros.filter((pasajero) => {
+  //     return (
+  //       pasajero.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //       pasajero.apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //       pasajero.dni.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //   });
+
+  //   // Calcular el índice del primer elemento y del último elemento en la página actual
+  //   const indexOfLastItem = currentPage * itemsPerPage;
+  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  //   // Obtener los elementos de la página actual
+  //   const currentItems = filteredPasajero.slice(
+  //     indexOfFirstItem,
+  //     indexOfLastItem
+  //   );
+
+  //   return currentItems;
+  // };
+
   const filterPasajeros = (pasajeros) => {
     const filteredPasajero = pasajeros.filter((pasajero) => {
+      const nombre = pasajero.nombre ? pasajero.nombre.toLowerCase() : "";
+      const apellido = pasajero.apellido ? pasajero.apellido.toLowerCase() : "";
+      const dni = pasajero.dni ? pasajero.dni.toLowerCase() : "";
+      const contrato = pasajero.contratos
+        ? pasajero.contratos.toString().toLowerCase()
+        : "";
+      console.log("contrato", contrato);
+
       return (
-        pasajero.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pasajero.apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pasajero.dni.toLowerCase().includes(searchTerm.toLowerCase())
+        nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        contrato.includes(searchTerm) ||
+        dni.includes(searchTerm)
       );
     });
 
