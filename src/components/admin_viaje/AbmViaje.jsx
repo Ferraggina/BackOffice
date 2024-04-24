@@ -8,6 +8,8 @@ import {
   editarViaje,
   obtenerContratos,
   obtenerCoordinador,
+  getUsers,
+  editarUsuario,
 } from "../../redux/actions/actions";
 import { useDispatch, useSelector } from "react-redux";
 import "../../sass/_abm_Viaje.scss";
@@ -23,12 +25,13 @@ export default function AbmViaje() {
   const itinerarios = useSelector((state) => state.itinerarios);
   const contratos = useSelector((state) => state.contratos);
   const coordinadores = useSelector((state) => state.coordinadores);
+  const users = useSelector((state) => state.users);
   const [showModal, setShowModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [viewingViaje, setViewingViaje] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Puedes ajustar la cantidad predeterminada según tus necesidades
-
+  const [showUserModal, setShowUserModal] = useState(false);
   const [editingViaje, setEditingViaje] = useState({
     destino: "",
     contratos: [],
@@ -53,6 +56,8 @@ export default function AbmViaje() {
     dispatch(obtenerItinerario());
     dispatch(obtenerContratos());
     dispatch(obtenerCoordinador());
+    dispatch(getUsers());
+    dispatch(editarUsuario());
     console.log("coordinador", coordinadores);
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
@@ -118,7 +123,7 @@ export default function AbmViaje() {
         scheduleId: editingViaje.scheduleId,
       };
       dispatch(editarViaje(viajeId, viajeActualizado));
-
+      console.log("ediciosn de viajes", viajeActualizado);
       setShowModal(false);
       alert("Cambios guardados con éxito");
       window.location.reload();
@@ -180,9 +185,37 @@ export default function AbmViaje() {
   //     return viaje.destino.toLowerCase().includes(searchTerm.toLowerCase());
   //   });
   // };
+  // const filterViajes = (viajes) => {
+  //   const filteredViajes = viajes.filter((viaje) => {
+  //     return viaje.destino.toLowerCase().includes(searchTerm.toLowerCase());
+  //   });
+
+  //   // Calcular el índice del primer elemento y del último elemento en la página actual
+  //   const indexOfLastItem = currentPage * itemsPerPage;
+  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  //   // Obtener los elementos de la página actual
+  //   const currentItems = filteredViajes.slice(
+  //     indexOfFirstItem,
+  //     indexOfLastItem
+  //   );
+
+  //   return currentItems;
+  // };
+
   const filterViajes = (viajes) => {
     const filteredViajes = viajes.filter((viaje) => {
-      return viaje.destino.toLowerCase().includes(searchTerm.toLowerCase());
+      const destino = viaje.destino ? viaje.destino.toLowerCase() : "";
+
+      const contrato = viaje.contratos
+        ? viaje.contratos.toString().toLowerCase()
+        : "";
+      console.log("contrato", contrato);
+
+      return (
+        destino.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        contrato.includes(searchTerm)
+      );
     });
 
     // Calcular el índice del primer elemento y del último elemento en la página actual
@@ -212,6 +245,14 @@ export default function AbmViaje() {
       options
     );
     return formattedDate;
+  };
+
+  const handleUserModalOpen = () => {
+    setShowUserModal(true);
+  };
+
+  const handleCloseUserModal = () => {
+    setShowUserModal(false);
   };
   return (
     <div className="custom-container mt-8">
@@ -324,8 +365,8 @@ export default function AbmViaje() {
                         ) : null
                       )}
                     </td>
-                    <td>
-                      {/* {coordinadores?.map((cordinador) => cordinador.contrato)} */}
+                    {/* <td>
+                      {coordinadores?.map((cordinador) => cordinador.contrato)}
                       {coordinadores
                         .filter(
                           (coordinador) =>
@@ -333,6 +374,16 @@ export default function AbmViaje() {
                             formatContratos(viaje.contratos)
                         )
                         ?.map((coordinador) => coordinador.nombre)
+                        .join(", ")}
+                    </td> */}
+                    <td>
+                      {coordinadores
+                        .filter((coordinador) =>
+                          coordinador.contrato.some((contract) =>
+                            viaje.contratos.includes(contract)
+                          )
+                        )
+                        .map((coordinador) => coordinador.nombre)
                         .join(", ")}
                     </td>
                     <td>
@@ -366,6 +417,9 @@ export default function AbmViaje() {
                           style={{ width: "15px", height: "15px" }}
                         ></lord-icon>
                       </button>
+                      <Button onClick={handleUserModalOpen}>
+                        Seleccionar contrato
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -609,6 +663,43 @@ export default function AbmViaje() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <div>
+        {/* Botón para abrir el modal */}
+
+        {/* Modal para seleccionar usuario */}
+        <Modal show={showUserModal} onHide={handleCloseUserModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Seleccionar Usuario</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {/* Select para mostrar usuarios */}
+            <select className="form-select">
+              <option value="">-- Seleccione un usuario --</option>
+              {users
+                .filter((user) => user.rol === "Coordinador")
+                .map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.nombre}
+                  </option>
+                ))}
+            </select>
+            <div>
+              <label>Contratos Actuales:</label>
+              {/* <ul>
+                {editingUsuario.contrato.map((contractNum) => (
+                  <li key={contractNum}>{getContractNameById(contractNum)}</li>
+                ))}
+              </ul> */}
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseUserModal}>
+              Cerrar
+            </Button>
+            <Button variant="primary">Seleccionar</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 }
