@@ -151,7 +151,7 @@ export default function CrearUsuarios() {
     }
   };
   const validatePassword = (password) => {
-    const regex = /^\d{6,}$/;
+    const regex = /^\d{4,}$/;
     return regex.test(password);
   };
   const handleClick = () => {
@@ -290,17 +290,16 @@ export default function CrearUsuarios() {
               <input
                 type={showPassword ? "password" : "text"}
                 className="form-control"
-                placeholder="La contraseña debe ser mayor a los 6 caracteres"
+                placeholder="La contraseña debe ser 4 caracteres"
                 value={password}
                 onChange={handlePasswordChange}
                 onClick={handleClick}
                 required
+                maxLength={4}
               />
               <span className="password-messages">
                 {!validatePassword(password) && (
-                  <p className="text-danger">
-                    Minimo 6 caracteres numerales | 0-9 |
-                  </p>
+                  <p className="text-danger">4 caracteres numerales | 0-9 |</p>
                 )}
                 {validatePassword(password) && (
                   <p className="text-success">
@@ -327,6 +326,7 @@ export default function CrearUsuarios() {
                 value={confirmPassword}
                 onChange={handleConfirmPasswordChange}
                 required
+                maxLength={4}
               />
               <span className="password-messages">
                 {!passwordMatch && (
@@ -502,7 +502,6 @@ export default function CrearUsuarios() {
                       </td>
                     </tr>
                     <tr>
-                      {" "}
                       <td>
                         <div className="form-group">
                           <br />
@@ -512,7 +511,6 @@ export default function CrearUsuarios() {
                         </div>
                       </td>
                       <td>
-                        {" "}
                         <ul className="estiloListaContratosSeleccionados">
                           {contratosSeleccionados.map((contractNum) => (
                             <li key={contractNum}>
