@@ -49,7 +49,8 @@ export default function AbmViaje() {
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
+  const [selectedCoordinatorId, setSelectedCoordinatorId] = useState(null);
+  const [selectedViajeContrato, setSelectedViajeContrato] = useState(null);
   useEffect(() => {
     dispatch(obtenerViajes());
     dispatch(obtenerHoteles());
@@ -57,7 +58,7 @@ export default function AbmViaje() {
     dispatch(obtenerContratos());
     dispatch(obtenerCoordinador());
     dispatch(getUsers());
-    dispatch(editarUsuario());
+    // dispatch(editarUsuario());
     console.log("coordinador", coordinadores);
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
@@ -127,6 +128,26 @@ export default function AbmViaje() {
       setShowModal(false);
       alert("Cambios guardados con éxito");
       window.location.reload();
+    }
+    if (selectedCoordinatorId) {
+      const selectedCoordinator = users.find(
+        (user) => user.id === selectedCoordinatorId
+      );
+      if (selectedCoordinator) {
+        const updatedContracts = [
+          ...selectedCoordinator.contrato,
+          selectedViajeContrato,
+        ];
+        const updatedCoordinator = {
+          ...selectedCoordinator,
+          contrato: updatedContracts,
+        };
+        dispatch(editarUsuario(selectedCoordinatorId, updatedCoordinator));
+        console.log("selectedCoordinatorId:", selectedCoordinatorId);
+        console.log("selectedCoordinator:", selectedCoordinator);
+        setShowUserModal(false);
+        alert("Contrato agregado con éxito al coordinador");
+      }
     }
   };
 
@@ -247,8 +268,10 @@ export default function AbmViaje() {
     return formattedDate;
   };
 
-  const handleUserModalOpen = () => {
+  const handleUserModalOpen = (viaje) => {
+    setSelectedViajeContrato(viaje.contratos);
     setShowUserModal(true);
+    setSelectedCoordinatorId(viaje.coordinadorId);
   };
 
   const handleCloseUserModal = () => {
@@ -417,9 +440,18 @@ export default function AbmViaje() {
                           style={{ width: "15px", height: "15px" }}
                         ></lord-icon>
                       </button>
-                      <Button onClick={handleUserModalOpen}>
+
+                      {/* <Button onClick={handleUserModalOpen}>
                         Seleccionar contrato
-                      </Button>
+                      </Button> */}
+                      <button
+                        onClick={() => {
+                          handleUserModalOpen(viaje);
+                          // Guardar el contrato seleccionado al abrir el modal
+                        }}
+                      >
+                        Seleccionar Coordinador
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -667,36 +699,38 @@ export default function AbmViaje() {
         {/* Botón para abrir el modal */}
 
         {/* Modal para seleccionar usuario */}
-        <Modal show={showUserModal} onHide={handleCloseUserModal}>
+        <Modal show={showUserModal} onHide={() => setShowUserModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>Seleccionar Usuario</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {/* Select para mostrar usuarios */}
-            <select className="form-select">
-              <option value="">-- Seleccione un usuario --</option>
+            <select
+              className="form-select"
+              onChange={(e) => setSelectedCoordinatorId(e.target.value)}
+            >
+              <option value="">-- Seleccione un Coordinador --</option>
               {users
                 .filter((user) => user.rol === "Coordinador")
                 .map((user) => (
                   <option key={user.id} value={user.id}>
-                    {user.nombre}
+                    {user.nombre} {user.contrato + " "}
                   </option>
                 ))}
+              {/* {coordinadores.map((coordinador) => (
+                <option key={coordinador.id} value={coordinador.id}>
+                  {coordinador.nombre}
+                </option>
+              ))} */}
             </select>
-            <div>
-              <label>Contratos Actuales:</label>
-              {/* <ul>
-                {editingUsuario.contrato.map((contractNum) => (
-                  <li key={contractNum}>{getContractNameById(contractNum)}</li>
-                ))}
-              </ul> */}
-            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseUserModal}>
               Cerrar
             </Button>
-            <Button variant="primary">Seleccionar</Button>
+            <Button variant="primary" onClick={handleSaveEdits}>
+              Seleccionar
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>
