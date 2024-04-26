@@ -356,7 +356,9 @@ export default function Abmusuario() {
 
                     <td>{usuario.email}</td>
                     <td>{usuario.telefono}</td>
-                    <td>{formatContratos(usuario.contrato)}</td>
+                    <td>{`${usuario.contrato
+                      .join(", ")
+                      .replace(/\[|\]/g, "")}`}</td>
                     <td>{usuario.rol}</td>
                     <td>
                       {usuario.estado === "true" ? "Activado" : "Desactivado"}

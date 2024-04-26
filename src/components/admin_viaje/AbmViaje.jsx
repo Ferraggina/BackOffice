@@ -129,10 +129,15 @@ export default function AbmViaje() {
       alert("Cambios guardados con éxito");
       window.location.reload();
     }
-    if (selectedCoordinatorId) {
+  };
+
+  const handleSaveEditsCoordinador = () => {
+    if (selectedCoordinatorId !== 0) {
+      console.log("usuarios", users);
       const selectedCoordinator = users.find(
-        (user) => user.id === selectedCoordinatorId
+        (user) => user.id.toString() === selectedCoordinatorId
       );
+      console.log("selectedCoordinator:", selectedCoordinator);
       if (selectedCoordinator) {
         const updatedContracts = [
           ...selectedCoordinator.contrato,
@@ -143,11 +148,11 @@ export default function AbmViaje() {
           contrato: updatedContracts,
         };
         dispatch(editarUsuario(selectedCoordinatorId, updatedCoordinator));
-        console.log("selectedCoordinatorId:", selectedCoordinatorId);
-        console.log("selectedCoordinator:", selectedCoordinator);
         setShowUserModal(false);
         alert("Contrato agregado con éxito al coordinador");
+        window.location.reload();
       }
+      console.log("selectedCoordinatorId:", selectedCoordinatorId);
     }
   };
 
@@ -441,17 +446,14 @@ export default function AbmViaje() {
                         ></lord-icon>
                       </button>
 
-                      {/* <Button onClick={handleUserModalOpen}>
-                        Seleccionar contrato
-                      </Button> */}
-                      <button
+                      <Button
                         onClick={() => {
                           handleUserModalOpen(viaje);
                           // Guardar el contrato seleccionado al abrir el modal
                         }}
                       >
                         Seleccionar Coordinador
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -714,12 +716,21 @@ export default function AbmViaje() {
                 .filter((user) => user.rol === "Coordinador")
                 .map((user) => (
                   <option key={user.id} value={user.id}>
-                    {user.nombre} {user.contrato + " "}
+                    {`${user.nombre} ${user.contrato
+                      .join(", ")
+                      .replace(/\[|\]/g, "")}`}
                   </option>
                 ))}
+              {/* {users
+                .filter((user) => user.rol === "Coordinador")
+                .map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.nombre + " " + " " + user.contrato}
+                  </option>
+                ))} */}
               {/* {coordinadores.map((coordinador) => (
                 <option key={coordinador.id} value={coordinador.id}>
-                  {coordinador.nombre}
+                  {coordinador.nombre + " " + coordinador.contrato}
                 </option>
               ))} */}
             </select>
@@ -728,7 +739,7 @@ export default function AbmViaje() {
             <Button variant="secondary" onClick={handleCloseUserModal}>
               Cerrar
             </Button>
-            <Button variant="primary" onClick={handleSaveEdits}>
+            <Button variant="primary" onClick={handleSaveEditsCoordinador}>
               Seleccionar
             </Button>
           </Modal.Footer>
