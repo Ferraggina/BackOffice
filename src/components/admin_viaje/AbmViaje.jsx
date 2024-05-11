@@ -50,7 +50,8 @@ export default function AbmViaje() {
     setSearchTerm(e.target.value);
   };
   const [selectedCoordinatorId, setSelectedCoordinatorId] = useState(null);
-  const [selectedViajeContrato, setSelectedViajeContrato] = useState(null);
+  // const [selectedViajeContrato, setSelectedViajeContrato] = useState(null);
+  const [selectedViajeContrato, setSelectedViajeContrato] = useState([]);
   useEffect(() => {
     dispatch(obtenerViajes());
     dispatch(obtenerHoteles());
@@ -132,7 +133,7 @@ export default function AbmViaje() {
   };
 
   const handleSaveEditsCoordinador = () => {
-    if (selectedCoordinatorId !== 0) {
+    if (selectedCoordinatorId) {
       console.log("usuarios", users);
       const selectedCoordinator = users.find(
         (user) => user.id.toString() === selectedCoordinatorId
@@ -153,11 +154,13 @@ export default function AbmViaje() {
         window.location.reload();
       }
       console.log("selectedCoordinatorId:", selectedCoordinatorId);
+      console.log("selectedCoordinator:", selectedCoordinator.contrato);
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setEditingViaje({
       ...editingViaje,
       [name]: value,
@@ -273,8 +276,13 @@ export default function AbmViaje() {
     return formattedDate;
   };
 
+  // const handleUserModalOpen = (viaje) => {
+  //   setSelectedViajeContrato(viaje.contratos);
+  //   setShowUserModal(true);
+  //   setSelectedCoordinatorId(viaje.coordinadorId);
+  // };
   const handleUserModalOpen = (viaje) => {
-    setSelectedViajeContrato(viaje.contratos);
+    setSelectedViajeContrato(viaje.contratos || []); // Asegurar que si viaje.contratos es null, se establezca como un array vacío
     setShowUserModal(true);
     setSelectedCoordinatorId(viaje.coordinadorId);
   };
@@ -712,6 +720,8 @@ export default function AbmViaje() {
               onChange={(e) => setSelectedCoordinatorId(e.target.value)}
             >
               <option value="">-- Seleccione un Coordinador --</option>
+              {console.log("selectedCoordinatorId:", selectedCoordinatorId)}
+
               {users
                 .filter((user) => user.rol === "Coordinador")
                 .map((user) => (

@@ -8,6 +8,8 @@ import { Modal, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/home/Pagination.jsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 export default function AbmPasajeros() {
   const dispatch = useDispatch();
@@ -26,7 +28,6 @@ export default function AbmPasajeros() {
 
   useEffect(() => {
     dispatch(obtenerPasajero());
-    console.log(pasajeros);
 
     const timeout = setTimeout(() => {
       setIsLoading(false);
@@ -56,6 +57,61 @@ export default function AbmPasajeros() {
 
   //   return currentItems;
   // };
+  // const generarPDF = (pasajero) => {
+  //   console.log("Generando PDF para el pasajero:", pasajero);
+  //   const doc = new jsPDF();
+
+  //   // Encabezado del PDF
+  //   doc.setFontSize(16);
+  //   doc.text(
+  //     `Detalles del pasajero - ${pasajero.nombre} ${pasajero.apellido}`,
+  //     10,
+  //     10
+  //   );
+
+  //   // Contenido del PDF (usando el mismo formato de tabla que en la visualización de pasajeros)
+  //   const rows = [
+  //     ["Nombre", "Apellido", "DNI", "Contratos"],
+  //     [pasajero.nombre, pasajero.apellido, pasajero.dni, pasajero.contratos],
+  //     // Aquí puedes agregar más filas con los datos adicionales que desees incluir
+  //   ];
+
+  //   doc.autoTable({ startY: 20, head: rows.slice(0, 1), body: rows.slice(1) });
+
+  //   // Guardar el PDF
+  //   doc.save(`detalles_pasajero_${pasajero.id}.pdf`);
+  // };
+  const generarPDF = (pasajero) => {
+    console.log("Generando PDF para el pasajero:", pasajero);
+    const doc = new jsPDF();
+
+    // Encabezado del PDF
+    doc.setFontSize(16);
+    doc.text(
+      `Detalles del pasajero - ${pasajero.nombre} ${pasajero.apellido}`,
+      10,
+      10
+    );
+
+    // Agregar imagen del DNI si está disponible
+    if (pasajero.image_dni && pasajero.image_dni.length > 0) {
+      const image = new Image();
+      image.src = pasajero.image_dni[0];
+      doc.addImage(image, "JPEG", 10, 20, 50, 50); // Ajusta las coordenadas y el tamaño según tu necesidad
+    }
+
+    // Contenido del PDF (usando el mismo formato de tabla que en la visualización de pasajeros)
+    const rows = [
+      ["Nombre", "Apellido", "DNI", "Contratos"],
+      [pasajero.nombre, pasajero.apellido, pasajero.dni, pasajero.contratos],
+      // Aquí puedes agregar más filas con los datos adicionales que desees incluir
+    ];
+
+    doc.autoTable({ startY: 80, head: rows.slice(0, 1), body: rows.slice(1) });
+
+    // Guardar el PDF
+    doc.save(`detalles_pasajero_${pasajero.id}.pdf`);
+  };
 
   const filterPasajeros = (pasajeros) => {
     const filteredPasajero = pasajeros.filter((pasajero) => {
@@ -65,7 +121,6 @@ export default function AbmPasajeros() {
       const contrato = pasajero.contratos
         ? pasajero.contratos.toString().toLowerCase()
         : "";
-      console.log("contrato", contrato);
 
       return (
         nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -183,7 +238,6 @@ export default function AbmPasajeros() {
                 <tbody className="text-center cuerpoTabla">
                   {filterPasajeros(pasajeros).map((pasajero) => (
                     <tr key={pasajero.id}>
-                      {console.log(pasajero)}
                       <td>{pasajero.nombre}</td>
                       <td>{pasajero.apellido}</td>
                       <td>{pasajero.dni}</td>
@@ -199,6 +253,14 @@ export default function AbmPasajeros() {
                             trigger="hover"
                             style={{ width: "15px", height: "15px" }}
                           ></lord-icon>
+                        </button>
+                        <button
+                          className="btn btn-info botonEditar"
+                          onClick={() => {
+                            generarPDF(pasajero);
+                          }}
+                        >
+                          Descargar PDF
                         </button>
                       </td>
                     </tr>
