@@ -27,6 +27,19 @@ export default function FormularioHoteles() {
   const [mapsApi, setMapsApi] = useState(null);
   const [latitud, setLatitud] = useState("");
   const [longitud, setLongitud] = useState("");
+  const CustomMarker = ({ lat, lng }) => (
+    <div
+      style={{
+        position: "absolute",
+        transform: "translate(-50%, -50%)",
+        width: "40px",
+        height: "40px",
+        backgroundImage: "url('src/assets/logo-cuyen-turismo-curvas.png')", // Ruta de tu imagen
+        backgroundSize: "cover",
+        borderRadius: "50%",
+      }}
+    />
+  );
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -262,6 +275,12 @@ export default function FormularioHoteles() {
                   onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
                 >
                   {/* You can render markers for places here if needed */}
+                  {latitud && longitud && (
+                    <CustomMarker
+                      lat={parseFloat(latitud)}
+                      lng={parseFloat(longitud)}
+                    />
+                  )}
                 </GoogleMapReact>
               </div>
               <br />
