@@ -139,8 +139,7 @@ export const eliminarUsuario = (usuarioId) => {
       // Realiza una solicitud HTTP para eliminar el usuario en el servidor
       await axios.delete(`${eliminarUrl}${usuarioId}`, {
         headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.0IqKjeV_7Qg2GKkvO48Ce8Mxx0-cLk5fam38Dw1B_UE",
+          "x-access-token": TOKEN,
           "Content-Type": "application/json",
         },
       });
