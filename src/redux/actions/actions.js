@@ -17,7 +17,11 @@ export const OBTENER_HOTELES_ERROR = "OBTENER_HOTELES_ERROR";
 export const OBTENER_ITINERARIOS_EXITO = "OBTENER_ITINERARIOS_EXITO";
 export const OBTENER_ITINERARIOS_ERROR = "OBTENER_ITINERARIOS_ERROR";
 export const POSTEAR_ITINERARIOS_EXITO = "POSTEAR_ITINERARIOS_EXITO";
-export const POSTEAR_ITINERARIOS_ERROR = "POSTEAR_ITINERARIOS_ERROR";
+export const POSTEAR_ITINERARIOS_ERROR = "POSTEAR_ITINERARIOS_ERROR";/*
+export const OBTENER_MEDIOSDEPAGO_EXITO = "OBTENER_MEDIOSDEPAGO_EXITO";
+export const OBTENER_MEDIOSDEPAGO_ERROR = "OBTENER_MEDIOSDEPAGO_ERROR";
+export const POSTEAR_MEDIOSDEPAGO_EXITO = "POSTEAR_MEDIOSDEPAGO_EXITO";
+export const POSTEAR_MEDIOSDEPAGO_ERROR = "POSTEAR_MEDIOSDEPAGO_ERROR";*/
 export const OBTENER_VIAJES_EXITO = "OBTENER_VIAJES_EXITO";
 export const OBTENER_VIAJES_ERROR = "OBTENER_VIAJES_EXITO";
 export const POSTEAR_HOTELES_ERROR = "POSTEAR_HOTELES_ERROR";
@@ -52,6 +56,10 @@ export const EDITAR_ITINERARIO_EXITO = "EDITAR_ITINERARIO_EXITO";
 export const EDITAR_ITINERARIO_ERROR = "EDITAR_ITINERARIO_ERROR";
 export const ELIMINAR_ITINERARIO_EXITO = "ELIMINAR_ITINERARIO_EXITO";
 export const ELIMINAR_ITINERARIO_ERROR = "ELIMINAR_ITINERARIO_ERROR";
+export const EDITAR_MEDIOSDEPAGO_EXITO = "EDITAR_MEDIOSDEPAGO_EXITO";
+export const EDITAR_MEDIOSDEPAGO_ERROR = "EDITAR_MEDIOSDEPAGO_ERROR";
+export const ELIMINAR_MEDIOSDEPAGO_EXITO = "ELIMINAR_MEDIOSDEPAGO_EXITO";
+export const ELIMINAR_MEDIOSDEPAGO_ERROR = "ELIMINAR_MEDIOSDEPAGO_ERROR";
 export const OBTENER_PASAJERO_EXITO = "OBTENER_PASAJERO_EXITO";
 export const OBTENER_PASAJERO_ERROR = "OBTENER_PASAJERO_ERROR";
 export const MARK_MESSAGE_AS_READ = "MARK_MESSAGE_AS_READ";
@@ -457,6 +465,113 @@ export const eliminarItinerario = (itinerarioId) => {
     }
   };
 };
+/*
+export const obtenerMedioDePago = () => async (dispatch) => {
+  const getSchedulleUrl = import.meta.env.VITE_TRAERMEDIODEPAGO;
+  try {
+    const response = await axios.get(getSchedulleUrl, {
+      headers: {
+        "x-access-token": TOKEN,
+        "Content-Type": "application/json",
+      },
+    }); // Reemplaza con la ruta correcta
+    const mediosDePago = response.data; // Supongamos que la respuesta es un array de contratos
+    dispatch({ type: OBTENER_MEDIOSDEPAGO_EXITO, payload: mediosDePago });
+  } catch (error) {
+    dispatch({ type: OBTENER_MEDIOSDEPAGO_ERROR, payload: error.message });
+  }
+};
+
+export const crearMedioDePago = (nuevoMedioDePago) => {
+  const createSchedule = import.meta.env.VITE_CREARMEDIODEPAGO;
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud POST al backend para crear el viaje
+      const response = await axios.post(
+        createSchedule,
+
+        {
+          nombre: nuevoMedioDePago.nombre,
+          texto_gral: nuevoMedioDePago.texto_gral,
+        },
+
+        {
+          headers: {
+            "x-access-token": TOKEN,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Despacha una acción de éxito si se crea el mdp
+      dispatch({
+        type: POSTEAR_MEDIOSDEPAGO_EXITO,
+        payload: response.data,
+      });
+    } catch (error) {
+      // Despacha una acción de error si falla la creación del mdp
+      dispatch({
+        type: POSTEAR_MEDIOSDEPAGO_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+export function editMedioDePago(medioDePagoId, updatedMedioDePago) {
+  const getSchedulleUrl = import.meta.env.VITE_TRAERMEDIODEPAGO;
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(
+        `${getSchedulleUrl}${medioDePagoId}`,
+        updatedMedioDePago,
+        {
+          headers: {
+            "x-access-token": TOKEN,
+
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      dispatch({
+        type: EDITAR_MEDIODEPAGO_EXITO,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: EDITAR_MEDIODEPAGO_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+}
+export const eliminarMedioDePago = (medioDePagoId) => {
+  const getSchedulleUrl = import.meta.env.VITE_TRAERMEDIODEPAGO;
+  return async (dispatch) => {
+    try {
+      // Realiza una solicitud DELETE al backend para eliminar el viaje
+      await axios.delete(`${getSchedulleUrl}${medioDePagoId}`, {
+        headers: {
+          "x-access-token": TOKEN,
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Despacha una acción de éxito si se elimina el mdp
+      dispatch({
+        type: ELIMINAR_MEDIODEPAGO_EXITO,
+        payload: medioDePagoId,
+      });
+    } catch (error) {
+      // Despacha una acción de error si falla la eliminación del viaje
+      dispatch({
+        type: ELIMINAR_MEDIODEPAGO_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};
+*/
 export const obtenerViajes = () => async (dispatch) => {
   const getTravelUrl = import.meta.env.VITE_OBTENERVIAJES;
   try {

@@ -18,6 +18,10 @@ import {
   OBTENER_ITINERARIOS_ERROR,
   POSTEAR_ITINERARIOS_EXITO,
   POSTEAR_ITINERARIOS_ERROR,
+  OBTENER_METODOSDEPAGO_EXITO,
+  OBTENER_METODOSDEPAGO_ERROR,
+  POSTEAR_METODOSDEPAGO_EXITO,
+  POSTEAR_METODOSDEPAGO_ERROR,
   OBTENER_VIAJES_EXITO,
   OBTENER_VIAJES_ERROR,
   POSTEAR_HOTELES_ERROR,
@@ -52,6 +56,10 @@ import {
   EDITAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_ERROR,
+  EDITAR_METODODEPAGO_ERROR,
+  EDITAR_METODODEPAGO_EXITO,
+  ELIMINAR_METODODEPAGO_EXITO,
+  ELIMINAR_METODODEPAGO_ERROR,
   OBTENER_PASAJERO_EXITO,
   OBTENER_PASAJERO_ERROR,
   ADD_NEW_CONTACT,
@@ -59,6 +67,7 @@ import {
   GET_PADRES,
   OBTENER_COORDINADOR_EXITO,
   OBTENER_COORDINADOR_ERROR,
+  OBTENER_MEDIOSDEPAGO_EXITO,
 } from "../actions/actions";
 
 const initialState = {
@@ -77,6 +86,7 @@ const initialState = {
   contratos: [],
   hoteles: [],
   itinerarios: [],
+  metodosdepago: [],
   nuevoItenerario: null,
   viajes: [],
   nuevoHotel: null,
@@ -257,6 +267,62 @@ function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    /*case OBTENER_MEDIOSDEPAGO_EXITO:
+      return {
+        ...state,
+        metodosdepago: action.payload,
+        error: null,
+      };
+    case OBTENER_METODOSDEPAGO_ERROR:
+      return {
+        ...state,
+        metodosdepago: [],
+        error: action.payload,
+      };
+    case POSTEAR_METODOSDEPAGO_EXITO:
+      return {
+        ...state,
+        nuevoItenerario: action.payload,
+        error: null,
+      };
+    case POSTEAR_METODOSDEPAGO_ERROR:
+      return {
+        ...state,
+        nuevoItenerario: null,
+        error: action.payload,
+      };
+    case EDITAR_METODODEPAGO_EXITO:
+      return {
+        ...state,
+        error: null,
+        metodosdepago: state.metodosdepago.map((metododepago) => {
+          if (metododepago.id === action.payload.id) {
+            return {
+              ...metododepago,
+              nombre: action.payload,
+              texto_gral: action.payload,
+            };
+          }
+          return metododepago;
+        }),
+      };
+    case EDITAR_METODODEPAGO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case ELIMINAR_METODODEPAGO_EXITO:
+      return {
+        ...state,
+        metodosdepago: state.landingDataText.filter(
+          (metododepago) => metododepago.id !== action.payload
+        ),
+      };
+    case ELIMINAR_METODODEPAGO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };*/
     case OBTENER_VIAJES_EXITO:
       return {
         ...state,
