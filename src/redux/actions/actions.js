@@ -17,11 +17,11 @@ export const OBTENER_HOTELES_ERROR = "OBTENER_HOTELES_ERROR";
 export const OBTENER_ITINERARIOS_EXITO = "OBTENER_ITINERARIOS_EXITO";
 export const OBTENER_ITINERARIOS_ERROR = "OBTENER_ITINERARIOS_ERROR";
 export const POSTEAR_ITINERARIOS_EXITO = "POSTEAR_ITINERARIOS_EXITO";
-export const POSTEAR_ITINERARIOS_ERROR = "POSTEAR_ITINERARIOS_ERROR";/*
+export const POSTEAR_ITINERARIOS_ERROR = "POSTEAR_ITINERARIOS_ERROR";
 export const OBTENER_MEDIOSDEPAGO_EXITO = "OBTENER_MEDIOSDEPAGO_EXITO";
 export const OBTENER_MEDIOSDEPAGO_ERROR = "OBTENER_MEDIOSDEPAGO_ERROR";
 export const POSTEAR_MEDIOSDEPAGO_EXITO = "POSTEAR_MEDIOSDEPAGO_EXITO";
-export const POSTEAR_MEDIOSDEPAGO_ERROR = "POSTEAR_MEDIOSDEPAGO_ERROR";*/
+export const POSTEAR_MEDIOSDEPAGO_ERROR = "POSTEAR_MEDIOSDEPAGO_ERROR";
 export const OBTENER_VIAJES_EXITO = "OBTENER_VIAJES_EXITO";
 export const OBTENER_VIAJES_ERROR = "OBTENER_VIAJES_EXITO";
 export const POSTEAR_HOTELES_ERROR = "POSTEAR_HOTELES_ERROR";
@@ -56,10 +56,10 @@ export const EDITAR_ITINERARIO_EXITO = "EDITAR_ITINERARIO_EXITO";
 export const EDITAR_ITINERARIO_ERROR = "EDITAR_ITINERARIO_ERROR";
 export const ELIMINAR_ITINERARIO_EXITO = "ELIMINAR_ITINERARIO_EXITO";
 export const ELIMINAR_ITINERARIO_ERROR = "ELIMINAR_ITINERARIO_ERROR";
-export const EDITAR_MEDIOSDEPAGO_EXITO = "EDITAR_MEDIOSDEPAGO_EXITO";
-export const EDITAR_MEDIOSDEPAGO_ERROR = "EDITAR_MEDIOSDEPAGO_ERROR";
-export const ELIMINAR_MEDIOSDEPAGO_EXITO = "ELIMINAR_MEDIOSDEPAGO_EXITO";
-export const ELIMINAR_MEDIOSDEPAGO_ERROR = "ELIMINAR_MEDIOSDEPAGO_ERROR";
+export const EDITAR_MEDIODEPAGO_EXITO = "EDITAR_MEDIODEPAGO_EXITO";
+export const EDITAR_MEDIODEPAGO_ERROR = "EDITAR_MEDIODEPAGO_ERROR";
+export const ELIMINAR_MEDIODEPAGO_EXITO = "ELIMINAR_MEDIODEPAGO_EXITO";
+export const ELIMINAR_MEDIODEPAGO_ERROR = "ELIMINAR_MEDIODEPAGO_ERROR";
 export const OBTENER_PASAJERO_EXITO = "OBTENER_PASAJERO_EXITO";
 export const OBTENER_PASAJERO_ERROR = "OBTENER_PASAJERO_ERROR";
 export const MARK_MESSAGE_AS_READ = "MARK_MESSAGE_AS_READ";
@@ -465,7 +465,6 @@ export const eliminarItinerario = (itinerarioId) => {
     }
   };
 };
-/*
 export const obtenerMedioDePago = () => async (dispatch) => {
   const getSchedulleUrl = import.meta.env.VITE_TRAERMEDIODEPAGO;
   try {
@@ -475,7 +474,7 @@ export const obtenerMedioDePago = () => async (dispatch) => {
         "Content-Type": "application/json",
       },
     }); // Reemplaza con la ruta correcta
-    const mediosDePago = response.data; // Supongamos que la respuesta es un array de contratos
+    const mediosDePago = response.data; // Supongamos que la respuesta es un array de mdps
     dispatch({ type: OBTENER_MEDIOSDEPAGO_EXITO, payload: mediosDePago });
   } catch (error) {
     dispatch({ type: OBTENER_MEDIOSDEPAGO_ERROR, payload: error.message });
@@ -571,7 +570,6 @@ export const eliminarMedioDePago = (medioDePagoId) => {
     }
   };
 };
-*/
 export const obtenerViajes = () => async (dispatch) => {
   const getTravelUrl = import.meta.env.VITE_OBTENERVIAJES;
   try {

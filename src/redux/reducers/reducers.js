@@ -18,10 +18,10 @@ import {
   OBTENER_ITINERARIOS_ERROR,
   POSTEAR_ITINERARIOS_EXITO,
   POSTEAR_ITINERARIOS_ERROR,
-  OBTENER_METODOSDEPAGO_EXITO,
-  OBTENER_METODOSDEPAGO_ERROR,
-  POSTEAR_METODOSDEPAGO_EXITO,
-  POSTEAR_METODOSDEPAGO_ERROR,
+  OBTENER_MEDIOSDEPAGO_EXITO,
+  OBTENER_MEDIOSDEPAGO_ERROR,
+  POSTEAR_MEDIOSDEPAGO_EXITO,
+  POSTEAR_MEDIOSDEPAGO_ERROR,
   OBTENER_VIAJES_EXITO,
   OBTENER_VIAJES_ERROR,
   POSTEAR_HOTELES_ERROR,
@@ -56,10 +56,10 @@ import {
   EDITAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_ERROR,
-  EDITAR_METODODEPAGO_ERROR,
-  EDITAR_METODODEPAGO_EXITO,
-  ELIMINAR_METODODEPAGO_EXITO,
-  ELIMINAR_METODODEPAGO_ERROR,
+  EDITAR_MEDIODEPAGO_ERROR,
+  EDITAR_MEDIODEPAGO_EXITO,
+  ELIMINAR_MEDIODEPAGO_EXITO,
+  ELIMINAR_MEDIODEPAGO_ERROR,
   OBTENER_PASAJERO_EXITO,
   OBTENER_PASAJERO_ERROR,
   ADD_NEW_CONTACT,
@@ -67,7 +67,6 @@ import {
   GET_PADRES,
   OBTENER_COORDINADOR_EXITO,
   OBTENER_COORDINADOR_ERROR,
-  OBTENER_MEDIOSDEPAGO_EXITO,
 } from "../actions/actions";
 
 const initialState = {
@@ -86,7 +85,7 @@ const initialState = {
   contratos: [],
   hoteles: [],
   itinerarios: [],
-  metodosdepago: [],
+  mediosdepago: [],
   nuevoItenerario: null,
   viajes: [],
   nuevoHotel: null,
@@ -267,62 +266,62 @@ function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
-    /*case OBTENER_MEDIOSDEPAGO_EXITO:
+    case OBTENER_MEDIOSDEPAGO_EXITO:
       return {
         ...state,
-        metodosdepago: action.payload,
+        mediosdepago: action.payload,
         error: null,
       };
-    case OBTENER_METODOSDEPAGO_ERROR:
+    case OBTENER_MEDIOSDEPAGO_ERROR:
       return {
         ...state,
-        metodosdepago: [],
+        mediosdepago: [],
         error: action.payload,
       };
-    case POSTEAR_METODOSDEPAGO_EXITO:
+    case POSTEAR_MEDIOSDEPAGO_EXITO:
       return {
         ...state,
         nuevoItenerario: action.payload,
         error: null,
       };
-    case POSTEAR_METODOSDEPAGO_ERROR:
+    case POSTEAR_MEDIOSDEPAGO_ERROR:
       return {
         ...state,
         nuevoItenerario: null,
         error: action.payload,
       };
-    case EDITAR_METODODEPAGO_EXITO:
+    case EDITAR_MEDIODEPAGO_EXITO:
       return {
         ...state,
         error: null,
-        metodosdepago: state.metodosdepago.map((metododepago) => {
-          if (metododepago.id === action.payload.id) {
+        mediosdepago: state.mediosdepago.map((mediodepago) => {
+          if (mediodepago.id === action.payload.id) {
             return {
-              ...metododepago,
+              ...mediodepago,
               nombre: action.payload,
               texto_gral: action.payload,
             };
           }
-          return metododepago;
+          return mediodepago;
         }),
       };
-    case EDITAR_METODODEPAGO_ERROR:
+    case EDITAR_MEDIODEPAGO_ERROR:
       return {
         ...state,
         error: action.payload,
       };
-    case ELIMINAR_METODODEPAGO_EXITO:
+    case ELIMINAR_MEDIODEPAGO_EXITO:
       return {
         ...state,
-        metodosdepago: state.landingDataText.filter(
-          (metododepago) => metododepago.id !== action.payload
+        mediosdepago: state.landingDataText.filter(
+          (mediodepago) => mediodepago.id !== action.payload
         ),
       };
-    case ELIMINAR_METODODEPAGO_ERROR:
+    case ELIMINAR_MEDIODEPAGO_ERROR:
       return {
         ...state,
         error: action.payload,
-      };*/
+      };
     case OBTENER_VIAJES_EXITO:
       return {
         ...state,
