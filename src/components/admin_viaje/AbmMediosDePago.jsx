@@ -15,7 +15,9 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/home/Pagination.jsx";
 export default function MedioDePagoVisualizacion() {
   const dispatch = useDispatch();
-  const mediosDePago = useSelector((state) => state.mediosDePago);
+  // const mediosDePago = useSelector((state) => state.mediosDePago);
+  const mediosDePago = [{"id":1,"nombre":"todas cuotas 2024","texto_gral":[{"medio_de_pago":"contado","cuotas":"","importe":430000,"disponible":true},{"medio_de_pago":"dolares","cuotas":"","importe":430,"disponible":true},{"medio_de_pago":"3_cuotas","cuotas":3,"importe":500000,"disponible":true},{"medio_de_pago":"6_cuotas","cuotas":6,"importe":530000,"dispobible":true},{"medio_de_pago":"9_cuotas","cuotas":9,"importe":560000,"disponible":false}],"activo":true,"createdAt":"2024-06-19T13:20:38.246Z","updatedAt":"2024-06-19T13:20:38.246Z"},{"id":2,"nombre":"todas cuotas 2025","texto_gral":[{"medio_de_pago":"contado","cuotas":"","importe":850000,"disponible":true},{"medio_de_pago":"dolares","cuotas":"","importe":450,"disponible":true},{"medio_de_pago":"3_cuotas","cuotas":3,"importe":600000,"disponible":true},{"medio_de_pago":"6_cuotas","cuotas":6,"importe":630000,"dispobible":true},{"medio_de_pago":"9_cuotas","cuotas":9,"importe":660000,"disponible":false}],"activo":true,"createdAt":"2024-06-19T13:45:53.973Z","updatedAt":"2024-06-19T13:45:53.973Z"}];
+  //const mediosDePago = [{"id":1,"nombre":"todas cuotas 2024","texto_gral":"[{\"medio_de_pago\":\"contado\",\"cuotas\":\"\",\"importe\":430000,\"disponible\":true},{\"medio_de_pago\":\"dolares\",\"cuotas\":\"\",\"importe\":430,\"disponible\":true},{\"medio_de_pago\":\"3_cuotas\",\"cuotas\":3,\"importe\":500000,\"disponible\":true},{\"medio_de_pago\":\"6_cuotas\",\"cuotas\":6,\"importe\":530000,\"dispobible\":true},{\"medio_de_pago\":\"9_cuotas\",\"cuotas\":9,\"importe\":560000,\"disponible\":false}]","activo":true,"createdAt":"2024-06-19T13:20:38.246Z","updatedAt":"2024-06-19T13:20:38.246Z"}];
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +46,8 @@ export default function MedioDePagoVisualizacion() {
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
-  const filterMedioDePagos = (mediosDePago) => {
+  const filterMediosDePago = (mediosDePago) => {
+    console.log(mediosDePago);
     const filteredMediosDePago = mediosDePago.filter((medioDePago) => {
       return medioDePago.nombre.toLowerCase().includes(searchTerm.toLowerCase());
     });
@@ -218,34 +221,27 @@ export default function MedioDePagoVisualizacion() {
               <table className="table  table-bordered  tablaViaje">
                 <thead className="text-center cabecerasDeTabla">
                   <tr>
+                    <th>Id</th>
                     <th>Nombre</th>
-                    <th>Id Medio de Pago</th>
                     <th>Texto General</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="text-center cuerpoTabla">
-                  {filterMedioDePagos(mediosDePago).map((medioDePago) => (
+                  {filterMediosDePago(mediosDePago).map((medioDePago) => (
                     <tr key={medioDePago.id}>
-                      {/* <td>{JSON.stringify(medioDePago.nombre)}</td>
-                      <td>{JSON.stringify(medioDePago.texto_gral)}</td> */}
-                      <td>{medioDePago.nombre}</td>
                       <td>{medioDePago.id}</td>
+                      <td>{medioDePago.nombre}</td>
                       <td>
-                        {JSON.parse(medioDePago.texto_gral)[0] && (
+                        {medioDePago.texto_gral[0] && (
                           <div>
                             <p>
-                              Titulo:{" "}
-                              {JSON.parse(medioDePago.texto_gral)[0].titulo}
+                              Medio de pago:{" "}
+                              {medioDePago.texto_gral[0].medio_de_pago}
                             </p>
                             <p>
-                              Descripción:{" "}
-                              {JSON.parse(medioDePago.texto_gral)[0]
-                                .descripcion &&
-                                JSON.parse(
-                                    medioDePago.texto_gral
-                                )[0].descripcion.slice(0, 15)}
-                              ...
+                              Importe:{" "}
+                              {medioDePago.texto_gral[0].importe}
                             </p>
                           </div>
                         )}

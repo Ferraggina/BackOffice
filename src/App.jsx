@@ -32,6 +32,7 @@ import AbmItinerario from "./components/admin_viaje/AbmItinerario";
 import AbmMediosDePago from "./components/admin_viaje/AbmMediosDePago";
 import AbmPasajeros from "./components/admin_users/AbmPasajeros";
 import MedioDePagoVisualizacion from "./components/admin_viaje/AbmMediosDePago";
+import AgregarFinanciacionContrato from "./components/admin_viaje/AgregarFinanciacionContrato";
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -208,7 +209,7 @@ function App() {
           path="/gestion/mediosdepagoAcontratos"
           element={
             loggedUserJSON ? (
-              <MedioDePago />
+              <AgregarFinanciacionContrato />
             ) : (
               <Navigate to="/AccesoDenegado" />
             )
