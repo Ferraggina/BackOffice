@@ -15,24 +15,16 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/home/Pagination.jsx";
 export default function MedioDePagoVisualizacion() {
   const dispatch = useDispatch();
-  // const mediosDePago = useSelector((state) => state.mediosDePago);
-  const mediosDePago = [{"id":1,"nombre":"todas cuotas 2024","texto_gral":[{"medio_de_pago":"contado","cuotas":"","importe":430000,"disponible":true},{"medio_de_pago":"dolares","cuotas":"","importe":430,"disponible":true},{"medio_de_pago":"3_cuotas","cuotas":3,"importe":500000,"disponible":true},{"medio_de_pago":"6_cuotas","cuotas":6,"importe":530000,"dispobible":true},{"medio_de_pago":"9_cuotas","cuotas":9,"importe":560000,"disponible":false}],"activo":true,"createdAt":"2024-06-19T13:20:38.246Z","updatedAt":"2024-06-19T13:20:38.246Z"},{"id":2,"nombre":"todas cuotas 2025","texto_gral":[{"medio_de_pago":"contado","cuotas":"","importe":850000,"disponible":true},{"medio_de_pago":"dolares","cuotas":"","importe":450,"disponible":true},{"medio_de_pago":"3_cuotas","cuotas":3,"importe":600000,"disponible":true},{"medio_de_pago":"6_cuotas","cuotas":6,"importe":630000,"dispobible":true},{"medio_de_pago":"9_cuotas","cuotas":9,"importe":660000,"disponible":false}],"activo":true,"createdAt":"2024-06-19T13:45:53.973Z","updatedAt":"2024-06-19T13:45:53.973Z"}];
-  //const mediosDePago = [{"id":1,"nombre":"todas cuotas 2024","texto_gral":"[{\"medio_de_pago\":\"contado\",\"cuotas\":\"\",\"importe\":430000,\"disponible\":true},{\"medio_de_pago\":\"dolares\",\"cuotas\":\"\",\"importe\":430,\"disponible\":true},{\"medio_de_pago\":\"3_cuotas\",\"cuotas\":3,\"importe\":500000,\"disponible\":true},{\"medio_de_pago\":\"6_cuotas\",\"cuotas\":6,\"importe\":530000,\"dispobible\":true},{\"medio_de_pago\":\"9_cuotas\",\"cuotas\":9,\"importe\":560000,\"disponible\":false}]","activo":true,"createdAt":"2024-06-19T13:20:38.246Z","updatedAt":"2024-06-19T13:20:38.246Z"}];
+  const mediosDePago = useSelector((state) => state.mediosDePago);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [camposExtras, setCamposExtras] = useState([
-    { titulo: "", descripcion: "" },
-  ]);
   const [viewingMedioDePago, setViewingMedioDePago] = useState(null);
-  // const [editingMedioDePago, setEditingMedioDePago] = useState({
-  //   nombre: "",
-  //   texto_gral: JSON.stringify(camposExtras),
-  // });
   const [editingMedioDePago, setEditingMedioDePago] = useState({
-    nombre: "",
-    texto_gral: JSON.stringify([{ titulo: "", descripcion: [""] }]),
+    id: 0,
+    nombre:"",
+    texto_gral: [{"medio_de_pago":"","cuotas":"","importe":0,"disponible":true}],
   });
   const [showModal, setShowModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -47,7 +39,6 @@ export default function MedioDePagoVisualizacion() {
     return () => clearTimeout(timeout);
   }, [dispatch]);
   const filterMediosDePago = (mediosDePago) => {
-    console.log(mediosDePago);
     const filteredMediosDePago = mediosDePago.filter((medioDePago) => {
       return medioDePago.nombre.toLowerCase().includes(searchTerm.toLowerCase());
     });
@@ -116,12 +107,9 @@ export default function MedioDePagoVisualizacion() {
   };
 
   const handleEditCampoExtraChange = (index, field, value) => {
-    const newCamposExtras = JSON.parse(editingMedioDePago.texto_gral); // Parseas la cadena JSON a un objeto
-    newCamposExtras[index][field] = value; // Modificas el objeto
-    const updatedJSON = JSON.stringify(newCamposExtras); // Conviertes el objeto modificado de vuelta a una cadena JSON
+    editingMedioDePago.texto_gral[index][field] = value; // Modificas el objeto
     setEditingMedioDePago({
       ...editingMedioDePago,
-      texto_gral: updatedJSON, // Actualizas el estado con la cadena JSON actualizada
     });
     console.log("edicion", editMedioDePago);
   };
@@ -333,34 +321,66 @@ export default function MedioDePagoVisualizacion() {
           </div>
           <div>
             <h5>Texto General:</h5>
-            {JSON.parse(editingMedioDePago.texto_gral).map((campo, index) => (
+            {(editingMedioDePago.texto_gral).map((campo, index) => (
               <div key={index}>
-                <label>Titulo de la actividad {index + 1}</label>
+                <h6> Datos del Medio de Pago {index + 1}: </h6>
+                <br/>
+                <label>Nombre</label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Ejemplo: Desayuno buffet"
-                  value={campo.titulo}
+                  placeholder="Ejemplo: Contado"
+                  value={campo.medio_de_pago}
                   onChange={(e) =>
-                    handleEditCampoExtraChange(index, "titulo", e.target.value)
+                    handleEditCampoExtraChange(index, "medio_de_pago", e.target.value)
                   }
                 />
                 <br />
-                <label>Descripcion de la actividad {index + 1}</label>
+                <label>Cuotas</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
-                  placeholder="De 9:45 hs a 12:00 hs"
-                  value={campo.descripcion}
+                  placeholder="Ejemplo: 1"
+                  value={campo.cuotas}
                   onChange={(e) =>
                     handleEditCampoExtraChange(
                       index,
-                      "descripcion",
+                      "cuotas",
                       e.target.value
                     )
                   }
                 />
                 <br />
+                <label>Importe</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="De 9:45 hs a 12:00 hs"
+                  value={campo.importe}
+                  onChange={(e) =>
+                    handleEditCampoExtraChange(
+                      index,
+                      "importe",
+                      e.target.value
+                    )
+                  }
+                />
+                <br />
+                <label>Disponibilidad</label>
+                <input
+                  type="checkbox"
+                  className="form-checkbox"
+                  value={campo.disponible}
+                  onChange={(e) =>
+                    handleEditCampoExtraChange(
+                      index,
+                      "disponible",
+                      e.target.value
+                    )
+                  }
+                />
+                <br />
+                <hr/>
               </div>
             ))}
           </div>
@@ -386,30 +406,35 @@ export default function MedioDePagoVisualizacion() {
           {viewingMedioDePago && (
             <div>
               <h6>
-                {mediosDePago.find(
-                  (medioDePago) => medioDePago.id === viewingMedioDePago.id
-                )?.nombre || "Medio de Pago Desconocido"}{" "}
+                {mediosDePago.find((medioDePago) => medioDePago.id === viewingMedioDePago.id)?.nombre || "Medio de Pago Desconocido"}{" "}
                 <br />
                 {mediosDePago.find(
                   (medioDePago) => medioDePago.id === viewingMedioDePago.id
                 )?.texto_gral ? (
                   <span>
-                    {JSON.parse(
-                      mediosDePago.find(
-                        (medioDePago) => medioDePago.id === viewingMedioDePago.id
-                      )?.texto_gral
-                    ).map((comentario, index) => (
-                      <span key={index}>
-                        <br />
-                        <div className="modalLetrasMedioDePago">
-                          {" "}
-                          <br />
-                          {comentario.titulo}{" "}
-                        </div>
-                        <p className="modalLetrasMedioDePago">Descripcion:</p>{" "}
-                        {comentario.descripcion}
-                      </span>
-                    ))}
+                    <hr/>
+                    <h5>Datos de la Financiacion:</h5>
+                    <table className="table  table-bordered">
+                      <thead className="text-center">
+                        <tr>
+                          <th>Medio de Pago</th>
+                          <th>Cuotas</th>
+                          <th>Importe</th>
+                          <th>Disponibilidad</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-center cuerpoTabla">
+
+                        {mediosDePago.find((medioDePago) => medioDePago.id === viewingMedioDePago.id)?.texto_gral.map((mdp, index) => (
+                          <tr key={index}>
+                            <td>{mdp.medio_de_pago}</td>
+                            <td>{mdp.cuotas ? mdp.cuotas : " - "}</td>
+                            <td>${mdp.importe}</td>
+                            <td>{mdp.disponible ? "Activo" : "Inactivo"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </span>
                 ) : (
                   "Medio de Pago Desconocido"
