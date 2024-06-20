@@ -473,7 +473,7 @@ export const obtenerMedioDePago = () => async (dispatch) => {
         "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con la ruta correcta
+    });
     const mediosDePago = response.data; // Supongamos que la respuesta es un array de mdps
     dispatch({ type: OBTENER_MEDIOSDEPAGO_EXITO, payload: mediosDePago });
   } catch (error) {
@@ -483,6 +483,7 @@ export const obtenerMedioDePago = () => async (dispatch) => {
 
 export const crearMedioDePago = (nuevoMedioDePago) => {
   const createSchedule = import.meta.env.VITE_CREARMEDIODEPAGO;
+  console.log(getSchedulleUrl);
   return async (dispatch) => {
     try {
       // Realiza una solicitud POST al backend para crear el viaje
@@ -517,7 +518,7 @@ export const crearMedioDePago = (nuevoMedioDePago) => {
   };
 };
 export function editMedioDePago(medioDePagoId, updatedMedioDePago) {
-  const getSchedulleUrl = import.meta.env.VITE_TRAERMEDIODEPAGO;
+  const getSchedulleUrl = import.meta.env.VITE_EDITARMEDIODEPAGO;
   return async function (dispatch) {
     try {
       const response = await axios.put(
@@ -545,7 +546,7 @@ export function editMedioDePago(medioDePagoId, updatedMedioDePago) {
   };
 }
 export const eliminarMedioDePago = (medioDePagoId) => {
-  const getSchedulleUrl = import.meta.env.VITE_TRAERMEDIODEPAGO;
+  const getSchedulleUrl = import.meta.env.VITE_ELIMINARMEDIODEPAGO;
   return async (dispatch) => {
     try {
       // Realiza una solicitud DELETE al backend para eliminar el viaje

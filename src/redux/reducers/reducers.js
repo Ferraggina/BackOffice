@@ -85,7 +85,7 @@ const initialState = {
   contratos: [],
   hoteles: [],
   itinerarios: [],
-  mediosdepago: [],
+  mediosDePago: [],
   nuevoItenerario: null,
   viajes: [],
   nuevoHotel: null,
@@ -269,13 +269,13 @@ function rootReducer(state = initialState, action) {
     case OBTENER_MEDIOSDEPAGO_EXITO:
       return {
         ...state,
-        mediosdepago: action.payload,
+        mediosDePago: action.payload,
         error: null,
       };
     case OBTENER_MEDIOSDEPAGO_ERROR:
       return {
         ...state,
-        mediosdepago: [],
+        mediosDePago: [],
         error: action.payload,
       };
     case POSTEAR_MEDIOSDEPAGO_EXITO:
@@ -294,7 +294,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         error: null,
-        mediosdepago: state.mediosdepago.map((mediodepago) => {
+        mediosDePago: state.mediosDePago.map((mediodepago) => {
           if (mediodepago.id === action.payload.id) {
             return {
               ...mediodepago,
@@ -313,7 +313,7 @@ function rootReducer(state = initialState, action) {
     case ELIMINAR_MEDIODEPAGO_EXITO:
       return {
         ...state,
-        mediosdepago: state.landingDataText.filter(
+        mediosDePago: state.landingDataText.filter(
           (mediodepago) => mediodepago.id !== action.payload
         ),
       };
