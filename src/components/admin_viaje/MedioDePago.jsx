@@ -260,6 +260,23 @@ export default function MedioDePago() {
                       colors="primary:#ffffff,secondary:#1b1091"
                     ></lord-icon>
                   </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary estiloBotones"
+                    onClick={() => { // te deja con solamente un mdp vacio
+                      setCamposMdp([{medio_de_pago:"",cuotas:0,importe:0,disponible:false}]); 
+                      setNombre("");
+                    }}
+                    title="Limpiar medios de pago"
+                  >
+                    <lord-icon
+                      src="https://cdn.lordicon.com/smwmetfi.json"
+                      trigger="hover"
+                      style={{ width: "30px", height: "30px" }}
+                      colors="primary:#ffffff,secondary:#1b1091"
+                    ></lord-icon>
+                  </button>
                   
                   <Link
                     to="/gestion/mediosdepago"
