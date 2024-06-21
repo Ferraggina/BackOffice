@@ -7,14 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function MedioDePago() {
   const [nombre, setNombre] = useState("");
-  const [textoGral, setTextoGral] = useState("");
+  const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: 0, disponible: false},{medio_de_pago: "Dolares", cuotas: 1, importe: 0, disponible: false},{medio_de_pago: "6 Cuotas", cuotas: 1, importe: 0, disponible: false}];
   const [isLoading, setIsLoading] = useState(true);
-  const [camposExtras, setCamposExtras] = useState([
-    { titulo: "", descripcion: [""] },
-  ]);
+  const [camposMdp, setCamposMdp] = useState(defaultCamposMdp);
   const [alert, setAlert] = useState(null); // Estado para la alerta
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
@@ -29,132 +26,50 @@ export default function MedioDePago() {
   // };
 
   const handleCampoExtraChange = (index, field, value) => {
-    const newCamposExtras = [...camposExtras];
-    if (field === "titulo") {
-      newCamposExtras[index][field] = value;
-    } else if (field === "descripcion") {
-      // Verifica si ya existe la descripción o si es un nuevo campo de descripción
-      const descripcionIndex = parseInt(value.split("_")[1], 10);
-      if (isNaN(descripcionIndex)) {
-        newCamposExtras[index].descripcion.push(value);
-      } else {
-        newCamposExtras[index].descripcion[descripcionIndex] =
-          value.split("_")[0];
+    const newCamposMdp = [...camposMdp];
+    if (field === "medio_de_pago") {
+      newCamposMdp[index].medio_de_pago = value;
+    } else if (field === "cuotas") {
+      if (value >= 0) {
+        newCamposMdp[index].cuotas = value;
       }
+    } else if (field === "importe") {
+      if (value >= 0) {
+        newCamposMdp[index].importe = value;
+      }
+    } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
+        newCamposMdp[index].disponible = (document.getElementById('checkbox-mdp').checked);
     }
-    setCamposExtras(newCamposExtras);
+    setCamposMdp(newCamposMdp);
   };
-  const handleAgregarDescripcion = (index) => {
-    const newCamposExtras = [...camposExtras];
-    newCamposExtras[index].descripcion.push(""); // Agrega una nueva descripción vacía al campo extra seleccionado
-    setCamposExtras(newCamposExtras);
+
+  const handleAgregarMedioDePago = () => {
+    setCamposMdp([...camposMdp, {medio_de_pago: "", cuotas: 1, importe: 0, disponible: false}]);
   };
-  const handleAgregarCampoExtra = () => {
-    setCamposExtras([...camposExtras, { titulo: "", descripcion: [""] }]);
-  };
-  const handleEliminarCampoExtra = (index) => {
-    const newCamposExtras = [...camposExtras];
+  const handleEliminarMedioDePago = (index) => {
+    const newCamposExtras = [...camposMdp];
     newCamposExtras.splice(index, 1);
-    setCamposExtras(newCamposExtras);
-  };
-  const handleEliminarDescripcion = (campoIndex, descripcionIndex) => {
-    const newCamposExtras = [...camposExtras];
-    newCamposExtras[campoIndex].descripcion.splice(descripcionIndex, 1);
-    setCamposExtras(newCamposExtras);
+    setCamposMdp(newCamposExtras);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Verifica que al menos un campo extra tenga título o descripción
-  //   if (
-  //     camposExtras.every(
-  //       (campo) => campo.titulo === "" && campo.descripcion === ""
-  //     )
-  //   ) {
-  //     // Muestra una alerta de error si todos los campos están vacíos
-  //     setAlert({
-  //       type: "danger",
-  //       message:
-  //         "Debe agregar al menos un campo extra con título o descripción.",
-  //     });
-  //   } else {
-  //     // Mapea los camposExtras en un formato adecuado
-  //     const camposExtrasFormateados = camposExtras
-  //       .filter((campo) => campo.titulo !== "" || campo.descripcion !== "") // Filtra los campos no vacíos
-  //       .map((campo) => ({
-  //         titulo: campo.titulo,
-  //         descripcion: campo.descripcion,
-  //       }));
-
-  //     const nuevoMedioDePago = {
-  //       nombre: nombre,
-  //       texto_gral: JSON.stringify(camposExtrasFormateados), // Convierte a JSON
-  //     };
-
-  //     try {
-  //       // Llamar a la acción para crear el medio de pago
-  //       await dispatch(crearMedioDePago(nuevoMedioDePago));
-  //       console.log("asi se envia el MedioDePago", nuevoMedioDePago);
-  //       // Limpiar los campos del formulario
-  //       setNombre("");
-  //       setTextoGral("");
-  //       setCamposExtras([{ titulo: "", descripcion: "" }]);
-
-  //       // Mostrar una alerta de éxito
-  //       setAlert({
-  //         type: "success",
-  //         message: "Su medio de pago se creó exitosamente.",
-  //       });
-  //     } catch (error) {
-  //       // Mostrar una alerta de error
-  //       setAlert({
-  //         type: "danger",
-  //         message: "Hubo un error al crear el medio de pago.",
-  //       });
-  //     }
-  //   }
-  //   setTimeout(() => {
-  //     navigate("/gestion/listaMediosDePago/");
-  //   }, 2000);
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verifica que al menos un campo extra tenga título o descripción
-    if (
-      camposExtras.every(
-        (campo) => campo.titulo === "" && campo.descripcion === ""
-      )
-    ) {
-      // Muestra una alerta de error si todos los campos están vacíos
-      setAlert({
-        type: "danger",
-        message:
-          "Debe agregar al menos un campo extra con título o descripción.",
-      });
-    } else {
-      // Mapea los camposExtras en un formato adecuado
-      const camposExtrasFormateados = camposExtras
-        .filter((campo) => campo.titulo !== "" || campo.descripcion !== "") // Filtra los campos no vacíos
-        .map((campo) => ({
-          titulo: campo.titulo,
-          descripcion: campo.descripcion.map((desc) => desc.trim() + "|"), // Agrega el caracter al final de cada descripción
-        }));
-
+    // Verifico que esten todos los mdp tengan titulo
+    if (camposMdp.every((campo) => !(campo.medio_de_pago === ""))) {
       const nuevoMedioDePago = {
         nombre: nombre,
-        texto_gral: JSON.stringify(camposExtrasFormateados), // Convierte a JSON
+        texto_gral: camposMdp,
       };
+
+      console.log("asi se envia el MedioDePago", nuevoMedioDePago);
 
       try {
         // Llamar a la acción para crear el medio de pago
         await dispatch(crearMedioDePago(nuevoMedioDePago));
-        console.log("asi se envia el MedioDePago", nuevoMedioDePago);
         // Limpiar los campos del formulario
         setNombre("");
-        setTextoGral("");
-        setCamposExtras([{ titulo: "", descripcion: "" }]);
+        setCamposMdp(defaultCamposMdp);
 
         // Mostrar una alerta de éxito
         setAlert({
@@ -162,15 +77,23 @@ export default function MedioDePago() {
           message: "Su Medio de Pago se creó exitosamente.",
         });
       } catch (error) {
+        console.log("asd3");
         // Mostrar una alerta de error
         setAlert({
           type: "danger",
           message: "Hubo un error al crear el Medio de Pago.",
         });
       }
+    } else {
+      // Muestra una alerta de error si algun mdp no tiene titulo
+      setAlert({
+        type: "danger",
+        message:
+          "Todos los medios de pago deben tener título.",
+      });
     }
     setTimeout(() => {
-      navigate("/gestion/listaMediosDePago/");
+      navigate("/gestion/mediosdepago/");
     }, 2000);
   };
 
@@ -222,29 +145,31 @@ export default function MedioDePago() {
                 </div>
                 <div className="form-group">
                   <div className="estiloParaCampos">
-                    {camposExtras.map((campo, index) => (
+                    {camposMdp.map((campo, index) => (
                       <div key={index} className="campo-extra-container">
                         <button
                           type="button"
-                          onClick={() => handleEliminarCampoExtra(index)}
+                          onClick={() => handleEliminarMedioDePago(index)}
                           className="btn btn-danger eliminacampoextra"
                           title="Eliminar Campo Extra"
                         >
                           X
                         </button>
                         <br />
-                        <label className="estilosLabels">Texto General</label>
-                        <br />
-                        <label>Titulo de la actividad {index + 1}</label>
+                        <label className="estilosLabels">Medio de Pago {index + 1}:</label>
+                        <br/>
+                        <br/>
+                        <label>Titulo</label>
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Ejemplo:Desayuno buffet"
-                          value={campo.titulo}
+                          placeholder="Ejemplo: 6 Cuotas"
+                          required
+                          value={campo.medio_de_pago}
                           onChange={(e) =>
                             handleCampoExtraChange(
                               index,
-                              "titulo",
+                              "medio_de_pago",
                               e.target.value
                             )
                           }
@@ -252,75 +177,81 @@ export default function MedioDePago() {
                         />
                         <br />
 
-                        {campo.descripcion &&
-                          Array.isArray(campo.descripcion) &&
-                          campo.descripcion.map((descripcion, i) => (
-                            <div key={i}>
-                              <label>
-                                Descripcion {i + 1} del campo extra {index + 1}
-                              </label>
-                              <textarea
-                                type="text"
-                                className="form-control "
-                                style={{ width: "100%" }}
-                                placeholder={`Descripción ${i + 1}`}
-                                value={descripcion}
-                                maxLength={150}
-                                onChange={(e) =>
-                                  handleCampoExtraChange(
-                                    index,
-                                    "descripcion",
-                                    e.target.value + `_${i}`
-                                  )
-                                }
-                              />
-                              <br />
-                            </div>
-                          ))}
-                        <button
-                          type="button"
-                          onClick={() => handleAgregarDescripcion(index)}
-                          className="btn btn-secondary"
-                          title="Agrega una descripcion"
-                        >
-                          <lord-icon
-                            src="https://cdn.lordicon.com/ghhwiltn.json"
-                            trigger="hover"
-                            colors="primary:#1b1091,secondary:#e4e4e4"
-                            style={{ width: "30px", height: "30px" }}
-                          ></lord-icon>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleEliminarDescripcion(index)}
-                          className="btn btn-danger eliminarDescripcion"
-                          title="Eliminar Descripción"
-                          style={{ width: "3rem", height: "3rem" }}
-                        >
-                          X
-                        </button>
+                        <label>Cuotas</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          placeholder="Ejemplo: 6"
+                          value={campo.cuotas}
+                          onChange={(e) =>
+                            handleCampoExtraChange(
+                              index,
+                              "cuotas",
+                              e.target.value
+                            )
+                          }
+                          min="0"
+                        />
+                        <br />
+
+                        <label>Importe</label>
+                        <input
+                          type="number"
+                          className="form-control"
+                          placeholder="Ejemplo: 6 Cuotas"
+                          value={campo.importe}
+                          required
+                          onChange={(e) =>
+                            handleCampoExtraChange(
+                              index,
+                              "importe",
+                              e.target.value
+                            )
+                          }
+                          min="0"
+                        />
+                        <br />
+
+                        <label>Estado habilitado</label>
+                        <br/>
+                        <input
+                          type="checkbox"
+                          id="checkbox-mdp"
+                          className="form"
+                          placeholder="Ejemplo: 6 Cuotas"
+                          value={campo.disponible}
+                          onChange={(e) =>
+                            handleCampoExtraChange(
+                              index,
+                              "disponible",
+                              e.target.value
+                            )
+                          }
+                        />
+                        <br />
+                        <hr/>
                       </div>
                     ))}
+                    <button
+                      type="button"
+                      onClick={() => handleAgregarMedioDePago()}
+                      className="btn btn-secondary"
+                      title="Agregar otro medio de pago"
+                    >
+                      <lord-icon
+                        src="https://cdn.lordicon.com/ghhwiltn.json"
+                        trigger="hover"
+                        colors="primary:#1b1091,secondary:#e4e4e4"
+                        style={{ width: "30px", height: "30px" }}
+                      ></lord-icon>
+                    </button>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={handleAgregarCampoExtra}
-                    className="btn btn-primary estiloBotones"
-                    title="Agregar Campo "
-                  >
-                    <lord-icon
-                      src="https://cdn.lordicon.com/xljvqlng.json"
-                      trigger="hover"
-                      colors="primary:#e4e4e4"
-                      style={{ width: "30px", height: "30px" }}
-                    ></lord-icon>
-                  </button>
+                  
                   <button
                     type="submit"
                     className="btn btn-primary estiloBotones"
                     onClick={handleSubmit}
-                    title="Agregar Medio de Pago"
+                    title="Enviar Medio de Pago"
                   >
                     <lord-icon
                       src="https://cdn.lordicon.com/smwmetfi.json"
@@ -329,20 +260,9 @@ export default function MedioDePago() {
                       colors="primary:#ffffff,secondary:#1b1091"
                     ></lord-icon>
                   </button>
+                  
                   <Link
-                    to="/gestion/FormularioViaje"
-                    className="btn btn-primary estiloBotones"
-                    title="Formulario Viaje"
-                  >
-                    <lord-icon
-                      src="https://cdn.lordicon.com/ppyvfomi.json"
-                      trigger="hover"
-                      style={{ width: "30px", height: "30px" }}
-                      colors="primary:#ffffff,secondary:#1b1091"
-                    ></lord-icon>
-                  </Link>
-                  <Link
-                    to="/gestion/listaMediosDePago"
+                    to="/gestion/mediosdepago"
                     className="btn btn-primary estiloBotones"
                     title="Lista de Medios de Pago"
                   >

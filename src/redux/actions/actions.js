@@ -483,7 +483,6 @@ export const obtenerMedioDePago = () => async (dispatch) => {
 
 export const crearMedioDePago = (nuevoMedioDePago) => {
   const createSchedule = import.meta.env.VITE_CREARMEDIODEPAGO;
-  console.log(getSchedulleUrl);
   return async (dispatch) => {
     try {
       // Realiza una solicitud POST al backend para crear el viaje

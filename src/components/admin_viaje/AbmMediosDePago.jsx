@@ -367,6 +367,7 @@ export default function MedioDePagoVisualizacion() {
                 />
                 <br />
                 <label>Disponibilidad</label>
+                <br/>
                 <input
                   type="checkbox"
                   className="form-checkbox"

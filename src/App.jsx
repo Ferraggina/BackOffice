@@ -215,6 +215,16 @@ function App() {
             )
           }
         />
+        <Route
+          path="/gestion/CrearMedioDePago"
+          element={
+            loggedUserJSON ? (
+              <MedioDePago />
+            ) : (
+              <Navigate to="/AccesoDenegado" />
+            )
+          }
+        />
       </Routes>
     </div>
   );
