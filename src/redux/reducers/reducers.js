@@ -300,12 +300,12 @@ function rootReducer(state = initialState, action) {
       // Actualiza la lista de viajes con el viaje editado
       viajesActualizados = state.viajes.map((viaje) => {
         if (viaje.id === action.payload.id) {
-          // Si encontramos el viaje editado, actualizamos sus datos
+          // Si encontra el viaje editado, actualiza sus datos
           return {
             ...viaje,
             // Actualiza los campos editados según la respuesta del servidor (action.payload)
             destino: action.payload.destino,
-            // Agrega aquí otros campos editados
+            
           };
         }
         return viaje;
@@ -431,8 +431,8 @@ function rootReducer(state = initialState, action) {
       };
     case EDITAR_USUARIO_SUCCESS:
       // Actualiza el estado con el usuario editado
-      // Asegúrate de encontrar el usuario correcto por ID y actualizar sus datos
-      // Usa la acción para obtener los datos actualizados desde el servidor (action.payload)
+      // usuario correcto por ID y actualizar sus datos
+      
       return {
         ...state,
         users: state.users.map((usuario) =>
@@ -451,7 +451,7 @@ function rootReducer(state = initialState, action) {
 
     case EDITAR_USUARIO_FAILURE:
     case CREAR_USUARIO_FAILURE:
-      // Maneja errores y actualiza el estado de error si es necesario
+      
       return {
         ...state,
         error: action.payload,
@@ -470,7 +470,7 @@ function rootReducer(state = initialState, action) {
     }
 
     case ELIMINAR_USUARIO_FAILURE:
-      // Maneja errores y actualiza el estado de error si es necesario
+      
       return {
         ...state,
         error: action.payload,
@@ -478,19 +478,19 @@ function rootReducer(state = initialState, action) {
     case MARK_ALL_MESSAGES_AS_READ_SUCCESS:
       return {
         ...state,
-        // Aquí deberías actualizar el estado landingDataForm para marcar todos los mensajes como leídos
+        //  actualizar el estado landingDataForm para marcar todos los mensajes como leídos
         landingDataForm: state.landingDataForm.map((contacto) => ({
           ...contacto,
           leido: true, // Marcar todos los mensajes como leídos
         })),
-        // Otros estados...
+        .
       };
     case ADD_NEW_CONTACT:
       return {
         ...state,
         nuevosContactos: [...state.nuevosContactos, action.payload],
       };
-    // ...otros cases de tu reducer
+    // 
     case GET_PADRES:
       console.log("Contenido de padres:", action.payload);
       return {

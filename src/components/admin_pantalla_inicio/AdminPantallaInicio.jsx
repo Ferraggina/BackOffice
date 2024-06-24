@@ -21,7 +21,7 @@ export function AdminPantallaInicio() {
     console.log("mensajes", newMessagesCount);
   }, [newMessagesCount]);
   const handleContactosClick = () => {
-    dispatch(markAllMessagesAsRead()); // Esta acción debería marcar todos los mensajes como leídos
+    dispatch(markAllMessagesAsRead()); // marcar todos los mensajes como leídos
 
     // Establecer el contador de nuevos mensajes en 0
     setNewMessagesCount(true);

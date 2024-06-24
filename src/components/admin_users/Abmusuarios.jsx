@@ -6,7 +6,7 @@ import {
   editarUsuario,
   obtenerContratos,
   getPadres,
-} from "../../redux/actions/actions.js"; // Asegúrate de tener las acciones adecuadas
+} from "../../redux/actions/actions.js";
 import { useDispatch, useSelector } from "react-redux";
 // import "../../sass/_abm_Usuario.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,14 +18,13 @@ import { reuleaux } from "ldrs";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 export default function Abmusuario() {
   const dispatch = useDispatch();
-  const usuarios = useSelector((state) => state.users); // Asegúrate de que el estado de usuarios esté definido
+  const usuarios = useSelector((state) => state.users);
   const padre = useSelector((state) => state.padres);
   const loginId = padre.map((hijo) => hijo.Passenger_Login.loginId);
   const [showModal, setShowModal] = useState(false);
   const [editingUsuario, setEditingUsuario] = useState({
     nombre: "",
     email: "",
-    // Otros campos de usuario aquí...
   });
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [usuarioToDelete, setUsuarioToDelete] = useState(null);
@@ -84,12 +83,10 @@ export default function Abmusuario() {
 
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
-      // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) =>
         prevSelected.filter((num) => num !== contractNum)
       );
     } else {
-      // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) => [
         ...prevSelected,
         contractNum,
@@ -111,7 +108,7 @@ export default function Abmusuario() {
 
   const handleConfirmDelete = () => {
     if (usuarioToDelete) {
-      dispatch(eliminarUsuario(usuarioToDelete.id)); // Asegúrate de que la acción eliminarUsuario esté definida
+      dispatch(eliminarUsuario(usuarioToDelete.id));
       setShowConfirmationModal(false);
       setUsuarioToDelete(null);
       alert("El usuario se eliminó con éxito");
@@ -138,10 +135,8 @@ export default function Abmusuario() {
         contrato: contratosSeleccionados.map((contract) => contract.toString()),
         estado: editingUsuario.estado,
         id: editarUsuario.id,
-
-        // Otros campos editados aquí...
       };
-      dispatch(editarUsuario(usuarioId, usuarioActualizado)); // Asegúrate de que la acción editarUsuario esté definida
+      dispatch(editarUsuario(usuarioId, usuarioActualizado));
       setShowModal(false);
       alert("Cambios guardados con éxito");
       window.location.reload();
@@ -177,11 +172,9 @@ export default function Abmusuario() {
       );
     });
 
-    // Calcular el índice del primer elemento y del último elemento en la página actual
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    // Obtener los elementos de la página actual
     const currentItems = filteredUsuarios.slice(
       indexOfFirstItem,
       indexOfLastItem
@@ -195,7 +188,7 @@ export default function Abmusuario() {
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
+    setCurrentPage(1);
   };
   const filterContratos = (searchTermContratos) => {
     return contratos.filter((contrato) => {
@@ -215,7 +208,7 @@ export default function Abmusuario() {
     }
   };
   const formatContratos = (contratos) => {
-    // Si los contratos son un array, conviértelos en una cadena con comas
+    // Si los contratos son un array, los transforma en una cadena con comas
     if (Array.isArray(contratos)) {
       return contratos.join(", ");
     }
@@ -232,7 +225,7 @@ export default function Abmusuario() {
         .map((contractNum) => contractNum.trim());
       return contratoArray.join(", ");
     }
-    // Si los contratos no son ni un array ni una cadena con corchetes, muestra un mensaje genérico
+    // Si los contratos no son ni un array ni una cadena con corchetes, muestra un mensaje
     return "Contratos Desconocidos";
   };
   const togglePasswordVisibility = () => {

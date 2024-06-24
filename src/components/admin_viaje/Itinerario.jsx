@@ -12,13 +12,13 @@ export default function Itinerario() {
   const [camposExtras, setCamposExtras] = useState([
     { titulo: "", descripcion: [""] },
   ]);
-  const [alert, setAlert] = useState(null); // Estado para la alerta
+  const [alert, setAlert] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+      setIsLoading(false);
+    }, 1500);
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
@@ -33,7 +33,6 @@ export default function Itinerario() {
     if (field === "titulo") {
       newCamposExtras[index][field] = value;
     } else if (field === "descripcion") {
-      // Verifica si ya existe la descripción o si es un nuevo campo de descripción
       const descripcionIndex = parseInt(value.split("_")[1], 10);
       if (isNaN(descripcionIndex)) {
         newCamposExtras[index].descripcion.push(value);
@@ -46,7 +45,7 @@ export default function Itinerario() {
   };
   const handleAgregarDescripcion = (index) => {
     const newCamposExtras = [...camposExtras];
-    newCamposExtras[index].descripcion.push(""); // Agrega una nueva descripción vacía al campo extra seleccionado
+    newCamposExtras[index].descripcion.push("");
     setCamposExtras(newCamposExtras);
   };
   const handleAgregarCampoExtra = () => {
@@ -63,61 +62,6 @@ export default function Itinerario() {
     setCamposExtras(newCamposExtras);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Verifica que al menos un campo extra tenga título o descripción
-  //   if (
-  //     camposExtras.every(
-  //       (campo) => campo.titulo === "" && campo.descripcion === ""
-  //     )
-  //   ) {
-  //     // Muestra una alerta de error si todos los campos están vacíos
-  //     setAlert({
-  //       type: "danger",
-  //       message:
-  //         "Debe agregar al menos un campo extra con título o descripción.",
-  //     });
-  //   } else {
-  //     // Mapea los camposExtras en un formato adecuado
-  //     const camposExtrasFormateados = camposExtras
-  //       .filter((campo) => campo.titulo !== "" || campo.descripcion !== "") // Filtra los campos no vacíos
-  //       .map((campo) => ({
-  //         titulo: campo.titulo,
-  //         descripcion: campo.descripcion,
-  //       }));
-
-  //     const nuevoItinerario = {
-  //       nombre: nombre,
-  //       texto_gral: JSON.stringify(camposExtrasFormateados), // Convierte a JSON
-  //     };
-
-  //     try {
-  //       // Llamar a la acción para crear el itinerario
-  //       await dispatch(crearItinerario(nuevoItinerario));
-  //       console.log("asi se envia el itinerario", nuevoItinerario);
-  //       // Limpiar los campos del formulario
-  //       setNombre("");
-  //       setTextoGral("");
-  //       setCamposExtras([{ titulo: "", descripcion: "" }]);
-
-  //       // Mostrar una alerta de éxito
-  //       setAlert({
-  //         type: "success",
-  //         message: "Su Itinerario se creó exitosamente.",
-  //       });
-  //     } catch (error) {
-  //       // Mostrar una alerta de error
-  //       setAlert({
-  //         type: "danger",
-  //         message: "Hubo un error al crear el Itinerario.",
-  //       });
-  //     }
-  //   }
-  //   setTimeout(() => {
-  //     navigate("/gestion/listaItinerarios/");
-  //   }, 2000);
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -127,16 +71,14 @@ export default function Itinerario() {
         (campo) => campo.titulo === "" && campo.descripcion === ""
       )
     ) {
-      // Muestra una alerta de error si todos los campos están vacíos
       setAlert({
         type: "danger",
         message:
           "Debe agregar al menos un campo extra con título o descripción.",
       });
     } else {
-      // Mapea los camposExtras en un formato adecuado
       const camposExtrasFormateados = camposExtras
-        .filter((campo) => campo.titulo !== "" || campo.descripcion !== "") // Filtra los campos no vacíos
+        .filter((campo) => campo.titulo !== "" || campo.descripcion !== "")
         .map((campo) => ({
           titulo: campo.titulo,
           descripcion: campo.descripcion.map((desc) => desc.trim() + "|"), // Agrega el caracter al final de cada descripción
@@ -144,25 +86,22 @@ export default function Itinerario() {
 
       const nuevoItinerario = {
         nombre: nombre,
-        texto_gral: JSON.stringify(camposExtrasFormateados), // Convierte a JSON
+        texto_gral: JSON.stringify(camposExtrasFormateados),
       };
 
       try {
-        // Llamar a la acción para crear el itinerario
         await dispatch(crearItinerario(nuevoItinerario));
         console.log("asi se envia el itinerario", nuevoItinerario);
-        // Limpiar los campos del formulario
+
         setNombre("");
         setTextoGral("");
         setCamposExtras([{ titulo: "", descripcion: "" }]);
 
-        // Mostrar una alerta de éxito
         setAlert({
           type: "success",
           message: "Su Itinerario se creó exitosamente.",
         });
       } catch (error) {
-        // Mostrar una alerta de error
         setAlert({
           type: "danger",
           message: "Hubo un error al crear el Itinerario.",

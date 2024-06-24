@@ -123,10 +123,9 @@ export const crearUsuario = (nuevoUsuario) => {
         },
       });
 
-      // Despacha una acción para agregar el nuevo usuario al estado de usuarios en el store
+      // Despacha una acción para agregar el nuevoo usuario al estado de usuarios en el store
       dispatch({ type: CREAR_USUARIO_SUCCESS, payload: response.data });
     } catch (error) {
-      // Maneja errores y despacha una acción de error si es necesario
       dispatch({ type: CREAR_USUARIO_FAILURE, payload: error.message });
     }
   };
@@ -144,10 +143,9 @@ export const eliminarUsuario = (usuarioId) => {
         },
       });
 
-      // Despacha una acción para eliminar el usuario del estado de usuarios en el store
+      //  Accioon para eliminar el usuario del estado de usuarios en el store
       dispatch({ type: ELIMINAR_USUARIO_SUCCESS, payload: usuarioId });
     } catch (error) {
-      // Maneja errores y despacha una acción de error si es necesario
       dispatch({ type: ELIMINAR_USUARIO_FAILURE, payload: error.message });
     }
   };
@@ -158,7 +156,6 @@ export function login(username, password) {
 
   return async function (dispatch) {
     try {
-      // Realiza la solicitud de inicio de sesión al backend
       const response = await axios.get(`${loginUrl}${username}/${password}`, {
         headers: {
           "x-access-token": TOKEN,
@@ -171,20 +168,18 @@ export function login(username, password) {
         // Almacena la información del usuario en el Local Storage
         localStorage.setItem("user", JSON.stringify(response.data));
 
-        // Despacha la acción de éxito
         return dispatch({
           type: LOGIN_SUCCESS,
           payload: response,
         });
       } else {
-        // Despacha la acción de error si el inicio de sesión falla
         return dispatch({
           type: LOGIN_FAILURE,
           payload: response.statusText,
         });
       }
     } catch (error) {
-      // Maneja errores aquí, si es necesario
+      // Maneja errores
     }
   };
 }
@@ -258,7 +253,7 @@ export const updatePassword = (token, idUsuario, newPassword) => {
 
     try {
       const response = await axios.put(
-        updatePassUrl, // Ajusta la URL según tu backend
+        updatePassUrl,
         {
           idUsuario: idUsuario, //dato obligatorio
           password: newPassword,
@@ -275,10 +270,10 @@ export const updatePassword = (token, idUsuario, newPassword) => {
       if (response.status === 200) {
         dispatch(newPasswordSuccess());
       } else {
-        // Puedes manejar errores aquí si es necesario
+        //
       }
     } catch (error) {
-      // Manejar errores, si corresponde
+      //
     }
   };
 };
@@ -295,7 +290,7 @@ export const crearViaje = (nuevoViajeData) => {
         {
           destino: nuevoViajeData.nuevoDestinoData,
           hotelId: nuevoViajeData.nuevoHotelIdData,
-          contratos: nuevoViajeData.contratosFinal, // Cambia esto según tus necesidades
+          contratos: nuevoViajeData.contratosFinal,
           scheduleId: nuevoViajeData.nuevoScheduleIdData,
           salida: nuevoViajeData.fechaSalida,
           regreso: nuevoViajeData.fechaRegreso,
@@ -309,13 +304,11 @@ export const crearViaje = (nuevoViajeData) => {
         }
       );
 
-      // Despacha una acción de éxito si se crea el viaje
       dispatch({
         type: VIAJE_CREAR_EXITO,
         payload: response.data,
       });
     } catch (error) {
-      // Despacha una acción de error si falla la creación del viaje
       dispatch({
         type: VIAJE_CREAR_ERROR,
         payload: error.message,
@@ -333,11 +326,9 @@ export const obtenerContratos = () => async (dispatch) => {
         "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con la ruta correcta
+    });
     const contratos = response.data;
     contratos.sort((a, b) => b.num - a.num);
-
-    // Supongamos que la respuesta es un array de contratos
 
     dispatch({ type: OBTENER_CONTRATOS_EXITO, payload: contratos });
   } catch (error) {
@@ -353,8 +344,8 @@ export const obtenerHoteles = () => async (dispatch) => {
         "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con la ruta correcta
-    const hoteles = response.data; // Supongamos que la respuesta es un array de contratos
+    });
+    const hoteles = response.data;
 
     hoteles.sort((a, b) => b.id - a.id);
 
@@ -372,8 +363,8 @@ export const obtenerItinerario = () => async (dispatch) => {
         "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con la ruta correcta
-    const itinerarios = response.data; // Supongamos que la respuesta es un array de contratos
+    });
+    const itinerarios = response.data;
     dispatch({ type: OBTENER_ITINERARIOS_EXITO, payload: itinerarios });
   } catch (error) {
     dispatch({ type: OBTENER_ITINERARIOS_ERROR, payload: error.message });
@@ -384,7 +375,6 @@ export const crearItinerario = (nuevoItinerario) => {
   const createSchedule = import.meta.env.VITE_CREARITINERARIO;
   return async (dispatch) => {
     try {
-      // Realiza una solicitud POST al backend para crear el viaje
       const response = await axios.post(
         createSchedule,
 
@@ -401,13 +391,11 @@ export const crearItinerario = (nuevoItinerario) => {
         }
       );
 
-      // Despacha una acción de éxito si se crea el viaje
       dispatch({
         type: POSTEAR_ITINERARIOS_EXITO,
         payload: response.data,
       });
     } catch (error) {
-      // Despacha una acción de error si falla la creación del viaje
       dispatch({
         type: POSTEAR_ITINERARIOS_ERROR,
         payload: error.message,
@@ -455,13 +443,13 @@ export const eliminarItinerario = (itinerarioId) => {
         },
       });
 
-      // Despacha una acción de éxito si se elimina el viaje
+      //  acción de éxito si se elimina el viaje
       dispatch({
         type: ELIMINAR_ITINERARIO_EXITO,
         payload: itinerarioId,
       });
     } catch (error) {
-      // Despacha una acción de error si falla la eliminación del viaje
+      //  acción de error si falla la eliminación del viaje
       dispatch({
         type: ELIMINAR_ITINERARIO_ERROR,
         payload: error.message,
@@ -477,11 +465,9 @@ export const obtenerViajes = () => async (dispatch) => {
         "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con la ruta correcta
+    });
     const viajes = response.data;
     viajes.sort((a, b) => b.id - a.id);
-
-    // Supongamos que la respuesta es un array de contratos
 
     dispatch({ type: OBTENER_VIAJES_EXITO, payload: viajes });
   } catch (error) {
@@ -493,7 +479,6 @@ export const crearHotel = (nuevoHotel) => {
   const createHotel = import.meta.env.VITE_CREARHOTEL;
   return async (dispatch) => {
     try {
-      // Realiza una solicitud POST al backend para crear el viaje
       const response = await axios.post(
         createHotel,
 
@@ -516,13 +501,11 @@ export const crearHotel = (nuevoHotel) => {
         }
       );
 
-      // Despacha una acción de éxito si se crea el viaje
       dispatch({
         type: POSTEAR_HOTELES_EXITO,
         payload: response.data,
       });
     } catch (error) {
-      // Despacha una acción de error si falla la creación del viaje
       dispatch({
         type: POSTEAR_HOTELES_ERROR,
         payload: error.message,
@@ -535,7 +518,6 @@ export const eliminarViaje = (viajeId) => {
   const deleteTravelUrl = import.meta.env.VITE_ELIMINARVIAJE;
   return async (dispatch) => {
     try {
-      // Realiza una solicitud DELETE al backend para eliminar el viaje
       await axios.delete(`${deleteTravelUrl}${viajeId}`, {
         headers: {
           "x-access-token": TOKEN,
@@ -543,13 +525,11 @@ export const eliminarViaje = (viajeId) => {
         },
       });
 
-      // Despacha una acción de éxito si se elimina el viaje
       dispatch({
         type: ELIMINAR_VIAJE_EXITO,
         payload: viajeId,
       });
     } catch (error) {
-      // Despacha una acción de error si falla la eliminación del viaje
       dispatch({
         type: ELIMINAR_VIAJE_ERROR,
         payload: error.message,
@@ -563,7 +543,7 @@ export function editarViaje(idViaje, data) {
   return async function (dispatch) {
     try {
       const response = await axios.put(
-        `${editTravelUrl}${idViaje}`, // Reemplaza con la URL correcta de tu API
+        `${editTravelUrl}${idViaje}`,
         data, // Los datos editados del viaje
 
         {
@@ -575,21 +555,20 @@ export function editarViaje(idViaje, data) {
       );
 
       if (response.status === 200) {
-        // Si la edición fue exitosa, despachamos la acción de éxito
+        // Si la edición fue exitosa, despachamos la accion de xito
         dispatch({
           type: EDITAR_VIAJE_EXITO,
           payload: response.data,
         });
         console.log("edicion viajes", response);
       } else {
-        // Si hubo un error en la edición, despachamos la acción de error
+        // si hubo un error en la edicion, despachamos la acción de error
         dispatch({
           type: EDITAR_VIAJE_ERROR,
           payload: "Error al editar el viaje.",
         });
       }
     } catch (error) {
-      // Si hubo una excepción, despachamos la acción de error
       dispatch({
         type: EDITAR_VIAJE_ERROR,
         payload: error.message || "Error al editar el viaje.",
@@ -661,7 +640,7 @@ export const getLanding = () => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
 
     const landingimage = response.data;
     landingimage.sort((a, b) => b.id - a.id);
@@ -683,7 +662,7 @@ export const addLanding = (landingData) => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
 
     dispatch({
       type: ADD_LANDING,
@@ -703,7 +682,7 @@ export const updateLanding = (id, landingData) => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
     dispatch({
       type: UPDATE_LANDING,
       payload: response.data,
@@ -723,7 +702,7 @@ export const deleteLanding = (landingId) => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
     dispatch({
       type: DELETE_LANDING,
       payload: landingId,
@@ -736,7 +715,7 @@ export const deleteLanding = (landingId) => async (dispatch) => {
 export const logoutUser = () => {
   return (dispatch) => {
     // Borra los datos de autenticación del almacenamiento local o de las cookies
-    localStorage.removeItem("user"); // Ajusta esto según tu implementación
+    localStorage.removeItem("user");
     // Despacha la acción de logout localmente
     dispatch({
       type: LOGOUT_USER,
@@ -781,7 +760,7 @@ export const getLandingText = () => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
     const texto = response.data;
     texto.sort((a, b) => b.id - a.id);
     dispatch({
@@ -802,7 +781,7 @@ export const addLandingText = (landingDataText) => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
 
     dispatch({
       type: ADD_LANDING_TEXT,
@@ -826,7 +805,7 @@ export const updateLandingText = (id, landingDataText) => async (dispatch) => {
           "Content-Type": "application/json",
         },
       }
-    ); // Reemplaza con tu URL de backend
+    );
     dispatch({
       type: UPDATE_LANDING_TEXT,
       payload: response.data,
@@ -845,7 +824,7 @@ export const deleteLandingText = (landingId) => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
     dispatch({
       type: DELETE_LANDING_TEXT,
       payload: landingId,
@@ -864,7 +843,7 @@ export const getLandingForm = () => async (dispatch) => {
 
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con tu URL de backend
+    });
     dispatch({
       type: GET_LANDING_FORM,
       payload: response.data,
@@ -882,9 +861,9 @@ export const obtenerPasajero = () => async (dispatch) => {
         "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con la ruta correcta
+    });
     console.log("ACA RESPONS", response);
-    const pasajeros = response.data; // Supongamos que la respuesta es un array de contratos
+    const pasajeros = response.data;
 
     dispatch({ type: OBTENER_PASAJERO_EXITO, payload: pasajeros });
   } catch (error) {
@@ -972,10 +951,9 @@ export const obtenerCoordinador = () => async (dispatch) => {
         "x-access-token": TOKEN,
         "Content-Type": "application/json",
       },
-    }); // Reemplaza con la ruta correcta
+    });
     console.log("ACA RESPONS", response.data);
-    const coordinadores = response.data; // Supongamos que la respuesta es un array de contratos
-
+    const coordinadores = response.data;
     dispatch({ type: OBTENER_COORDINADOR_EXITO, payload: coordinadores });
   } catch (error) {
     dispatch({ type: OBTENER_COORDINADOR_ERROR, payload: error.message });

@@ -104,7 +104,6 @@ export default function AbmPasajeros() {
     const rows = [
       ["Nombre", "Apellido", "DNI", "Contratos"],
       [pasajero.nombre, pasajero.apellido, pasajero.dni, pasajero.contratos],
-      // Aquí puedes agregar más filas con los datos adicionales que desees incluir
     ];
 
     doc.autoTable({ startY: 80, head: rows.slice(0, 1), body: rows.slice(1) });
@@ -130,11 +129,9 @@ export default function AbmPasajeros() {
       );
     });
 
-    // Calcular el índice del primer elemento y del último elemento en la página actual
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    // Obtener los elementos de la página actual
     const currentItems = filteredPasajero.slice(
       indexOfFirstItem,
       indexOfLastItem
@@ -165,7 +162,7 @@ export default function AbmPasajeros() {
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
+    setCurrentPage(1);
   };
 
   return (
@@ -280,7 +277,6 @@ export default function AbmPasajeros() {
               Cantidad de pasajeros por pagina:
             </p>
             <form className="d-flex align-items-center h-100 " action="#">
-              {/* Resto de tu código */}
               <select
                 value={itemsPerPage}
                 onChange={handleItemsPerPageChange}

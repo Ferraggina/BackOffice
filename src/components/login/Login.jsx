@@ -50,7 +50,6 @@ export function Login() {
     }
 
     // Envia la solicitud de login al backend
-    // ...
 
     dispatch(login(username, password))
       .then((res) => {
@@ -59,7 +58,6 @@ export function Login() {
           res.payload.status === 200 &&
           res.payload.data.usuario.rol === "Administrador"
         ) {
-          // No es necesario verificar el estado del usuario aquí
           console.log(res.payload);
           navigate("/gestion/home");
 
@@ -72,7 +70,6 @@ export function Login() {
         }
       })
       .catch((error) => {
-        // Manejo de errores para el inicio de sesión
         alert("Error, datos Incorrectos");
         console.error(
           "Error, datos Incorrectos.Por favor verificar Rol,contraseña y DNI",
@@ -82,7 +79,6 @@ export function Login() {
   };
 
   useEffect(() => {
-    // Limpia el error cuando se cambia el nombre de usuario o la contraseña
     if (username !== "" || password !== "") {
       setError("");
     }

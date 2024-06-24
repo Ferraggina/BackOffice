@@ -43,12 +43,10 @@ export default function CrearUsuarios() {
 
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
-      // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) =>
         prevSelected.filter((num) => num !== contractNum)
       );
     } else {
-      // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) => [
         ...prevSelected,
         contractNum,
@@ -80,7 +78,7 @@ export default function CrearUsuarios() {
       estado: estado,
     };
 
-    // Verificar si el rol es "Coordinador" para proceder con Firebase
+    // Verificar si el rol es "Coordinador" para  Firebase
     if (rol === "Coordinador" || rol === "Administrador" || rol === "Padre") {
       try {
         // Lógica para crear el usuario en el backend
@@ -97,13 +95,12 @@ export default function CrearUsuarios() {
         const user = userCredential.user;
         console.log("Usuario creado en Firebase:", user);
 
-        // Redirigir o realizar otras acciones después de crear el usuario en Firebase y en el backend
+        //  Crear el usuario en Firebase y en el backend
         setTimeout(() => {
           navigate("/gestion/editUsuarios");
         }, 1000);
       } catch (error) {
         console.error("Error al crear el usuario: ", error);
-        // Manejar el error, mostrar mensajes, etc.
       }
     } else {
       // Si el rol no es "Coordinador", simplemente crea el usuario en el backend
@@ -111,13 +108,12 @@ export default function CrearUsuarios() {
         await dispatch(crearUsuario(nuevoUsuario));
         setUsuarioCreado(true);
 
-        // Redirigir o realizar otras acciones después de crear el usuario en el backend
+        //  crear el usuario en el backend
         setTimeout(() => {
           navigate("/editUsuarios");
         }, 1000);
       } catch (error) {
         console.error("Error al crear el usuario: ", error);
-        // Manejar el error, mostrar mensajes, etc.
       }
     }
   };
@@ -143,7 +139,6 @@ export default function CrearUsuarios() {
     const newConfirmPassword = e.target.value;
     setConfirmPassword(newConfirmPassword);
 
-    // Verificar si la contraseña coincide con la confirmación
     if (password === newConfirmPassword) {
       setPasswordMatch(true);
     } else {
@@ -166,15 +161,11 @@ export default function CrearUsuarios() {
     const newEmail = e.target.value;
     setEmail(newEmail);
 
-    // Expresión regular para validar el formato de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Verificar si el correo electrónico cumple con el formato
     const isValidEmail = emailRegex.test(newEmail);
 
     if (!isValidEmail && newEmail !== "") {
-      // Si el correo no cumple con el formato, puedes mostrar un mensaje al usuario o realizar alguna acción
-      // Por ejemplo, puedes setear un estado para mostrar un mensaje de error
       setEmailError(true);
     } else {
       setEmailError(false);
@@ -182,10 +173,8 @@ export default function CrearUsuarios() {
   };
   const handleContractSelection = (contractNum) => {
     if (contractNum === "0") {
-      // Si se selecciona el contrato falso, haz algo específico (puede ser ignorarlo o agregarlo a la lista de seleccionados)
       setContratosSeleccionados([...contratosSeleccionados, contractNum]);
     } else {
-      // Resto de la lógica para los contratos de la base de datos
       toggleContractSelection(contractNum);
     }
   };
@@ -410,7 +399,7 @@ export default function CrearUsuarios() {
                   )
                 }
                 required
-                multiple // Permite múltiples selecciones
+                multiple
               >
                 <option value="">Elije los contratos:</option>
                 <option value="0" onClick={() => handleContractSelection("0")}>

@@ -12,21 +12,19 @@ import {
 import "../../sass/_home.scss";
 
 export function Home() {
-  const [isLoading, setIsLoading] = useState(true); // Estado para controlar carga
+  const [isLoading, setIsLoading] = useState(true);
   const currentUser = useSelector((state) => state.currentUser.usuario);
 
   useEffect(() => {
-    // Simulación de tiempo de carga (puedes reemplazarlo por tu lógica de carga real)
     const timeout = setTimeout(() => {
-      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+      setIsLoading(false);
+    }, 1500);
 
-    return () => clearTimeout(timeout); // Limpia el timeout en caso de que el componente se desmonte antes de que termine la carga simulada
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
     <div className="home">
-      {/* Mostrar spinner si isLoading es true */}
       {isLoading ? (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
           <div className="spinner">

@@ -23,15 +23,13 @@ export default function FormularioViaje() {
   const hoteles = useSelector((state) => state.hoteles);
   const itinerarios = useSelector((state) => state.itinerarios);
   const [contratosSeleccionados, setContratosSeleccionados] = useState([]);
-  // Estado para almacenar los detalles del hotel seleccionado
+
   const [hotelSeleccionado, setHotelSeleccionado] = useState(null);
   const [contratosFiltrados, setContratosFiltrados] = useState([]);
 
-  // Estado para almacenar los detalles del itinerario seleccionado
   const [itinerarioSeleccionado, setItinerarioSeleccionado] = useState(null);
   const error = useSelector((state) => state.error);
   useEffect(() => {
-    // Llama a la acción para obtener contratos cuando el componente se monta
     dispatch(obtenerContratos());
     dispatch(obtenerHoteles());
     dispatch(obtenerItinerario());
@@ -70,12 +68,11 @@ export default function FormularioViaje() {
 
   const toggleContractSelection = (contractNum) => {
     if (contratosSeleccionados.includes(contractNum)) {
-      // Si ya está seleccionado, quítalo de la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) =>
         prevSelected.filter((num) => num !== contractNum)
       );
     } else {
-      // Si no está seleccionado, agrégalo a la lista de contratos seleccionados
+      // Si no está seleccionado, agrégaa la lista de contratos seleccionados
       setContratosSeleccionados((prevSelected) => [
         ...prevSelected,
         contractNum,
@@ -94,9 +91,6 @@ export default function FormularioViaje() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Formatea el array de contratos como una cadena JSON
-    // Asegúrate de que nuevoContratoData sea un array
-
     const contratosFormateados = contratosSeleccionados.join(",");
 
     // Agrega corchetes alrededor de la cadena
@@ -112,7 +106,6 @@ export default function FormularioViaje() {
         fechaRegreso,
       })
     ).then(() => {
-      // Restablece el valor de nuevoContratoData después de enviar la solicitud
       setNuevoContratoData([]);
     });
     setTimeout(() => {
@@ -182,8 +175,8 @@ export default function FormularioViaje() {
                   className="form-control"
                   id="fechaSalida"
                   placeholder="Fecha de salida"
-                  value={fechaSalida} // Asigna el valor del estado a este campo
-                  onChange={(e) => setFechaSalida(e.target.value)} // Actualiza el estado cuando cambia el valor
+                  value={fechaSalida}
+                  onChange={(e) => setFechaSalida(e.target.value)}
                   required
                 />
               </div>
@@ -194,8 +187,8 @@ export default function FormularioViaje() {
                   className="form-control"
                   id="fechaRegreso"
                   placeholder="Fecha de regreso"
-                  value={fechaRegreso} // Asigna el valor del estado a este campo
-                  onChange={(e) => setFechaRegreso(e.target.value)} // Actualiza el estado cuando cambia el valor
+                  value={fechaRegreso}
+                  onChange={(e) => setFechaRegreso(e.target.value)}
                   required
                 />
               </div>
@@ -277,7 +270,7 @@ export default function FormularioViaje() {
                     )
                   }
                   required
-                  multiple // Permite múltiples selecciones
+                  multiple
                 >
                   <option value="">Elije los contratos:</option>
                   {contratosFiltrados.length > 0
