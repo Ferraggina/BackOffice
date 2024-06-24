@@ -49,11 +49,9 @@ export default function ItinerarioVisualizacion() {
       return itinerario.nombre.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
-    // Calcular el índice del primer elemento y del último elemento en la página actual
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    // Obtener los elementos de la página actual
     const currentItems = filteredItinerarios.slice(
       indexOfFirstItem,
       indexOfLastItem
@@ -115,10 +113,10 @@ export default function ItinerarioVisualizacion() {
   const handleEditCampoExtraChange = (index, field, value) => {
     const newCamposExtras = JSON.parse(editingItinerario.texto_gral); // Parseas la cadena JSON a un objeto
     newCamposExtras[index][field] = value; // Modificas el objeto
-    const updatedJSON = JSON.stringify(newCamposExtras); // Conviertes el objeto modificado de vuelta a una cadena JSON
+    const updatedJSON = JSON.stringify(newCamposExtras);
     setEditingItinerario({
       ...editingItinerario,
-      texto_gral: updatedJSON, // Actualizas el estado con la cadena JSON actualizada
+      texto_gral: updatedJSON,
     });
     console.log("edicion", editItinerario);
   };
@@ -143,7 +141,7 @@ export default function ItinerarioVisualizacion() {
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
+    setCurrentPage(1);
   };
   return (
     <div className="custom-container mt-8">

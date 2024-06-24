@@ -60,7 +60,6 @@ export default function FormularioHoteles() {
       // Llamar a la acción para crear el itinerario
       await dispatch(crearHotel(nuevoHotel));
 
-      // Limpiar los campos del formulario
       setNombre("");
       setDireccion("");
       setFotos("");
@@ -69,16 +68,10 @@ export default function FormularioHoteles() {
       setTelefono("");
       setOtra_red("");
 
-      // Mostrar una alerta de éxito
       setAlert({
         type: "success",
         message: "Su Hotel se agrego exitosamente.",
       });
-
-      // Redirigir al usuario a la página de inicio después de 2 segundos
-
-      // Cambia "/" al URL de la página de inicio que desees
-      // 2000 ms (2 segundos)
     } catch (error) {
       // Mostrar una alerta de error
       setAlert({
@@ -92,8 +85,8 @@ export default function FormularioHoteles() {
   };
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+      setIsLoading(false);
+    }, 1500);
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
@@ -144,12 +137,10 @@ export default function FormularioHoteles() {
       setLatitud(location.lat().toString());
       setLongitud(location.lng().toString());
 
-      // También puedes hacer otras cosas con la ubicación si es necesario
-
       if (places.length === 0) {
         return;
       }
-      // Zoom in on searched place
+
       map.fitBounds(places[0].geometry.viewport);
       const locations = places.map((place) => ({
         lat: place.geometry.location.lat(),
@@ -162,8 +153,8 @@ export default function FormularioHoteles() {
 
   // const handleDireccionChange = (e) => {
   //   setDireccion(e.target.value);
-  //   // Aquí deberías llamar a la API de geocodificación de Google Maps
-  //   // para actualizar el mapa y mostrar la ubicación correspondiente a la dirección ingresada
+  //   // llamar a la API de geocodificación de Google Maps
+  //
   // };
 
   const handleImageUpload = async (e) => {
@@ -274,7 +265,6 @@ export default function FormularioHoteles() {
                   yesIWantToUseGoogleMapApiInternals
                   onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
                 >
-                  {/* You can render markers for places here if needed */}
                   {latitud && longitud && (
                     <CustomMarker
                       lat={parseFloat(latitud)}

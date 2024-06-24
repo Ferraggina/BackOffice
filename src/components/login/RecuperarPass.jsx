@@ -28,7 +28,6 @@ export function RecuperarPass() {
         // console.log("soy lo que buscas", token, idUsuario);
       })
       .catch((error) => {
-        // Manejo de errores de actualización de contraseña.
         setPasswordUpdated(false);
         setUpdateError(
           "Error al actualizar la contraseña. Inténtalo de nuevo."

@@ -42,9 +42,8 @@ export default function AbmHotel() {
   useEffect(() => {
     dispatch(obtenerHoteles());
     const timeout = setTimeout(() => {
-      setIsLoading(true); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
-
+      setIsLoading(true);
+    }, 1500);
     return () => clearTimeout(timeout);
   }, [dispatch]);
 
@@ -96,7 +95,7 @@ export default function AbmHotel() {
       const hotelActualizado = {
         nombre: editingHotel.nombre,
         direccion: editingHotel.direccion,
-        fotos: JSON.stringify(fotosActualizadas), // Convertir a JSON antes de guardar
+        fotos: JSON.stringify(fotosActualizadas),
         videos: editingHotel.videos,
         latitude: editingHotel.latitude,
         longitude: editingHotel.longitude,
@@ -150,10 +149,9 @@ export default function AbmHotel() {
         fotos: JSON.stringify(updatedImages),
       });
     } else {
-      // Manejo si no es un arreglo de imágenes, podría ser una URL individual
       setEditingHotel({
         ...editingHotel,
-        fotos: null, // O cualquier otro valor que consideres adecuado en este caso
+        fotos: null,
       });
     }
   };
@@ -167,11 +165,9 @@ export default function AbmHotel() {
       return hotel.nombre.toLowerCase().includes(searchTerm.toLowerCase());
     });
 
-    // Calcular el índice del primer elemento y del último elemento en la página actual
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    // Obtener los elementos de la página actual
     const currentItems = filteredHoteles.slice(
       indexOfFirstItem,
       indexOfLastItem
@@ -185,7 +181,7 @@ export default function AbmHotel() {
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
+    setCurrentPage(1);
   };
   const viewMaps = (map, maps) => {
     const searchBox = new maps.places.SearchBox(
@@ -208,7 +204,6 @@ export default function AbmHotel() {
       });
       console.log("Nuevo editingHotel:", editingHotel);
 
-      // Zoom in on searched place
       map.fitBounds(places[0].geometry.viewport);
     });
   };
@@ -495,9 +490,7 @@ export default function AbmHotel() {
                   defaultZoom={18}
                   yesIWantToUseGoogleMapApiInternals
                   onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
-                >
-                  {/* You can render markers for places here if needed */}
-                </GoogleMapReact>
+                ></GoogleMapReact>
               </div>
             ) : (
               <GoogleMapReact
@@ -509,9 +502,7 @@ export default function AbmHotel() {
                 defaultZoom={11}
                 yesIWantToUseGoogleMapApiInternals
                 onGoogleApiLoaded={({ map, maps }) => viewMaps(map, maps)}
-              >
-                {/* You can render markers for places here if needed */}
-              </GoogleMapReact>
+              ></GoogleMapReact>
             )}
           </div>
           <br />

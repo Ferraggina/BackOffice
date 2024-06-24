@@ -597,7 +597,7 @@ export default function AbmImagenesLandin() {
             <input
               type="text"
               placeholder="Posición"
-              value={formData.posicion || ""} // Asegúrate de que el valor sea una cadena
+              value={formData.posicion || ""}
               onChange={(e) =>
                 setFormData({ ...formData, posicion: e.target.value })
               }

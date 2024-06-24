@@ -30,7 +30,7 @@ export default function AbmViaje() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [viewingViaje, setViewingViaje] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10); // Puedes ajustar la cantidad predeterminada según tus necesidades
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [showUserModal, setShowUserModal] = useState(false);
   const [editingViaje, setEditingViaje] = useState({
     destino: "",
@@ -62,8 +62,8 @@ export default function AbmViaje() {
     // dispatch(editarUsuario());
     console.log("coordinador", coordinadores);
     const timeout = setTimeout(() => {
-      setIsLoading(false); // Cambia el estado a false después de un tiempo (simulación de carga)
-    }, 1500); // Cambia el número a la cantidad de tiempo que desees simular
+      setIsLoading(false);
+    }, 1500);
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
@@ -108,7 +108,7 @@ export default function AbmViaje() {
       let contratosFinal = `[${contratosFormateados}]`;
       console.log("contratos", contratosFormateados.length);
       if (contratosSeleccionados.length > 0) {
-        // Si hay contratos nuevos seleccionados, formatearlos
+        // Si hay contratos nuevos seleccionados, formatea
         const contratosFormateados = contratosSeleccionados.join(",");
         contratosFinal = `[${contratosFormateados}]`;
       } else {
@@ -180,7 +180,7 @@ export default function AbmViaje() {
     }
   };
   const formatContratos = (contratos) => {
-    // Si los contratos son un array, conviértelos en una cadena con comas
+    // Si los contratos son un array, conviérte en una cadena con comas
     if (Array.isArray(contratos)) {
       return contratos.join(", ");
     }
@@ -191,13 +191,13 @@ export default function AbmViaje() {
       contratos.endsWith("]")
     ) {
       const contratoString = contratos.substring(1, contratos.length - 1);
-      // Separa los contratos en un array y únelos con comas
+      // Separa los contratos en un array y los úne con comas
       const contratoArray = contratoString
         .split(",")
         .map((contractNum) => contractNum.trim());
       return contratoArray.join(", ");
     }
-    // Si los contratos no son ni un array ni una cadena con corchetes, muestra un mensaje genérico
+
     return "Contratos Desconocidos";
   };
   const getContractNameById = (contractNum) => {
@@ -247,11 +247,9 @@ export default function AbmViaje() {
       );
     });
 
-    // Calcular el índice del primer elemento y del último elemento en la página actual
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    // Obtener los elementos de la página actual
     const currentItems = filteredViajes.slice(
       indexOfFirstItem,
       indexOfLastItem
@@ -265,7 +263,7 @@ export default function AbmViaje() {
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(parseInt(e.target.value, 10));
-    setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
+    setCurrentPage(1);
   };
   const formatDate = (dateString) => {
     const options = { day: "numeric", month: "numeric", year: "numeric" };

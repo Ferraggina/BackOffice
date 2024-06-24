@@ -12,7 +12,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    // Reemplazar navigate('/') con el uso de Link
+
     showNavbar(false);
   };
 

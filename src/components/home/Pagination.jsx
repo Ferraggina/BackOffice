@@ -1,5 +1,5 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Importa los estilos de Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Pagination({
   itemsPerPage,
