@@ -26,6 +26,8 @@ export const OBTENER_FINANCIACIONCONTRATO_EXITO = "OBTENER_FINANCIACIONCONTRATO_
 export const OBTENER_FINANCIACIONCONTRATO_ERROR = "OBTENER_FINANCIACIONCONTRATO_ERROR";
 export const AGREGAR_FINANCIACIONCONTRATO_EXITO = "AGREGAR_FINANCIACIONCONTRATO_EXITO";
 export const AGREGAR_FINANCIACIONCONTRATO_ERROR = "AGREGAR_FINANCIACIONCONTRATO_ERROR";
+export const ELIMINAR_FINANCIACIONCONTRATO_EXITO = "ELIMINAR_FINANCIACIONCONTRATO_EXITO";
+export const ELIMINAR_FINANCIACIONCONTRATO_ERROR = "ELIMINAR_FINANCIACIONCONTRATO_ERROR";
 export const OBTENER_VIAJES_EXITO = "OBTENER_VIAJES_EXITO";
 export const OBTENER_VIAJES_ERROR = "OBTENER_VIAJES_EXITO";
 export const POSTEAR_HOTELES_ERROR = "POSTEAR_HOTELES_ERROR";
@@ -626,6 +628,35 @@ export const agregarFinanciacionContrato = (nroContrato, idFinanciacion) => {
     } catch (error) {
       dispatch({
         type: AGREGAR_FINANCIACIONCONTRATO_ERROR,
+        payload: error.message,
+      });
+    }
+  }
+};
+export const eliminarFinanciacionDeContrato = (nroContrato) => {
+  const url = import.meta.env.VITE_AGREGARFINANCIACIONCONTRATO;
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${url}${nroContrato}`,
+        {
+          financingId: null,
+        },
+        {
+          headers: {
+            "x-access-token": TOKEN,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      dispatch({
+        type: ELIMINAR_FINANCIACIONCONTRATO_EXITO,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ELIMINAR_FINANCIACIONCONTRATO_ERROR,
         payload: error.message,
       });
     }

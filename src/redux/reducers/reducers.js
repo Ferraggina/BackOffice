@@ -63,6 +63,8 @@ import {
   EDITAR_MEDIODEPAGO_EXITO,
   ELIMINAR_MEDIODEPAGO_EXITO,
   ELIMINAR_MEDIODEPAGO_ERROR,
+  ELIMINAR_FINANCIACIONCONTRATO_EXITO,
+  ELIMINAR_FINANCIACIONCONTRATO_ERROR,
   OBTENER_PASAJERO_EXITO,
   OBTENER_PASAJERO_ERROR,
   ADD_NEW_CONTACT,
@@ -349,6 +351,15 @@ function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case ELIMINAR_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+      };
+    case ELIMINAR_FINANCIACIONCONTRATO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      }
     case OBTENER_VIAJES_EXITO:
       return {
         ...state,
