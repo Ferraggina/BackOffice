@@ -27,9 +27,8 @@ export default function AgregarFinanciacionContrato() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [viewingFinanciacionDelContrato, setViewingFinanciacionDelContrato] = useState(null);
-  const [editingFinanciacionDelContrato, setEditingFinanciacionDelContrato] = useState({
-    id: 0,nombre:"",texto_gral: [{"medio_de_pago":"No soy real","cuotas":"","importe":0,"disponible":true}]
-  });
+  const [editingFinanciacionDelContrato, setEditingFinanciacionDelContrato] = useState(null);
+  const [editingNroContrato, setEditingNroContrato] = useState(null);
   const [financiacionAgregarContrato, setFinanciacionAgregarContrato] = useState(null);
   const [contratoAgregar, setContratoAgregar] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -77,23 +76,20 @@ export default function AgregarFinanciacionContrato() {
     return mediosDePago.filter((mdp) => mdp.id == id)[0];
   };
   const handleSaveEdits = () => {
-    if (editingFinanciacionDelContrato) {
+    if (editingFinanciacionDelContrato && editingNroContrato) {
       const contratoId = editingFinanciacionDelContrato.id;
 
-      const contratoActualizado = {
-        nombre: editingContrato.nombre,
-        texto_gral: editingContrato.texto_gral,
-      };
-      dispatch(editContrato(contratoId, contratoActualizado));
+      dispatch(agregarFinanciacionContrato(editingNroContrato, contratoId));
       setShowModal(false);
       alert("Cambios guardados con éxito");
       window.location.reload();
     }
   };
-  const handleEditClick = (financiacion) => {
+  const handleEditClick = (nroContrato, financiacion) => {
+    console.log(financiacion);
+    setEditingNroContrato(nroContrato);
     setEditingFinanciacionDelContrato(financiacion);
     setShowModal(true);
-    console.log("ACA EDIT", editingFinanciacionDelContrato.texto_gral);
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -164,8 +160,9 @@ export default function AgregarFinanciacionContrato() {
     setCurrentPage(1); // Reiniciar a la primera página cuando cambie la cantidad de elementos por página
   };
 
-  const handleMedioDePagoSeleccionadoChange = (mdpSeleccionado) => {
-    console.log("Mdp seleccionado: " + mdpSeleccionado.nombre);
+  const handleMedioDePagoSeleccionadoChange = (e) => {
+    const idFinanciacion = e.target.value;
+    setEditingFinanciacionDelContrato(getFinanciacionContrato(idFinanciacion));
   };
 
 
@@ -259,7 +256,7 @@ export default function AgregarFinanciacionContrato() {
                           <>
                             <button
                               className="btn btn-primary botonEditar"
-                              onClick={() => handleEditClick(getFinanciacionContrato(contrato.financingId))}
+                              onClick={() => handleEditClick(contrato.num, getFinanciacionContrato(contrato.financingId))}
                             >
                               <lord-icon
                                 src="https://cdn.lordicon.com/zfzufhzk.json"
@@ -345,7 +342,7 @@ export default function AgregarFinanciacionContrato() {
         dialogClassName="modal-xl"
       >
         <Modal.Header closeButton className="modealHeaderViaje">
-          <Modal.Title>Editar Medio de Pago asignado al contrato</Modal.Title>
+          <Modal.Title>Editar financiación asignada al contrato {editingNroContrato}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -355,7 +352,7 @@ export default function AgregarFinanciacionContrato() {
               className="form-select mx-1 selectMediosDePago"
             >
                 {mediosDePago.map((medioDePago) => (
-                    <option value={medioDePago}>{medioDePago.nombre}</option>
+                    <option value={medioDePago.id}>{medioDePago.nombre}</option>
                 ))}    
             </select> 
           </div>
@@ -370,18 +367,20 @@ export default function AgregarFinanciacionContrato() {
                   <th>Disponibilidad</th>
                 </tr>
               </thead>
-              <tbody className="text-center cuerpoTabla">
-
-                {editingFinanciacionDelContrato.texto_gral.map((financiacion, index) => (
-                    <tr key={index}>
-                      <td>{financiacion.medio_de_pago}</td>
-                      <td>{financiacion.cuotas ? financiacion.cuotas : "1"}</td>
-                      <td>${financiacion.importe}</td>
-                      <td>{financiacion.disponible ? "Activo" : "Inactivo"}</td>
-                    </tr>
-                ))}
-
-              </tbody>
+              {editingFinanciacionDelContrato ?
+                <tbody className="text-center cuerpoTabla">
+                  {editingFinanciacionDelContrato.texto_gral.map((financiacion, index) => (
+                      <tr key={index}>
+                        <td>{financiacion.medio_de_pago}</td>
+                        <td>{financiacion.cuotas ? financiacion.cuotas : "1"}</td>
+                        <td>${financiacion.importe}</td>
+                        <td>{financiacion.disponible ? "Activo" : "Inactivo"}</td>
+                      </tr>
+                  ))}
+                </tbody>
+              : ""
+              }
+              
             </table>
           </div>
         </Modal.Body>
