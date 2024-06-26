@@ -1,3 +1,4 @@
+import { act } from "react";
 import {
   GET_USERS,
   LOGIN_SUCCESS,
@@ -22,6 +23,8 @@ import {
   OBTENER_MEDIOSDEPAGO_ERROR,
   POSTEAR_MEDIOSDEPAGO_EXITO,
   POSTEAR_MEDIOSDEPAGO_ERROR,
+  OBTENER_FINANCIACIONCONTRATO_EXITO,
+  OBTENER_FINANCIACIONCONTRATO_ERROR,
   OBTENER_VIAJES_EXITO,
   OBTENER_VIAJES_ERROR,
   POSTEAR_HOTELES_ERROR,
@@ -67,6 +70,7 @@ import {
   GET_PADRES,
   OBTENER_COORDINADOR_EXITO,
   OBTENER_COORDINADOR_ERROR,
+  AGREGAR_FINANCIACIONCONTRATO_EXITO,
 } from "../actions/actions";
 
 const initialState = {
@@ -86,6 +90,9 @@ const initialState = {
   hoteles: [],
   itinerarios: [],
   mediosDePago: [],
+  financiacionContratoView: [],
+  isLoadingMdp: false, // esto es para cuando consulto el mdp en a tabla contratos, asi se muestra un mensaje de cargando ahi
+  financiacionAgregadaContraro: [],
   nuevoItenerario: null,
   viajes: [],
   nuevoHotel: null,
@@ -322,6 +329,26 @@ function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case OBTENER_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+        financiacionContratoView: financiacionContratoView.push(action.payload),
+      };
+    case OBTENER_FINANCIACIONCONTRATO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };  
+    case AGREGAR_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+        financiacionAgregadaContraro: action.payload,
+      };
+    case AGREGAR_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+        error: action.payload,
+      };
     case OBTENER_VIAJES_EXITO:
       return {
         ...state,
@@ -548,7 +575,6 @@ function rootReducer(state = initialState, action) {
           ...contacto,
           leido: true, // Marcar todos los mensajes como leídos
         })),
-        .
       };
     case ADD_NEW_CONTACT:
       return {

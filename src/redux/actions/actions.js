@@ -22,6 +22,10 @@ export const OBTENER_MEDIOSDEPAGO_EXITO = "OBTENER_MEDIOSDEPAGO_EXITO";
 export const OBTENER_MEDIOSDEPAGO_ERROR = "OBTENER_MEDIOSDEPAGO_ERROR";
 export const POSTEAR_MEDIOSDEPAGO_EXITO = "POSTEAR_MEDIOSDEPAGO_EXITO";
 export const POSTEAR_MEDIOSDEPAGO_ERROR = "POSTEAR_MEDIOSDEPAGO_ERROR";
+export const OBTENER_FINANCIACIONCONTRATO_EXITO = "OBTENER_FINANCIACIONCONTRATO_EXITO";
+export const OBTENER_FINANCIACIONCONTRATO_ERROR = "OBTENER_FINANCIACIONCONTRATO_ERROR";
+export const AGREGAR_FINANCIACIONCONTRATO_EXITO = "AGREGAR_FINANCIACIONCONTRATO_EXITO";
+export const AGREGAR_FINANCIACIONCONTRATO_ERROR = "AGREGAR_FINANCIACIONCONTRATO_ERROR";
 export const OBTENER_VIAJES_EXITO = "OBTENER_VIAJES_EXITO";
 export const OBTENER_VIAJES_ERROR = "OBTENER_VIAJES_EXITO";
 export const POSTEAR_HOTELES_ERROR = "POSTEAR_HOTELES_ERROR";
@@ -569,6 +573,63 @@ export const eliminarMedioDePago = (medioDePagoId) => {
       });
     }
   };
+};
+export function obtenerFinanciacionContrato(ContratoNum) {
+  const getSchedulleUrl = import.meta.env.VITE_TRAERFINANCIACIONCONTRATO;
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(
+        `${getSchedulleUrl}${ContratoNum}`,
+        {
+          headers: {
+            "x-access-token": TOKEN,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const magia = {num: ContratoNum, financiacion: response.data};
+
+      dispatch({
+        type: OBTENER_FINANCIACIONCONTRATO_EXITO,
+        payload: magia,
+      });
+    } catch (error) {
+      dispatch({
+        type: OBTENER_FINANCIACIONCONTRATO_ERROR,
+        payload: error.message,
+      })
+    };
+  };
+};
+export const agregarFinanciacionContrato = (nroContrato, idFinanciacion) => {
+  const url = import.meta.env.VITE_AGREGARFINANCIACIONCONTRATO;
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(
+        `${url}${nroContrato}`,
+        {
+          financingId: idFinanciacion,
+        },
+        {
+          headers: {
+            "x-access-token": TOKEN,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      dispatch({
+        type: AGREGAR_FINANCIACIONCONTRATO_EXITO,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: AGREGAR_FINANCIACIONCONTRATO_ERROR,
+        payload: error.message,
+      });
+    }
+  }
 };
 export const obtenerViajes = () => async (dispatch) => {
   const getTravelUrl = import.meta.env.VITE_OBTENERVIAJES;
