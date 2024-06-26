@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function MedioDePago() {
   const [nombre, setNombre] = useState("");
-  const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: 0, disponible: false},{medio_de_pago: "Dolares", cuotas: 1, importe: 0, disponible: false},{medio_de_pago: "6 Cuotas", cuotas: 1, importe: 0, disponible: false}];
+  const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: 0, disponible: true},{medio_de_pago: "Dolares", cuotas: 1, importe: 0, disponible: true},{medio_de_pago: "6 Cuotas", cuotas: 6, importe: 0, disponible: true}];
   const [isLoading, setIsLoading] = useState(true);
   const [camposMdp, setCamposMdp] = useState(defaultCamposMdp);
   const [alert, setAlert] = useState(null); // Estado para la alerta
@@ -31,6 +31,8 @@ export default function MedioDePago() {
       newCamposMdp[index].medio_de_pago = value;
     } else if (field === "cuotas") {
       if (value >= 0) {
+        newCamposMdp[index].cuotas = value;
+      } else if ( value === "*") {
         newCamposMdp[index].cuotas = value;
       }
     } else if (field === "importe") {
@@ -178,8 +180,7 @@ export default function MedioDePago() {
                         <br />
 
                         <label>Cuotas</label>
-                        <input
-                          type="number"
+                        <select
                           className="form-control"
                           placeholder="Ejemplo: 6"
                           value={campo.cuotas}
@@ -191,10 +192,17 @@ export default function MedioDePago() {
                             )
                           }
                           min="0"
-                        />
+                        >
+                          <option value="*">Todas</option>
+                          <option value="1">1</option>
+                          <option value="3">3</option>
+                          <option value="6">6</option>
+                          <option value="9">9</option>
+                          <option value="12">12</option>
+                        </select>
                         <br />
 
-                        <label>Importe</label>
+                        <label>Importe total</label>
                         <input
                           type="number"
                           className="form-control"
@@ -208,7 +216,7 @@ export default function MedioDePago() {
                               e.target.value
                             )
                           }
-                          min="0"
+                          min="1"
                         />
                         <br />
 
