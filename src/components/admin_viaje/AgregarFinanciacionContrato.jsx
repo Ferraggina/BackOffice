@@ -403,7 +403,38 @@ export default function AgregarFinanciacionContrato() {
           <Modal.Title>Detalles de la financiación</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h1>HOLA</h1>
+          {viewingFinanciacionDelContrato ?
+          <>
+            <div>
+              <h5>Financiación: <strong>{viewingFinanciacionDelContrato.nombre}</strong></h5>
+            </div>
+            <br/>
+            <div>
+              <h5>Métodos de pago:</h5>
+              <table className="table  table-bordered">
+                <thead className="text-center">
+                  <tr>
+                    <th>Medio de Pago</th>
+                    <th>Cuotas</th>
+                    <th>Importe</th>
+                    <th>Disponibilidad</th>
+                  </tr>
+                </thead>
+                  <tbody className="text-center cuerpoTabla">
+                    {viewingFinanciacionDelContrato.texto_gral.map((financiacion, index) => (
+                        <tr key={index}>
+                          <td>{financiacion.medio_de_pago}</td>
+                          <td>{financiacion.cuotas ? financiacion.cuotas : "1"}</td>
+                          <td>${financiacion.importe}</td>
+                          <td>{financiacion.disponible ? "Activo" : "Inactivo"}</td>
+                        </tr>
+                    ))}
+                  </tbody>
+              </table>
+            </div>
+          </>
+          : <p>No se a seleccionado una financiación</p>
+          }
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowViewModal(false)}>
