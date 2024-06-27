@@ -27,9 +27,10 @@ export default function MedioDePago() {
 
   const handleCampoExtraChange = (index, field, value) => {
     const newCamposMdp = [...camposMdp];
-    if (field === "medio_de_pago") {
+    // lo de index > 2 es para q no modifique los campos de los medio de pago default
+    if (field === "medio_de_pago" && index > 2) {
       newCamposMdp[index].medio_de_pago = value;
-    } else if (field === "cuotas") {
+    } else if (field === "cuotas" && index > 2) {
       if (value >= 0) {
         newCamposMdp[index].cuotas = value;
       } else if ( value === "*") {
@@ -56,9 +57,18 @@ export default function MedioDePago() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    scroll(0,0);
 
-    // Verifico que esten todos los mdp tengan titulo
-    if (camposMdp.every((campo) => !(campo.medio_de_pago === ""))) {
+    // Verifico que el mdp tenga nombre
+    if (nombre === "") {
+      setAlert({
+        type: "danger",
+        message:
+          "El medio de pago debe tener un nombre.",
+      });
+    }
+    // Verifico que esten todos los mdp tengan titulo y 
+    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0))) {
       const nuevoMedioDePago = {
         nombre: nombre,
         texto_gral: camposMdp,
@@ -78,8 +88,10 @@ export default function MedioDePago() {
           type: "success",
           message: "Su Medio de Pago se creó exitosamente.",
         });
+        setTimeout(() => {
+          navigate("/gestion/mediosdepago/");
+        }, 2000);
       } catch (error) {
-        console.log("asd3");
         // Mostrar una alerta de error
         setAlert({
           type: "danger",
@@ -91,12 +103,9 @@ export default function MedioDePago() {
       setAlert({
         type: "danger",
         message:
-          "Todos los medios de pago deben tener título.",
+          "Todos los medios de pago deben tener título y los importes no pueden ser 0.",
       });
     }
-    setTimeout(() => {
-      navigate("/gestion/mediosdepago/");
-    }, 2000);
   };
 
   return (
@@ -149,14 +158,17 @@ export default function MedioDePago() {
                   <div className="estiloParaCampos">
                     {camposMdp.map((campo, index) => (
                       <div key={index} className="campo-extra-container">
-                        <button
-                          type="button"
-                          onClick={() => handleEliminarMedioDePago(index)}
-                          className="btn btn-danger eliminacampoextra"
-                          title="Eliminar Campo Extra"
-                        >
-                          X
-                        </button>
+                        {(index > 2) ?
+                          <button
+                            type="button"
+                            onClick={() => handleEliminarMedioDePago(index)}
+                            className="btn btn-danger eliminacampoextra"
+                            title="Eliminar Campo Extra"
+                          >
+                            X
+                          </button>
+                          :<></>
+                        }
                         <br />
                         <label className="estilosLabels">Medio de Pago {index + 1}:</label>
                         <br/>
@@ -226,7 +238,6 @@ export default function MedioDePago() {
                           type="checkbox"
                           id="checkbox-mdp"
                           className="form"
-                          placeholder="Ejemplo: 6 Cuotas"
                           value={campo.disponible}
                           onChange={(e) =>
                             handleCampoExtraChange(
