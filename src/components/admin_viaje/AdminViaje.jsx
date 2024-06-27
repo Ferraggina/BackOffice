@@ -110,7 +110,7 @@ export function AdminViaje() {
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
                     <Link to="/gestion/mediosdepago" className="enlacesAdmin">
-                      MEDIOS DE PAGOS
+                      MEDIOS DE PAGO
                       <lord-icon
                         src="https://cdn.lordicon.com/oxbjzlrk.json"
                         trigger="hover"
@@ -125,7 +125,7 @@ export function AdminViaje() {
                 <div className="bordeBotonHome">
                   <h2 className="text-center">
                     <Link to="/gestion/mediosdepagoAcontratos" className="enlacesAdmin">
-                      ASIGNAR MdP A CONTRATO
+                      FINANCIACIONES DE CONTRATO
                       <lord-icon
                         src="https://cdn.lordicon.com/oxbjzlrk.json"
                         trigger="hover"

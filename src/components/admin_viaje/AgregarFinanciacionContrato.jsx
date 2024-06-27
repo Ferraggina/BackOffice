@@ -16,8 +16,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/home/Pagination.jsx";
 export default function AgregarFinanciacionContrato() {
   const dispatch = useDispatch();
-  //const contratos = useSelector((state) => state.contratos);
-  const contratos = [{"id":1,"num":"1064","fecha":"2022-12-29T00:00:00.000Z","curso":"5TO ","division":" ","turno":" ","colegio":"STELLA MARIS","pasajeros":"27 ","mes":"SEPTIEMBRE","año":"2023 ","periodo":" ","destino":"ENTRE RIOS","impTot":"77000","valor_dolares":"","valor_contado":"","cuo_sin_int":"","cuo_fija_ipc":"","saldo_ipc":"","canc":"NO","realiz":"NO","hotel":"LOS PÁJAROS","duracion":"3 DÍAS 2 NOCHES","fechaFirma":"","fechaViaje":"","ImpTotAct":"","fechaActu":"","usuarioLog":"","fechaLog":"","id_sucursal":null,"id_periodo":null,"id_cotizacion":null,"createdAt":"2024-06-24T12:54:21.231Z","updatedAt":"2024-06-24T18:21:57.966Z","travelId":null,"financingId":1}];
+  const contratos = useSelector((state) => state.contratos);
+  // const contratos = [{"id":1,"num":"1064","fecha":"2022-12-29T00:00:00.000Z","curso":"5TO ","division":" ","turno":" ","colegio":"STELLA MARIS","pasajeros":"27 ","mes":"SEPTIEMBRE","año":"2023 ","periodo":" ","destino":"ENTRE RIOS","impTot":"77000","valor_dolares":"","valor_contado":"","cuo_sin_int":"","cuo_fija_ipc":"","saldo_ipc":"","canc":"NO","realiz":"NO","hotel":"LOS PÁJAROS","duracion":"3 DÍAS 2 NOCHES","fechaFirma":"","fechaViaje":"","ImpTotAct":"","fechaActu":"","usuarioLog":"","fechaLog":"","id_sucursal":null,"id_periodo":null,"id_cotizacion":null,"createdAt":"2024-06-24T12:54:21.231Z","updatedAt":"2024-06-24T18:21:57.966Z","travelId":null,"financingId":1}];
   const mediosDePago = useSelector((state) => state.mediosDePago);
   // const mediosDePago = [{"id":1,"nombre":"todas cuotas 2024","texto_gral":[{"medio_de_pago":"contado","cuotas":"","importe":430000,"disponible":true},{"medio_de_pago":"dolares","cuotas":"","importe":430,"disponible":true},{"medio_de_pago":"3_cuotas","cuotas":3,"importe":500000,"disponible":true},{"medio_de_pago":"6_cuotas","cuotas":6,"importe":530000,"dispobible":true},{"medio_de_pago":"9_cuotas","cuotas":9,"importe":560000,"disponible":false}],"activo":true,"createdAt":"2024-06-19T13:20:38.246Z","updatedAt":"2024-06-19T13:20:38.246Z"},{"id":2,"nombre":"todas cuotas 2025","texto_gral":[{"medio_de_pago":"contado","cuotas":"","importe":850000,"disponible":true},{"medio_de_pago":"dolares","cuotas":"","importe":450,"disponible":true},{"medio_de_pago":"3_cuotas","cuotas":3,"importe":600000,"disponible":true},{"medio_de_pago":"6_cuotas","cuotas":6,"importe":630000,"dispobible":true},{"medio_de_pago":"9_cuotas","cuotas":9,"importe":660000,"disponible":false}],"activo":true,"createdAt":"2024-06-19T13:45:53.973Z","updatedAt":"2024-06-19T13:45:53.973Z"}];
   const medioDePago = useSelector((state) => state.financiacionContratoView);
@@ -145,6 +145,7 @@ export default function AgregarFinanciacionContrato() {
   const handleCloseConfirmationModal = () => {
     setShowConfirmationModal(false);
     setShowAgregarModal(false); // como uno no molesta al otro
+    setFinanciacionAgregarContrato(null);
   };
   
   const handleSearchInputChange = (e) => {
@@ -317,7 +318,7 @@ export default function AgregarFinanciacionContrato() {
               onPageChange={handlePageChange}
             />
             <p className="mx-2 textoItemsViaje ">
-              Cantidad de contratos por pagina:
+              Cantidad de contratos por página:
             </p>
             <form className="d-flex align-items-center h-100 " action="#">
               {/* Resto de tu código */}
@@ -478,7 +479,7 @@ export default function AgregarFinanciacionContrato() {
                 onChange={handleSeleccionFinanciacionParaContrato}
                 className="form-select mx-1 selectMediosDePago"
               >
-                <option value={null}>Seleccione una opcion</option>
+                <option value={null}>Seleccione una opción</option>
                 {mediosDePago.map((medioDePago) => (
                     <option value={medioDePago.id}>{medioDePago.nombre}</option>
                 ))}    
