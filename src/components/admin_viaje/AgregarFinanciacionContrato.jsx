@@ -240,6 +240,10 @@ export default function AgregarFinanciacionContrato() {
                     <th>Colegio</th>
                     <th>Curso</th>
                     <th>Division</th>
+                    <th>Turno</th>
+                    <th>Destino</th>
+                    <th>Periodo</th>
+                    <th>Año</th>
                     <th>Medio de pago / Financiación</th>
                     <th>Acciones</th>
                   </tr>
@@ -250,7 +254,11 @@ export default function AgregarFinanciacionContrato() {
                       <td>{contrato.num}</td>
                       <td>{contrato.colegio}</td>
                       <td>{contrato.curso}</td>
-                      <td>{!(contrato.division === " ") ? contrato.division : ""}</td>
+                      <td>{contrato.division}</td>
+                      <td>{contrato.turno}</td>
+                      <td>{contrato.destino}</td>
+                      <td>{contrato.periodo}</td>
+                      <td>{contrato.año}</td>
                       <td>{getNombreFinanciacionContrato(contrato.financingId)}</td>
                       <td className="txtGral">
                         {(contrato.financingId) ?
