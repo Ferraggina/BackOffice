@@ -110,8 +110,6 @@ export function AdminViaje() {
           </thead>
         </table>
       </div>
-
-      <br />
     </div>
   );
 }

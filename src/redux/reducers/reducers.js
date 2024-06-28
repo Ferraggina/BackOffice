@@ -1,3 +1,4 @@
+import { act } from "react";
 import {
   GET_USERS,
   LOGIN_SUCCESS,
@@ -18,6 +19,12 @@ import {
   OBTENER_ITINERARIOS_ERROR,
   POSTEAR_ITINERARIOS_EXITO,
   POSTEAR_ITINERARIOS_ERROR,
+  OBTENER_MEDIOSDEPAGO_EXITO,
+  OBTENER_MEDIOSDEPAGO_ERROR,
+  POSTEAR_MEDIOSDEPAGO_EXITO,
+  POSTEAR_MEDIOSDEPAGO_ERROR,
+  OBTENER_FINANCIACIONCONTRATO_EXITO,
+  OBTENER_FINANCIACIONCONTRATO_ERROR,
   OBTENER_VIAJES_EXITO,
   OBTENER_VIAJES_ERROR,
   POSTEAR_HOTELES_ERROR,
@@ -52,6 +59,12 @@ import {
   EDITAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_EXITO,
   ELIMINAR_ITINERARIO_ERROR,
+  EDITAR_MEDIODEPAGO_ERROR,
+  EDITAR_MEDIODEPAGO_EXITO,
+  ELIMINAR_MEDIODEPAGO_EXITO,
+  ELIMINAR_MEDIODEPAGO_ERROR,
+  ELIMINAR_FINANCIACIONCONTRATO_EXITO,
+  ELIMINAR_FINANCIACIONCONTRATO_ERROR,
   OBTENER_PASAJERO_EXITO,
   OBTENER_PASAJERO_ERROR,
   ADD_NEW_CONTACT,
@@ -59,6 +72,7 @@ import {
   GET_PADRES,
   OBTENER_COORDINADOR_EXITO,
   OBTENER_COORDINADOR_ERROR,
+  AGREGAR_FINANCIACIONCONTRATO_EXITO,
 } from "../actions/actions";
 
 const initialState = {
@@ -77,6 +91,10 @@ const initialState = {
   contratos: [],
   hoteles: [],
   itinerarios: [],
+  mediosDePago: [],
+  financiacionContratoView: [],
+  isLoadingMdp: false, // esto es para cuando consulto el mdp en a tabla contratos, asi se muestra un mensaje de cargando ahi
+  financiacionAgregadaContraro: [],
   nuevoItenerario: null,
   viajes: [],
   nuevoHotel: null,
@@ -257,6 +275,91 @@ function rootReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case OBTENER_MEDIOSDEPAGO_EXITO:
+      return {
+        ...state,
+        mediosDePago: action.payload,
+        error: null,
+      };
+    case OBTENER_MEDIOSDEPAGO_ERROR:
+      return {
+        ...state,
+        mediosDePago: [],
+        error: action.payload,
+      };
+    case POSTEAR_MEDIOSDEPAGO_EXITO:
+      return {
+        ...state,
+        nuevoItenerario: action.payload,
+        error: null,
+      };
+    case POSTEAR_MEDIOSDEPAGO_ERROR:
+      return {
+        ...state,
+        nuevoItenerario: null,
+        error: action.payload,
+      };
+    case EDITAR_MEDIODEPAGO_EXITO:
+      return {
+        ...state,
+        error: null,
+        mediosDePago: state.mediosDePago.map((mediodepago) => {
+          if (mediodepago.id === action.payload.id) {
+            return {
+              ...mediodepago,
+              nombre: action.payload,
+              texto_gral: action.payload,
+            };
+          }
+          return mediodepago;
+        }),
+      };
+    case EDITAR_MEDIODEPAGO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case ELIMINAR_MEDIODEPAGO_EXITO:
+      return {
+        ...state,
+        mediosDePago: state.landingDataText.filter(
+          (mediodepago) => mediodepago.id !== action.payload
+        ),
+      };
+    case ELIMINAR_MEDIODEPAGO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case OBTENER_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+        financiacionContratoView: financiacionContratoView.push(action.payload),
+      };
+    case OBTENER_FINANCIACIONCONTRATO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };  
+    case AGREGAR_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+        financiacionAgregadaContraro: action.payload,
+      };
+    case AGREGAR_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case ELIMINAR_FINANCIACIONCONTRATO_EXITO:
+      return {
+        ...state,
+      };
+    case ELIMINAR_FINANCIACIONCONTRATO_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      }
     case OBTENER_VIAJES_EXITO:
       return {
         ...state,

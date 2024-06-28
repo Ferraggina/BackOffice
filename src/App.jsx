@@ -8,6 +8,7 @@ import { OlvidoPass } from "./components/login/OlvidoPass";
 import { RecuperarPass } from "./components/login/RecuperarPass";
 import FormularioViaje from "./components/admin_viaje/FormularioViaje";
 import Itinerario from "./components/admin_viaje/Itinerario";
+import MedioDePago from "./components/admin_viaje/MedioDePago";
 
 import FormularioHoteles from "./components/admin_viaje/FormularioHoteles";
 
@@ -28,7 +29,10 @@ import { AdminPantallaInicio } from "./components/admin_pantalla_inicio/AdminPan
 import AbmViaje from "./components/admin_viaje/AbmViaje";
 import Abmusuario from "./components/admin_users/Abmusuarios";
 import AbmItinerario from "./components/admin_viaje/AbmItinerario";
+import AbmMediosDePago from "./components/admin_viaje/AbmMediosDePago";
 import AbmPasajeros from "./components/admin_users/AbmPasajeros";
+import MedioDePagoVisualizacion from "./components/admin_viaje/AbmMediosDePago";
+import AgregarFinanciacionContrato from "./components/admin_viaje/AgregarFinanciacionContrato";
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -186,6 +190,36 @@ function App() {
           element={
             loggedUserJSON ? (
               <AbmPasajeros />
+            ) : (
+              <Navigate to="/AccesoDenegado" />
+            )
+          }
+        />
+        <Route
+          path="/gestion/mediosdepago"
+          element={
+            loggedUserJSON ? (
+              <AbmMediosDePago />
+            ) : (
+              <Navigate to="/AccesoDenegado" />
+            )
+          }
+        />
+        <Route
+          path="/gestion/mediosdepagoAcontratos"
+          element={
+            loggedUserJSON ? (
+              <AgregarFinanciacionContrato />
+            ) : (
+              <Navigate to="/AccesoDenegado" />
+            )
+          }
+        />
+        <Route
+          path="/gestion/CrearMedioDePago"
+          element={
+            loggedUserJSON ? (
+              <MedioDePago />
             ) : (
               <Navigate to="/AccesoDenegado" />
             )
