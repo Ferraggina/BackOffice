@@ -107,7 +107,21 @@ export default function MedioDePagoVisualizacion() {
   };
 
   const handleEditCampoExtraChange = (index, field, value) => {
-    editingMedioDePago.texto_gral[index][field] = value; // Modificas el objeto
+    if (field === "medio_de_pago" && index > 2) {
+      editingMedioDePago.texto_gral[index][field] = value;
+    } else if (field === "cuotas" && index > 2) {
+      if (value >= 0) {
+        editingMedioDePago.texto_gral[index][field] = Number(value);
+      } else if ( value === "*") {
+        editingMedioDePago.texto_gral[index][field] = value;
+      }
+    } else if (field === "importe") {
+      if (value >= 0) {
+        editingMedioDePago.texto_gral[index][field] = Number(value);
+      }
+    } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
+      editingMedioDePago.texto_gral[index][field] = (document.getElementById('checkbox-mdp').checked);
+    }
     setEditingMedioDePago({
       ...editingMedioDePago,
     });
@@ -337,10 +351,8 @@ export default function MedioDePagoVisualizacion() {
                 />
                 <br />
                 <label>Cuotas</label>
-                <input
-                  type="number"
+                <select
                   className="form-control"
-                  placeholder="Ejemplo: 1"
                   value={campo.cuotas}
                   onChange={(e) =>
                     handleEditCampoExtraChange(
@@ -349,7 +361,15 @@ export default function MedioDePagoVisualizacion() {
                       e.target.value
                     )
                   }
-                />
+                  min="0"
+                >
+                  <option value="*">Todas</option>
+                  <option value="1">1</option>
+                  <option value="3">3</option>
+                  <option value="6">6</option>
+                  <option value="9">9</option>
+                  <option value="12">12</option>
+                </select>
                 <br />
                 <label>Importe</label>
                 <input
@@ -452,7 +472,7 @@ export default function MedioDePagoVisualizacion() {
       </Modal>
       <Modal show={showConfirmationModal} onHide={handleCloseConfirmationModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Eliminar Viaje</Modal.Title>
+          <Modal.Title>Eliminar Medio de Pago</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {medioDePagoToDelete && (

@@ -32,13 +32,13 @@ export default function MedioDePago() {
       newCamposMdp[index].medio_de_pago = value;
     } else if (field === "cuotas" && index > 2) {
       if (value >= 0) {
-        newCamposMdp[index].cuotas = value;
+        newCamposMdp[index].cuotas = Number(value);
       } else if ( value === "*") {
         newCamposMdp[index].cuotas = value;
       }
     } else if (field === "importe") {
       if (value >= 0) {
-        newCamposMdp[index].importe = value;
+        newCamposMdp[index].importe = Number(value);
       }
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
         newCamposMdp[index].disponible = (document.getElementById('checkbox-mdp').checked);
@@ -194,7 +194,6 @@ export default function MedioDePago() {
                         <label>Cuotas</label>
                         <select
                           className="form-control"
-                          placeholder="Ejemplo: 6"
                           value={campo.cuotas}
                           onChange={(e) =>
                             handleCampoExtraChange(
