@@ -10,6 +10,7 @@ import {
   writeDataToFirebase,
 } from "../../../firebaseUtils";
 import "../../sass/_home.scss";
+import { AdminFinanciacion } from "../admin_viaje/AdminFinanciacion";
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -55,6 +56,7 @@ export function Home() {
           <div className="d-flex flex-column align-items-center">
             <AdminPantallaInicio />
             <AdminViaje />
+            <AdminFinanciacion />
           </div>
         </>
       )}

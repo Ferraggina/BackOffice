@@ -106,42 +106,10 @@ export function AdminViaje() {
                   </h2>
                 </div>
               </th>
-              <th>
-                <div className="bordeBotonHome">
-                  <h2 className="text-center">
-                    <Link to="/gestion/mediosdepago" className="enlacesAdmin">
-                      MEDIOS DE PAGO
-                      <lord-icon
-                        src="https://cdn.lordicon.com/oxbjzlrk.json"
-                        trigger="hover"
-                        style={{ width: "120px", height: "120px" }}
-                        colors="primary:#ffffff,secondary:#1b1091"
-                      ></lord-icon>
-                    </Link>
-                  </h2>
-                </div>
-              </th>
-              <th>
-                <div className="bordeBotonHome">
-                  <h2 className="text-center">
-                    <Link to="/gestion/mediosdepagoAcontratos" className="enlacesAdmin">
-                      FINANCIACIONES DE CONTRATO
-                      <lord-icon
-                        src="https://cdn.lordicon.com/oxbjzlrk.json"
-                        trigger="hover"
-                        style={{ width: "120px", height: "120px" }}
-                        colors="primary:#ffffff,secondary:#1b1091"
-                      ></lord-icon>
-                    </Link>
-                  </h2>
-                </div>
-              </th>
             </tr>
           </thead>
         </table>
       </div>
-
-      <br />
     </div>
   );
 }

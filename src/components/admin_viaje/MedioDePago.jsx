@@ -290,11 +290,11 @@ export default function MedioDePago() {
                     title="Limpiar medios de pago"
                   >
                     <lord-icon
-                      src="https://cdn.lordicon.com/smwmetfi.json"
-                      trigger="hover"
-                      style={{ width: "30px", height: "30px" }}
-                      colors="primary:#ffffff,secondary:#1b1091"
-                    ></lord-icon>
+                        src="https://cdn.lordicon.com/rsbokaso.json"
+                        trigger="hover"
+                        style={{ width: "30px", height: "30px" }}
+                      colors="primary:#ffffff,secondary:#1b1091">
+                    </lord-icon>
                   </button>
                   
                   <Link
