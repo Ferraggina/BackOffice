@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function MedioDePago() {
   const [nombre, setNombre] = useState("");
-  const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: 0, disponible: true},{medio_de_pago: "Dolares", cuotas: 1, importe: 0, disponible: true},{medio_de_pago: "6 Cuotas", cuotas: 6, importe: 0, disponible: true}];
+  const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: 0, disponible: true},{medio_de_pago: "Dolares", cuotas: "*", importe: 0, disponible: true},{medio_de_pago: "6 Cuotas", cuotas: 6, importe: 0, disponible: true}];
   const [isLoading, setIsLoading] = useState(true);
   const [camposMdp, setCamposMdp] = useState(defaultCamposMdp);
   const [alert, setAlert] = useState(null); // Estado para la alerta
