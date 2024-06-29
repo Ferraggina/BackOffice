@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function MedioDePago() {
   const [nombre, setNombre] = useState("");
-  const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: 0, disponible: true},{medio_de_pago: "Dolares", cuotas: "*", importe: 0, disponible: true},{medio_de_pago: "6 Cuotas", cuotas: 6, importe: 0, disponible: true}];
+  const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: null, disponible: true},{medio_de_pago: "Dolares", cuotas: "*", importe: null, disponible: true},{medio_de_pago: "6 Cuotas", cuotas: 6, importe: null, disponible: true}];
   const [isLoading, setIsLoading] = useState(true);
   const [camposMdp, setCamposMdp] = useState(defaultCamposMdp);
   const [alert, setAlert] = useState(null); // Estado para la alerta
@@ -19,11 +19,6 @@ export default function MedioDePago() {
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
-  // const handleCampoExtraChange = (index, field, value) => {
-  //   const newCamposExtras = [...camposExtras];
-  //   newCamposExtras[index][field] = value;
-  //   setCamposExtras(newCamposExtras);
-  // };
 
   const handleCampoExtraChange = (index, field, value) => {
     const newCamposMdp = [...camposMdp];
@@ -37,9 +32,11 @@ export default function MedioDePago() {
         newCamposMdp[index].cuotas = value;
       }
     } else if (field === "importe") {
-      if (value >= 0) {
+      console.log(value);
+      if (value === "")
+        newCamposMdp[index].importe = "";
+      else
         newCamposMdp[index].importe = Number(value);
-      }
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
         newCamposMdp[index].disponible = (document.getElementById('checkbox-mdp').checked);
     }
@@ -68,7 +65,7 @@ export default function MedioDePago() {
       });
     }
     // Verifico que esten todos los mdp tengan titulo y 
-    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0))) {
+    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == ""))) {
       const nuevoMedioDePago = {
         nombre: nombre,
         texto_gral: camposMdp,
@@ -103,7 +100,7 @@ export default function MedioDePago() {
       setAlert({
         type: "danger",
         message:
-          "Todos los medios de pago deben tener título y los importes no pueden ser 0.",
+          "Todos los medios de pago deben tener título e importe.",
       });
     }
   };
@@ -206,9 +203,16 @@ export default function MedioDePago() {
                         >
                           <option value="*">Todas</option>
                           <option value="1">1</option>
+                          <option value="2">2</option>
                           <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
                           <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
                           <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
                           <option value="12">12</option>
                         </select>
                         <br />
@@ -217,7 +221,6 @@ export default function MedioDePago() {
                         <input
                           type="number"
                           className="form-control"
-                          placeholder="Ejemplo: 6 Cuotas"
                           value={campo.importe}
                           required
                           onChange={(e) =>
@@ -227,7 +230,7 @@ export default function MedioDePago() {
                               e.target.value
                             )
                           }
-                          min="1"
+                          
                         />
                         <br />
 

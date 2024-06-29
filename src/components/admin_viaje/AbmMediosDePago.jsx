@@ -56,7 +56,7 @@ export default function MedioDePagoVisualizacion() {
     return currentItems;
   };
   const handleSaveEdits = () => {
-    if (editingMedioDePago) {
+    if (editingMedioDePago && editingMedioDePago.texto_gral.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == ""))) {
       const medioDePagoId = editingMedioDePago.id;
 
       const medioDePagoActualizado = {
@@ -67,6 +67,8 @@ export default function MedioDePagoVisualizacion() {
       setShowModal(false);
       alert("Cambios guardados con éxito");
       window.location.reload();
+    } else {
+      alert("No se puede guardar la financiación ya que hay campos vacíos o algun importe es 0.");
     }
   };
   const handleEditClick = (medioDePago) => {
@@ -116,7 +118,10 @@ export default function MedioDePagoVisualizacion() {
         editingMedioDePago.texto_gral[index][field] = value;
       }
     } else if (field === "importe") {
-      if (value >= 0) {
+      console.log(value);
+      if (value === "")
+        editingMedioDePago.texto_gral[index][field] = "";
+      else if (value >= 0) {
         editingMedioDePago.texto_gral[index][field] = Number(value);
       }
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
@@ -125,7 +130,6 @@ export default function MedioDePagoVisualizacion() {
     setEditingMedioDePago({
       ...editingMedioDePago,
     });
-    console.log("edicion", editMedioDePago);
   };
   // const handleEditCampoExtraChange = (index, field, value) => {
   //   setEditingMedioDePago((prevEditingMedioDePago) => {
@@ -365,9 +369,16 @@ export default function MedioDePagoVisualizacion() {
                 >
                   <option value="*">Todas</option>
                   <option value="1">1</option>
+                  <option value="2">2</option>
                   <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
                   <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
                   <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
                   <option value="12">12</option>
                 </select>
                 <br />
@@ -375,7 +386,6 @@ export default function MedioDePagoVisualizacion() {
                 <input
                   type="number"
                   className="form-control"
-                  placeholder="De 9:45 hs a 12:00 hs"
                   value={campo.importe}
                   onChange={(e) =>
                     handleEditCampoExtraChange(
