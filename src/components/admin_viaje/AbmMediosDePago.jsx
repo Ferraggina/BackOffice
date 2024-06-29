@@ -68,7 +68,7 @@ export default function MedioDePagoVisualizacion() {
       alert("Cambios guardados con éxito");
       window.location.reload();
     } else {
-      alert("No se puede guardar la financiacion ya que hay campos vacios o algun importe es 0.");
+      alert("No se puede guardar la financiación ya que hay campos vacíos o algun importe es 0.");
     }
   };
   const handleEditClick = (medioDePago) => {
@@ -118,8 +118,9 @@ export default function MedioDePagoVisualizacion() {
         editingMedioDePago.texto_gral[index][field] = value;
       }
     } else if (field === "importe") {
+      console.log(value);
       if (value === "")
-        newCamposMdp[index].importe = "";
+        editingMedioDePago.texto_gral[index][field] = "";
       else if (value >= 0) {
         editingMedioDePago.texto_gral[index][field] = Number(value);
       }
@@ -129,7 +130,6 @@ export default function MedioDePagoVisualizacion() {
     setEditingMedioDePago({
       ...editingMedioDePago,
     });
-    console.log("edicion", editMedioDePago);
   };
   // const handleEditCampoExtraChange = (index, field, value) => {
   //   setEditingMedioDePago((prevEditingMedioDePago) => {
@@ -386,7 +386,6 @@ export default function MedioDePagoVisualizacion() {
                 <input
                   type="number"
                   className="form-control"
-                  placeholder="De 9:45 hs a 12:00 hs"
                   value={campo.importe}
                   onChange={(e) =>
                     handleEditCampoExtraChange(
