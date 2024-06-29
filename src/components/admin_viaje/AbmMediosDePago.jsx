@@ -56,7 +56,7 @@ export default function MedioDePagoVisualizacion() {
     return currentItems;
   };
   const handleSaveEdits = () => {
-    if (editingMedioDePago) {
+    if (editingMedioDePago && editingMedioDePago.texto_gral.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == ""))) {
       const medioDePagoId = editingMedioDePago.id;
 
       const medioDePagoActualizado = {
@@ -67,6 +67,8 @@ export default function MedioDePagoVisualizacion() {
       setShowModal(false);
       alert("Cambios guardados con éxito");
       window.location.reload();
+    } else {
+      alert("No se puede guardar la financiacion ya que hay campos vacios o algun importe es 0.");
     }
   };
   const handleEditClick = (medioDePago) => {
@@ -116,7 +118,9 @@ export default function MedioDePagoVisualizacion() {
         editingMedioDePago.texto_gral[index][field] = value;
       }
     } else if (field === "importe") {
-      if (value >= 0) {
+      if (value === "")
+        newCamposMdp[index].importe = "";
+      else if (value >= 0) {
         editingMedioDePago.texto_gral[index][field] = Number(value);
       }
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
