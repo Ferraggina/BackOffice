@@ -6,6 +6,7 @@ import { reuleaux } from "ldrs";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function MedioDePago() {
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: null, disponible: true},{medio_de_pago: "Dolares", cuotas: "*", importe: null, disponible: true},{medio_de_pago: "6 Cuotas", cuotas: 6, importe: null, disponible: true}];
   const [isLoading, setIsLoading] = useState(true);
@@ -64,8 +65,8 @@ export default function MedioDePago() {
           "El medio de pago debe tener un nombre.",
       });
     }
-    // Verifico que esten todos los mdp tengan titulo y 
-    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == ""))) {
+    // Verifico que esten todos los mdp tengan titulo e importe
+    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == null || campo.importe == ""))) {
       const nuevoMedioDePago = {
         nombre: nombre,
         texto_gral: camposMdp,
