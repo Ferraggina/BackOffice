@@ -4,13 +4,16 @@ import "../../sass/_medioDePago.scss";
 import { crearMedioDePago } from "../../redux/actions/actions";
 import { reuleaux } from "ldrs";
 import { Link, useNavigate } from "react-router-dom";
+import { currencyFormatter, currencyCleanFormat } from "../../utils/currencyFormatter";
 
 export default function MedioDePago() {
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const defaultCamposMdp = [{medio_de_pago: "Contado", cuotas: 1, importe: null, disponible: true},{medio_de_pago: "Dolares", cuotas: "*", importe: null, disponible: true},{medio_de_pago: "6 Cuotas", cuotas: 6, importe: null, disponible: true}];
   const [isLoading, setIsLoading] = useState(true);
   const [camposMdp, setCamposMdp] = useState(defaultCamposMdp);
   const [alert, setAlert] = useState(null); // Estado para la alerta
+  const [importesFormateados, setImportesFormateados] = useState([]); // perdon, pero no se me ocurrio una mejor forma
   const dispatch = useDispatch();
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -21,6 +24,7 @@ export default function MedioDePago() {
   }, [dispatch]);
 
   const handleCampoExtraChange = (index, field, value) => {
+    console.log(value);
     const newCamposMdp = [...camposMdp];
     // lo de index > 2 es para q no modifique los campos de los medio de pago default
     if (field === "medio_de_pago" && index > 2) {
@@ -32,11 +36,12 @@ export default function MedioDePago() {
         newCamposMdp[index].cuotas = value;
       }
     } else if (field === "importe") {
-      console.log(value);
-      if (value === "")
-        newCamposMdp[index].importe = "";
-      else
-        newCamposMdp[index].importe = Number(value);
+      // esto es para setear el importe plano en json q desp se envia
+      newCamposMdp[index].importe = currencyCleanFormat(value);
+      // esto es la logica para mostrar el importe formateado
+      const newImportesFormateados = importesFormateados;
+      newImportesFormateados[index] = currencyFormatter(value);
+      setImportesFormateados(newImportesFormateados);
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
         newCamposMdp[index].disponible = (document.getElementById('checkbox-mdp').checked);
     }
@@ -64,8 +69,8 @@ export default function MedioDePago() {
           "El medio de pago debe tener un nombre.",
       });
     }
-    // Verifico que esten todos los mdp tengan titulo y 
-    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == ""))) {
+    // Verifico que esten todos los mdp tengan titulo e importe
+    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == null || campo.importe == ""))) {
       const nuevoMedioDePago = {
         nombre: nombre,
         texto_gral: camposMdp,
@@ -219,9 +224,9 @@ export default function MedioDePago() {
 
                         <label>Importe total</label>
                         <input
-                          type="number"
+                          type="text"
                           className="form-control"
-                          value={campo.importe}
+                          value={importesFormateados[index] || ''}
                           required
                           onChange={(e) =>
                             handleCampoExtraChange(
@@ -245,7 +250,7 @@ export default function MedioDePago() {
                             handleCampoExtraChange(
                               index,
                               "disponible",
-                              e.target.value
+                              e.target.checked ? "true" : "false",
                             )
                           }
                         />
