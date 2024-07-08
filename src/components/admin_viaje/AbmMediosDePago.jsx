@@ -414,13 +414,14 @@ export default function MedioDePagoVisualizacion() {
                 <br/>
                 <input
                   type="checkbox"
+                  defaultChecked={campo.disponible}
                   className="form-checkbox"
                   value={campo.disponible}
                   onChange={(e) =>
                     handleEditCampoExtraChange(
                       index,
                       "disponible",
-                      e.target.value
+                      e.target.checked ? "true" : "false",
                     )
                   }
                 />
@@ -475,7 +476,7 @@ export default function MedioDePagoVisualizacion() {
                             <td>{mdp.medio_de_pago}</td>
                             <td>{mdp.cuotas ? mdp.cuotas : " - "}</td>
                             <td>{currencyFormatter(mdp.importe.toString())}</td>
-                            <td>{mdp.disponible ? "Activo" : "Inactivo"}</td>
+                            <td>{mdp.disponible ? "Habilitado" : "Deshabilitado"}</td>
                           </tr>
                         ))}
                       </tbody>

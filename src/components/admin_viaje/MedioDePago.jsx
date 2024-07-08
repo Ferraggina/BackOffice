@@ -24,6 +24,7 @@ export default function MedioDePago() {
   }, [dispatch]);
 
   const handleCampoExtraChange = (index, field, value) => {
+    console.log(value);
     const newCamposMdp = [...camposMdp];
     // lo de index > 2 es para q no modifique los campos de los medio de pago default
     if (field === "medio_de_pago" && index > 2) {
@@ -249,7 +250,7 @@ export default function MedioDePago() {
                             handleCampoExtraChange(
                               index,
                               "disponible",
-                              e.target.value
+                              e.target.checked ? "true" : "false",
                             )
                           }
                         />
