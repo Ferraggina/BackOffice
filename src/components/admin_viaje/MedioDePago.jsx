@@ -4,6 +4,7 @@ import "../../sass/_medioDePago.scss";
 import { crearMedioDePago } from "../../redux/actions/actions";
 import { reuleaux } from "ldrs";
 import { Link, useNavigate } from "react-router-dom";
+import { currencyFormatter, currencyCleanFormat } from "../../utils/currencyFormatter";
 
 export default function MedioDePago() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function MedioDePago() {
   const [isLoading, setIsLoading] = useState(true);
   const [camposMdp, setCamposMdp] = useState(defaultCamposMdp);
   const [alert, setAlert] = useState(null); // Estado para la alerta
+  const [importesFormateados, setImportesFormateados] = useState([]); // perdon, pero no se me ocurrio una mejor forma
   const dispatch = useDispatch();
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -33,11 +35,12 @@ export default function MedioDePago() {
         newCamposMdp[index].cuotas = value;
       }
     } else if (field === "importe") {
-      console.log(value);
-      if (value === "")
-        newCamposMdp[index].importe = "";
-      else
-        newCamposMdp[index].importe = Number(value);
+      // esto es para setear el importe plano en json q desp se envia
+      newCamposMdp[index].importe = currencyCleanFormat(value);
+      // esto es la logica para mostrar el importe formateado
+      const newImportesFormateados = importesFormateados;
+      newImportesFormateados[index] = currencyFormatter(value);
+      setImportesFormateados(newImportesFormateados);
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
         newCamposMdp[index].disponible = (document.getElementById('checkbox-mdp').checked);
     }
@@ -220,9 +223,9 @@ export default function MedioDePago() {
 
                         <label>Importe total</label>
                         <input
-                          type="number"
+                          type="text"
                           className="form-control"
-                          value={campo.importe}
+                          value={importesFormateados[index] || ''}
                           required
                           onChange={(e) =>
                             handleCampoExtraChange(
