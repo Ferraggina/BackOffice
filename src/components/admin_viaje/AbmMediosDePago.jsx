@@ -13,6 +13,8 @@ import { Modal, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/home/Pagination.jsx";
+import { currencyFormatter, currencyCleanFormat } from "../../utils/currencyFormatter";
+
 export default function MedioDePagoVisualizacion() {
   const dispatch = useDispatch();
   const mediosDePago = useSelector((state) => state.mediosDePago);
@@ -30,7 +32,9 @@ export default function MedioDePagoVisualizacion() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [medioDePagoToDelete, setMedioDePagoToDelete] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  //const [importesFormateados, setImportesFormateados] = useState([]);
   useEffect(() => {
+    //mapearEditingMedioDePagoToImporterFormateados();
     dispatch(obtenerMedioDePago());
     const timeout = setTimeout(() => {
       setIsLoading(false);
@@ -38,6 +42,16 @@ export default function MedioDePagoVisualizacion() {
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
+
+  function mapearEditingMedioDePagoToImporterFormateados() {
+    const asd = [];
+    editingMedioDePago.texto_gral.forEach((m, index, arr) => {
+      console.log(m, index);
+      asd[index] = currencyFormatter(m.importe.toString());
+    });
+    setImportesFormateados(asd);
+  }
+
   const filterMediosDePago = (mediosDePago) => {
     const filteredMediosDePago = mediosDePago.filter((medioDePago) => {
       return medioDePago.nombre.toLowerCase().includes(searchTerm.toLowerCase());
@@ -124,6 +138,13 @@ export default function MedioDePagoVisualizacion() {
       else if (value >= 0) {
         editingMedioDePago.texto_gral[index][field] = Number(value);
       }
+     /*
+      // esto es para setear el importe plano en json q desp se envia
+      editingMedioDePago.texto_gral[index][field] = Number(currencyCleanFormat(value));
+      // esto es la logica para mostrar el importe formateado
+      const newImportesFormateados = importesFormateados;
+      newImportesFormateados[index] = currencyFormatter(value);
+      setImportesFormateados(newImportesFormateados);*/
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
       editingMedioDePago.texto_gral[index][field] = (document.getElementById('checkbox-mdp').checked);
     }
@@ -239,18 +260,11 @@ export default function MedioDePagoVisualizacion() {
                       <td>{medioDePago.id}</td>
                       <td>{medioDePago.nombre}</td>
                       <td>
-                        {medioDePago.texto_gral[0] && (
-                          <div>
-                            <p>
-                              Medio de pago:{" "}
-                              {medioDePago.texto_gral[0].medio_de_pago}
-                            </p>
-                            <p>
-                              Importe:{" "}
-                              {medioDePago.texto_gral[0].importe}
-                            </p>
-                          </div>
-                        )}
+                        <p>
+                          {medioDePago.texto_gral.map((mdp, i, texto_gral) => (
+                            !(i + 1 === texto_gral.length) ? (mdp.disponible ? mdp.medio_de_pago + ", " : "" ) : (mdp.disponible ? mdp.medio_de_pago : "" )
+                          ))}
+                        </p>
                       </td>
                       <td className="txtGral">
                         <button
@@ -396,7 +410,7 @@ export default function MedioDePagoVisualizacion() {
                   }
                 />
                 <br />
-                <label>Disponibilidad</label>
+                <label>Habilitado</label>
                 <br/>
                 <input
                   type="checkbox"
@@ -451,7 +465,7 @@ export default function MedioDePagoVisualizacion() {
                           <th>Medio de Pago</th>
                           <th>Cuotas</th>
                           <th>Importe</th>
-                          <th>Disponibilidad</th>
+                          <th>Habilitado</th>
                         </tr>
                       </thead>
                       <tbody className="text-center cuerpoTabla">
@@ -460,7 +474,7 @@ export default function MedioDePagoVisualizacion() {
                           <tr key={index}>
                             <td>{mdp.medio_de_pago}</td>
                             <td>{mdp.cuotas ? mdp.cuotas : " - "}</td>
-                            <td>${mdp.importe}</td>
+                            <td>{currencyFormatter(mdp.importe.toString())}</td>
                             <td>{mdp.disponible ? "Activo" : "Inactivo"}</td>
                           </tr>
                         ))}
