@@ -146,7 +146,8 @@ export default function MedioDePagoVisualizacion() {
       newImportesFormateados[index] = currencyFormatter(value);
       setImportesFormateados(newImportesFormateados);*/
     } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
-      editingMedioDePago.texto_gral[index][field] = (document.getElementById('checkbox-mdp').checked);
+      console.log(value);
+      editingMedioDePago.texto_gral[index][field] = value;
     }
     setEditingMedioDePago({
       ...editingMedioDePago,
