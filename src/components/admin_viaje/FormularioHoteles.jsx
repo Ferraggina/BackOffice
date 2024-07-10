@@ -297,7 +297,7 @@ export default function FormularioHoteles() {
                   value={otra_red}
                   required
                   onChange={(e) => setOtra_red(e.target.value)}
-                  maxLength={30}
+                  maxLength={100}
                 />
               </div>
               <div className="form-group">
