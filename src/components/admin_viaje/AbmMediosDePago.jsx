@@ -99,6 +99,7 @@ export default function MedioDePagoVisualizacion() {
   };
   const handleCloseModal = () => {
     setShowModal(false);
+    window.location.reload();
   };
   const handleViewClick = (medioDePago) => {
     setViewingMedioDePago(medioDePago);
@@ -111,7 +112,6 @@ export default function MedioDePagoVisualizacion() {
   const handleCloseConfirmationModal = () => {
     setShowConfirmationModal(false);
   };
-
   const handleConfirmDelete = () => {
     if (medioDePagoToDelete) {
       dispatch(eliminarMedioDePago(medioDePagoToDelete.id));
@@ -145,7 +145,7 @@ export default function MedioDePagoVisualizacion() {
       const newImportesFormateados = importesFormateados;
       newImportesFormateados[index] = currencyFormatter(value);
       setImportesFormateados(newImportesFormateados);*/
-    } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
+    } else if (field === "disponible") {
       console.log(value);
       editingMedioDePago.texto_gral[index][field] = value;
     }
@@ -422,7 +422,7 @@ export default function MedioDePagoVisualizacion() {
                     handleEditCampoExtraChange(
                       index,
                       "disponible",
-                      e.target.checked ? "true" : "false",
+                      e.target.checked ? true : false,
                     )
                   }
                 />
