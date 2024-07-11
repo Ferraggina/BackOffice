@@ -246,6 +246,7 @@ export default function MedioDePago() {
                           id="checkbox-mdp"
                           className="form"
                           value={campo.disponible}
+                          defaultChecked={campo.disponible}
                           onChange={(e) =>
                             handleCampoExtraChange(
                               index,
