@@ -99,7 +99,14 @@ export default function MedioDePagoVisualizacion() {
   };
   const handleCloseModal = () => {
     setShowModal(false);
-    window.location.reload();
+    setIsLoading(true);
+
+    dispatch(obtenerMedioDePago());
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timeout);
   };
   const handleViewClick = (medioDePago) => {
     setViewingMedioDePago(medioDePago);
