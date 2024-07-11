@@ -42,8 +42,8 @@ export default function MedioDePago() {
       const newImportesFormateados = importesFormateados;
       newImportesFormateados[index] = currencyFormatter(value);
       setImportesFormateados(newImportesFormateados);
-    } else if (field === "disponible") { // para este no uso el value, si no que me fijo si esta checkeado o no
-        newCamposMdp[index].disponible = (document.getElementById('checkbox-mdp').checked);
+    } else if (field === "disponible") {
+      newCamposMdp[index].disponible = value;
     }
     setCamposMdp(newCamposMdp);
   };
@@ -69,8 +69,8 @@ export default function MedioDePago() {
           "El medio de pago debe tener un nombre.",
       });
     }
-    // Verifico que esten todos los mdp tengan titulo e importe
-    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == null || campo.importe == ""))) {
+    // Verifico que esten todos los mdp tengan titulo e importe (el importe solo si esta habilitado)
+    else if (camposMdp.every((campo) => !(campo.medio_de_pago === "" || ((campo.importe == 0 || campo.importe == null || campo.importe == "") && campo.disponible)))) {
       const nuevoMedioDePago = {
         nombre: nombre,
         texto_gral: camposMdp,
@@ -105,7 +105,7 @@ export default function MedioDePago() {
       setAlert({
         type: "danger",
         message:
-          "Todos los medios de pago deben tener título e importe.",
+          "Todos los medios de pago deben tener título e importe (si esta habilitado).",
       });
     }
   };
@@ -246,11 +246,12 @@ export default function MedioDePago() {
                           id="checkbox-mdp"
                           className="form"
                           value={campo.disponible}
+                          defaultChecked={campo.disponible}
                           onChange={(e) =>
                             handleCampoExtraChange(
                               index,
                               "disponible",
-                              e.target.checked ? "true" : "false",
+                              e.target.checked ? true : false,
                             )
                           }
                         />
