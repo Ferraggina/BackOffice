@@ -32,7 +32,7 @@ export default function MedioDePagoVisualizacion() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [medioDePagoToDelete, setMedioDePagoToDelete] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  //const [importesFormateados, setImportesFormateados] = useState([]);
+  const [importesFormateados, setImportesFormateados] = useState([]);
   useEffect(() => {
     //mapearEditingMedioDePagoToImporterFormateados();
     dispatch(obtenerMedioDePago());
@@ -42,15 +42,6 @@ export default function MedioDePagoVisualizacion() {
 
     return () => clearTimeout(timeout);
   }, [dispatch]);
-
-  function mapearEditingMedioDePagoToImporterFormateados() {
-    const asd = [];
-    editingMedioDePago.texto_gral.forEach((m, index, arr) => {
-      console.log(m, index);
-      asd[index] = currencyFormatter(m.importe.toString());
-    });
-    setImportesFormateados(asd);
-  }
 
   const filterMediosDePago = (mediosDePago) => {
     const filteredMediosDePago = mediosDePago.filter((medioDePago) => {
@@ -70,7 +61,7 @@ export default function MedioDePagoVisualizacion() {
     return currentItems;
   };
   const handleSaveEdits = () => {
-    if (editingMedioDePago && editingMedioDePago.texto_gral.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == ""))) {
+    if (editingMedioDePago && editingMedioDePago.nombre != "" && editingMedioDePago.texto_gral.every((campo) => !(campo.medio_de_pago === "" || ((campo.importe == 0 || campo.importe == null || campo.importe == "") && campo.disponible)))) {
       const medioDePagoId = editingMedioDePago.id;
 
       const medioDePagoActualizado = {
@@ -80,7 +71,13 @@ export default function MedioDePagoVisualizacion() {
       dispatch(editMedioDePago(medioDePagoId, medioDePagoActualizado));
       setShowModal(false);
       alert("Cambios guardados con éxito");
-      window.location.reload();
+      //window.location.reload(); cambio esto para que recargue toda la pantalla, que es medio molesto
+      setIsLoading(true);
+      dispatch(obtenerMedioDePago());
+      const timeout = setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+      return () => clearTimeout(timeout);
     } else {
       alert("No se puede guardar la financiación ya que hay campos vacíos o algun importe es 0.");
     }
@@ -88,9 +85,14 @@ export default function MedioDePagoVisualizacion() {
   const handleEditClick = (medioDePago) => {
     setEditingMedioDePago(medioDePago);
     setShowModal(true);
+
+    // armo el array con los importes formateados para mostrarlos
+    const aux = medioDePago.texto_gral.map((mdp) => {return currencyFormatter(mdp.importe)});
+    setImportesFormateados(aux);
+
     console.log("ACA EDIT", editingMedioDePago.texto_gral);
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = (e) => { 
     const { name, value } = e.target;
     setEditingMedioDePago({
       ...editingMedioDePago,
@@ -100,6 +102,7 @@ export default function MedioDePagoVisualizacion() {
   const handleCloseModal = () => {
     setShowModal(false);
     setIsLoading(true);
+    setImportesFormateados([]);
 
     dispatch(obtenerMedioDePago());
     const timeout = setTimeout(() => {
@@ -139,19 +142,10 @@ export default function MedioDePagoVisualizacion() {
         editingMedioDePago.texto_gral[index][field] = value;
       }
     } else if (field === "importe") {
-      console.log(value);
-      if (value === "")
-        editingMedioDePago.texto_gral[index][field] = "";
-      else if (value >= 0) {
-        editingMedioDePago.texto_gral[index][field] = Number(value);
-      }
-     /*
-      // esto es para setear el importe plano en json q desp se envia
       editingMedioDePago.texto_gral[index][field] = Number(currencyCleanFormat(value));
-      // esto es la logica para mostrar el importe formateado
       const newImportesFormateados = importesFormateados;
       newImportesFormateados[index] = currencyFormatter(value);
-      setImportesFormateados(newImportesFormateados);*/
+      setImportesFormateados(newImportesFormateados);
     } else if (field === "disponible") {
       console.log(value);
       editingMedioDePago.texto_gral[index][field] = value;
@@ -160,17 +154,6 @@ export default function MedioDePagoVisualizacion() {
       ...editingMedioDePago,
     });
   };
-  // const handleEditCampoExtraChange = (index, field, value) => {
-  //   setEditingMedioDePago((prevEditingMedioDePago) => {
-  //     const newDescripciones = [...prevEditingMedioDePago.descripciones];
-  //     newDescripciones[index][field] = value;
-
-  //     return {
-  //       ...prevEditingMedioDePago,
-  //       descripciones: newDescripciones,
-  //     };
-  //   });
-  // };
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -406,9 +389,9 @@ export default function MedioDePagoVisualizacion() {
                 <br />
                 <label>Importe</label>
                 <input
-                  type="number"
+                  type="text"
                   className="form-control"
-                  value={campo.importe}
+                  value={importesFormateados[index]}
                   onChange={(e) =>
                     handleEditCampoExtraChange(
                       index,
