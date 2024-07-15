@@ -37,7 +37,8 @@ export default function MedioDePago() {
       }
     } else if (field === "importe") {
       // esto es para setear el importe plano en json q desp se envia
-      newCamposMdp[index].importe = currencyCleanFormat(value);
+      newCamposMdp[index].importe = Number(currencyCleanFormat(value));
+      console.log("ASD ", newCamposMdp[index].importe);
       // esto es la logica para mostrar el importe formateado
       const newImportesFormateados = importesFormateados;
       newImportesFormateados[index] = currencyFormatter(value);
