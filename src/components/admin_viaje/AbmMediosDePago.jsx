@@ -71,7 +71,13 @@ export default function MedioDePagoVisualizacion() {
       dispatch(editMedioDePago(medioDePagoId, medioDePagoActualizado));
       setShowModal(false);
       alert("Cambios guardados con éxito");
-      window.location.reload();
+      //window.location.reload(); cambio esto para que recargue toda la pantalla, que es medio molesto
+      setIsLoading(true);
+      dispatch(obtenerMedioDePago());
+      const timeout = setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+      return () => clearTimeout(timeout);
     } else {
       alert("No se puede guardar la financiación ya que hay campos vacíos o algun importe es 0.");
     }
@@ -83,7 +89,6 @@ export default function MedioDePagoVisualizacion() {
     // armo el array con los importes formateados para mostrarlos
     const aux = medioDePago.texto_gral.map((mdp) => {return currencyFormatter(mdp.importe)});
     setImportesFormateados(aux);
-
 
     console.log("ACA EDIT", editingMedioDePago.texto_gral);
   };
