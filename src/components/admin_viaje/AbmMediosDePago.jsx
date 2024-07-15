@@ -70,7 +70,7 @@ export default function MedioDePagoVisualizacion() {
     return currentItems;
   };
   const handleSaveEdits = () => {
-    if (editingMedioDePago && editingMedioDePago.texto_gral.every((campo) => !(campo.medio_de_pago === "" || campo.importe == 0 || campo.importe == ""))) {
+    if (editingMedioDePago && editingMedioDePago.nombre != "" && editingMedioDePago.texto_gral.every((campo) => !(campo.medio_de_pago === "" || ((campo.importe == 0 || campo.importe == null || campo.importe == "") && campo.disponible)))) {
       const medioDePagoId = editingMedioDePago.id;
 
       const medioDePagoActualizado = {
