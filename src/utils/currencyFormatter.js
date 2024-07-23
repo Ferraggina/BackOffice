@@ -23,7 +23,7 @@ export function pointFormatter(value) {
 }
 
 export function currencyCleanFormat(value) {
-    let cleaned = value;
+    let cleaned = (typeof value == "number") ? value.toString() : value;
     cleaned = cleaned.replace(/\$|\./g, ""); // le saca el $ y todos los puntos
     return cleaned;
 }

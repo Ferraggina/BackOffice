@@ -466,7 +466,7 @@ export default function MedioDePagoVisualizacion() {
                           <tr key={index}>
                             <td>{mdp.medio_de_pago}</td>
                             <td>{mdp.cuotas ? mdp.cuotas : " - "}</td>
-                            <td>{currencyFormatter(mdp.importe.toString())}</td>
+                            <td>{mdp.importe ? (currencyFormatter(mdp.importe.toString())) : ""}</td>
                             <td>{mdp.disponible ? "Habilitado" : "Deshabilitado"}</td>
                           </tr>
                         ))}
