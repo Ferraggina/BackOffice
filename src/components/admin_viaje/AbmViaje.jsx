@@ -140,10 +140,7 @@ export default function AbmViaje() {
       );
       console.log("selectedCoordinator:", selectedCoordinator);
       if (selectedCoordinator) {
-        const updatedContracts = [
-          ...selectedCoordinator.contrato,
-          selectedViajeContrato,
-        ];
+        const updatedContracts = selectedCoordinator.contrato.concat(formatContratos(selectedViajeContrato).split(',').map((a) => { return a.replace(/^\s+|\s+$/gm,'')}));
         const updatedCoordinator = {
           ...selectedCoordinator,
           contrato: updatedContracts,
@@ -280,6 +277,7 @@ export default function AbmViaje() {
   //   setSelectedCoordinatorId(viaje.coordinadorId);
   // };
   const handleUserModalOpen = (viaje) => {
+    console.log('aca q carajo hay ', viaje.contratos);
     setSelectedViajeContrato(viaje.contratos || []); // Asegurar que si viaje.contratos es null, se establezca como un array vacío
     setShowUserModal(true);
     setSelectedCoordinatorId(viaje.coordinadorId);
