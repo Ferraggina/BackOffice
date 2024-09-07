@@ -83,7 +83,6 @@ export default function CrearUsuarios() {
       try {
         // Lógica para crear el usuario en el backend
         await dispatch(crearUsuario(nuevoUsuario));
-        setUsuarioCreado(true);
 
         // Lógica para crear el usuario en Firebase Authentication
         const auth = getAuth();
@@ -97,6 +96,7 @@ export default function CrearUsuarios() {
 
         //  Crear el usuario en Firebase y en el backend
         setTimeout(() => {
+          setUsuarioCreado(true); // esto lo movi aca para que solo muestre el mensaje de OK si se ejecuto bien lo anterior (al estar eso en un await, pasaba que se seteaba siempre independientemente del estado, generando que se mostrara por pantalla el mensaje de OK y el de error)
           navigate("/gestion/editUsuarios");
         }, 1000);
       } catch (error) {
